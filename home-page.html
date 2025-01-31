@@ -17,21 +17,32 @@
     </script>
 </head>
 <body>
+    <header class="header">
+        <h2 style="color: #eceeef; margin: 0;">Edmonton Bylaws</h2>
+        <div class="profile-menu">
+            <button class="profile-button"><img src="images.png" alt="Profile" style="width: 100%; height: 100%; border-radius: 50%;"></button>
+            <div class="dropdown-menu">
+                <a href="edit-profile-page.html">Edit Profile</a>
+                <a href="#">Settings</a>
+                <a href="#">Log out</a>
+            </div>
+        </div>
+    </header>
     <div class="container">
         <aside class="sidebar">
-            <h2>Edmonton Bylaws</h2>
             <nav>
                 <ul>
                     <li>Home</li>
                     <li>Common Bylaws</li>
                     <li>Report an Issue</li>
+                    <li><a href="chat-history-page.html">Chat History</a></li>
                     <li>FAQs</li>
                     <li>Contact</li>
                 </ul>
             </nav>
         </aside>
         <main class="chat">
-            <h1>Welcome to the Edmonton Bylaw Chatbot</h1>
+            <h1 style="color: #eceeef; margin: 0;" >Welcome to the Edmonton Bylaw Chatbot</h1>
             <p>Ask any question regarding Edmonton's bylaws, and we'll assist you.</p>
             <div class="chat-box">
                 <input type="text" id="chatInput" placeholder="Type your question here...">
