@@ -9,7 +9,7 @@
     <!-- Link to external CSS -->
     <link rel="stylesheet" href="document-search-view-page.css">
     <!-- Link to external JavaScript -->
-    <!-- <script src="scripts.js"></script> -->
+    <script src="document-search-view-page.js"></script>
     
     <!-- You can include other meta tags for SEO here -->
 </head>
@@ -30,14 +30,14 @@
             <h1>Welcome Edmonton Bylaw Chat bot </h1>
             <p>This is where the documentation for all the bylaws are stored.</p>
             <div class="search-container">
-                <input type="text" placeholder="Search..." id="searchInput">
+                <input type="text" placeholder="Search..." id="searchInput" oninput="searchPDFs()">
                 <button type="button">Search</button>
               </div>
         </section>
         <section class="pdf-container">
             <object class="pdf" data="data/2012_Quarters_Downtown_Revitalization_Levy_Rate_and_Supplementary_Levy_Rate_Bylaw_16099.pdf" width="800" height="500"></object>
-            <iframe class="pdf" src="data/2013_Belvedere_Community_Revitalization_Levy_Rate_and_Supplementary_Levy_Rate.pdf" width="800" height="500"></iframe>
-            <embed class="pdf" src="data/2013_Quarters_Downtown_Community_Revitalization_Levy_Rate_and_Supplementary_Levy_Rate_Bylaw_16429.pdf" width="800" height="500"></embed>
+            <!-- <iframe class="pdf" src="data/2013_Belvedere_Community_Revitalization_Levy_Rate_and_Supplementary_Levy_Rate.pdf" width="800" height="500"></iframe>
+            <embed class="pdf" src="data/2013_Quarters_Downtown_Community_Revitalization_Levy_Rate_and_Supplementary_Levy_Rate_Bylaw_16429.pdf" width="800" height="500"></embed> -->
             <object class="pdf" data="data/2014_Quarters_Downtown_Revitalization_Levy_Rate_and_Supplementary_Levy_Rate_Bylaw_16805.pdf" width="800" height="500"></object>
             <object class="pdf" data="data/2022_Belvedere_Community_Revitalization_Levy_Rate_and_Supplementary_Levy_Rate_Bylaw.pdf" width="800" height="500"></object>
             <object class="pdf" data="data/Animal_Licensing_and_Control_Bylaw_13145.pdf" width="800" height="500"></object>
