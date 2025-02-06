@@ -3,45 +3,57 @@
 <head>
     <title>Profile</title>
     <link rel="stylesheet" href="edit-profile-page.css">
+    <link rel="stylesheet" href="components/sidebar.css">
+    <link rel="stylesheet" href="components/header.css">
 </head>
 <body>
-    <header class="header">
-        <h2 style="color: #eceeef; margin: 0;">Edmonton Bylaws</h2>
-    </header>
+    <!-- Placeholder for header -->
+    <div id="header-container"></div> 
+    <script>
+        // Load the sidebar
+        fetch("components/header.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header-container").innerHTML = data;
+            });
+    </script>
+
+
     <div class="container">
-        <aside class="sidebar">
-            <nav>
-                <ul>
-                    <li>Home</li>
-                    <li>Search Bylaws</li>
-                    <li>Chat History</li>
-                </ul>
-            </nav>
-        </aside>
+        <!-- Placeholder for sidebar -->
+        <div id="sidebar-container"></div> 
+        <script>
+            // Load the sidebar
+            fetch("components/sidebar.html")
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("sidebar-container").innerHTML = data;
+                });
+        </script>
 
-        <div class="main-content">
-            <div class="banner">
-                <h1 class="hello-prompt">Welcome, User</h1>
-                <p></p>
-            </div>
-
-            <section class="profile-details">
-                <div class="profile-picture">
-                    <img src="https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg" alt="Profile Picture" />
-                </div>
-                <div class="info">
-                    <form class="info-form">
-                        <label>First Name</label><br>
-                        <input type="text" id="firstNameInput" placeholder="Example"><br>
-                        <label>Last Name</label><br>
-                        <input type="text" id="lastNameInput" placeholder="Person"><br>
-                        <label>E-Mail</label><br>
-                        <input type="email" id="emailInput" placeholder="ExamplePerson@email.com"><br>
-                        <button class="edit" role="button">Save Profile</button>
-                    </form>
-                </div>
-            </section>
+        <div class="banner">
+            <h1 class="hello-prompt">Welcome, User</h1>
+            <p></p>
         </div>
+
+        <section class="profile-details">
+    
+            <div class="profile-picture">
+                <img src="https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg" alt="Profile Picture" />
+            </div>
+            <div class="info">
+                <form class="info-form">
+                    <label>First Name</label><br>
+                    <input type="text" id="firstNameInput" placeholder="Example"><br>
+                    <label>Last Name</label><br>
+                    <input type="text" id="lastNameInput" placeholder="Person"><br>
+                    <label>E-Mail</label><br>
+                    <input type="email" id="emailInput" placeholder="ExamplePerson@email.com"><br>
+                    <button class="edit" role="button">Save Profile</button>
+                </form>
+            </div>
+        </section>
+        
     </div>
 </body>
 </html>
