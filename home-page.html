@@ -5,57 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edmonton Bylaw Chatbot</title>
     <link rel="stylesheet" href="home-page.css">
-    <link rel="stylesheet" href="components/sidebar.css">
-    <link rel="stylesheet" href="components/header.css">
     <script>
-        function sendMessage() {
-            let message = document.getElementById("chatInput").value;
-            if (message.trim() !== "") {
-                alert("You sent: " + message);
+        function toggleSidebar() {
+            document.querySelector(".sidebar").classList.toggle("open");
+        }
+
+        function submitBackgroundInput() {
+            let userInput = document.getElementById("background-input").value;
+            if (userInput.trim() !== "") {
+                alert("Background input submitted: " + userInput);
+                document.getElementById("background-input").value = "";
             } else {
-                alert("Please enter a message.");
+                alert("Please enter some text before submitting.");
             }
         }
+
     </script>
 </head>
 <body>
-    <!-- Placeholder for header -->
-    <div id="header-container"></div> 
-    <script>
-        // Load the sidebar
-        fetch("components/header.html")
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("header-container").innerHTML = data;
-            });
-    </script>
-
+    <button class="menu-btn" onclick="toggleSidebar()">☰ Menu</button>
     <div class="container">
-        <!-- Placeholder for sidebar -->
-        <div id="sidebar-container"></div> 
-        <script>
-            // Load the sidebar
-            fetch("components/sidebar.html")
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("sidebar-container").innerHTML = data;
-                });
-        </script>
+        <aside class="sidebar">
+            <nav>
+                <ul>
+                    <br>
+                    <br>
+                    <li>Home</li>
+                    <li>Common Bylaws</li>
+                    <li>Report an Issue</li>
+                    <li><a href="chat-history-page.html">Chat History</a></li>
+                    <li>FAQs</li>
+                    <li>Contact</li>
+                </ul>
+            </nav>
+        </aside>
 
         <main class="chat">
-            <h1 style="color: #eceeef; margin: 0;">Welcome to the Edmonton Bylaw Chatbot</h1>
+            <h1>Welcome to the Edmonton Bylaw Chatbot</h1>
             <p>Ask any question regarding Edmonton's bylaws, and we'll assist you.</p>
-            <div class="actions">
-                <button>View Parking Rules</button>
-                <button>Report Noise Complaint</button>
-                <button>Check Business Regulations</button>
-                <button>Learn About Pet Bylaws</button>
+
+            <!-- Background Composer Input -->
+            <div class="background-composer">
+                <textarea id="background-input" placeholder="Enter your background information..."></textarea>
+                <button onclick="submitBackgroundInput()">Submit</button>
             </div>
+
         </main>
-    </div>
-    <div class="chat-box">
-        <input type="text" id="chatInput" placeholder="Type your question here...">
-        <button class="send-btn" onclick="sendMessage()">Send</button>
     </div>
 </body>
 </html>

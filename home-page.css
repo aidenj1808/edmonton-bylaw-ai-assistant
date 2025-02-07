@@ -6,33 +6,185 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #121111;
+    background-color: #f8f9fa; /* Light background */
+    color: #333; /* Dark text for readability */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     height: 100vh;
     overflow: hidden;
 }
 
+/* Header Section */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10px;
+    background-color: #ffffff; /* Light header */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 10%;
+    z-index: 100;
+    color: #333;
+    font-size: 18px;
+    border-bottom: 2px solid #ddd;
+}
+
+.profile-menu {
+    position: relative;
+}
+
+/* Profile button */
+.profile-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 10px 15px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-button img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background-color: #f1f1f1;
+    color: #333;
+    min-width: 180px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 12px;
+    color: #333;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.dropdown-menu a:hover {
+    background-color: #ddd;
+}
+
+.profile-menu:hover .dropdown-menu {
+    display: block;
+}
 
 /* Main Layout */
 .container {
     display: flex;
-    flex-direction: column;
-    align-items: center; /* Centers horizontally */
-    justify-content: center; 
     max-width: 1200px;
     width: 100%;
     margin-top: 80px;
-    margin-left: 230px;
     height: calc(100vh - 140px);
 }
 
+/* Sidebar Styling */
+.sidebar {
+    position: fixed;
+    left: -250px; /* Hidden by default */
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #ffffff;
+    transition: left 0.3s ease-in-out;
+    padding-top: 20px;
+    border-right: 2px solid #ddd;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+.sidebar ul li:hover {
+    background-color: #ddd;
+}
+
+/* Open Sidebar */
+.sidebar.open {
+    left: 0;
+}
+
+/* Button to Open Sidebar */
+.menu-btn {
+    position: fixed;
+    left: 10px;
+    top: 10px;
+    background: #ccc;
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.close-btn {
+    display: block;
+    background-color: #ccc;
+    color: black;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+.sidebar nav ul li {
+    padding: 12px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.sidebar nav ul li a {
+    color: #333;
+    text-decoration: none;
+}
+
+.sidebar nav ul li:hover {
+    background-color: #ddd;
+    cursor: pointer;
+}
 
 /* Chat Area */
 .chat {
     flex-grow: 1;
-    background: #111;
+    background: #ffffff;
     padding: 20px;
     overflow-y: auto;
-    color: white;
+    color: #333;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -45,11 +197,11 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    background: #222;
+    background: #f1f1f1;
     padding: 12px;
     display: flex;
     align-items: center;
-    border-top: 1px solid #444;
+    border-top: 1px solid #ccc;
     gap: 10px;
 }
 
@@ -57,19 +209,19 @@ body {
     flex-grow: 1;
     padding: 12px;
     border-radius: 5px;
-    border: 1px solid #555;
-    background: #333;
-    color: white;
+    border: 1px solid #bbb;
+    background: #fff;
+    color: #333;
 }
 
 .chat-box input:focus {
     outline: none;
-    border: 1px solid #d32f2f;
+    border: 1px solid #007bff;
 }
 
 .send-btn {
     padding: 12px 18px;
-    background: #d32f2f;
+    background: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
@@ -78,7 +230,7 @@ body {
 }
 
 .send-btn:hover {
-    background: #b71c1c;
+    background: #0056b3;
 }
 
 /* Action Buttons */
@@ -93,8 +245,8 @@ body {
     width: 100%;
     padding: 12px;
     margin: 5px 0;
-    background: #444;
-    color: white;
+    background: #ddd;
+    color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -102,7 +254,25 @@ body {
 }
 
 .actions button:hover {
-    background: #555;
+    background: #bbb;
+}
+
+/* Back to Chat Button */
+.back-to-chat {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px 15px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.back-to-chat:hover {
+    background: #0056b3;
 }
 
 /* Responsive Design */
@@ -136,4 +306,54 @@ body {
     .send-btn {
         width: 100%;
     }
+}
+/* General Styles for the background-composer */
+.background-composer {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Textarea styling */
+.background-composer textarea {
+    width: 100%;
+    height: 150px;
+    padding: 12px;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.background-composer textarea:focus {
+    border-color: #6c63ff;
+}
+
+/* Button styling */
+.background-composer button {
+    margin-top: 15px;
+    padding: 12px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #6c63ff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.background-composer button:hover {
+    background-color: #5a54e1;
+}
+
+.background-composer button:active {
+    background-color: #4943d4;
 }
