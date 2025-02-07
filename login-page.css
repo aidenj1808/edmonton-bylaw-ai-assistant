@@ -4,7 +4,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: black;
+    background-color: white;
 }
 
 .login-box {
@@ -15,13 +15,13 @@ body {
     width: 440px;
     height: 480px;
     padding: 30px;
-    background-color: black;
-    box-shadow: 0 0 50px gray;
+    background-color: white;
+    box-shadow: 0 0 50px black;
     border-radius: 30px;
 }
 
 .login-header {
-    color: white;
+    color: black;
     margin-bottom: 30px;
     font-size: 40px;
 }
@@ -30,7 +30,7 @@ body {
     text-align: center;
     margin: 0px 0 40px 0;
     font-size: 30px;
-    color: white;
+    color: black;
 }
 
 .login-inputs {
@@ -44,11 +44,11 @@ body {
 }
 
 .sign-up {
-    color: white;
+    color: black;
 }
 
 a {
-    color: white;
+    color: black;
 }
 
 button {
