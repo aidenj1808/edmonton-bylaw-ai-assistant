@@ -5,7 +5,7 @@
 }
 
 html{
-    background-color: rgb(77, 77, 77);
+    background-color: white;
     color: white;
 }
 
@@ -15,6 +15,7 @@ footer{
     text-align: right;
     align-items: center;
     width: 98%;
+    color: black;
 }
 
 body {
@@ -23,6 +24,7 @@ body {
     padding: 0;
     display: flex;
     margin-top: 60px;
+    color: black;
 }
 
 /* Main content styles */
