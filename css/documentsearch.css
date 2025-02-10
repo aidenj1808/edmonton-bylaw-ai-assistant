@@ -1,0 +1,369 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Light background */
+    color: #333; /* Dark text for readability */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+   overflow: scroll;
+}
+
+/* Style for the header */
+header {
+    background-color: #f1f1f1; /* light background for header */
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end; /* align the profile icon to the right */
+}
+
+/* Profile container */
+.profile-container {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+}
+
+/* Profile icon styling */
+.profile-icon {
+    width: 40px; /* size of the icon */
+    height: 40px;
+    border-radius: 50%; /* makes the icon circular */
+    transition: transform 0.3s ease; /* smooth hover effect */
+}
+
+/* Hover effect */
+.profile-icon:hover {
+    transform: scale(1.1); /* zoom in the profile icon on hover */
+    cursor: pointer; /* show pointer cursor */
+}
+
+/* General styles for header */
+header {
+    background-color: #f1f1f1;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    height: 10%;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Header container to align items */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Profile container */
+.profile-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-right: 20px; /* space between profile and title */
+}
+
+/* Profile icon styling */
+.profile-icon {
+    width: 50px; /* larger profile icon size */
+    height: 50px;
+    border-radius: 50%;
+    transition: transform 0.3s ease; /* smooth hover effect */
+    cursor: pointer;
+}
+
+/* Hover effect on profile icon */
+.profile-icon:hover {
+    transform: scale(1.2); /* zoom in profile icon */
+}
+
+/* Dropdown button (optional) */
+.dropdown-btn {
+    display: none;
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: -50%;
+    background-color: white;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    min-width: 160px;
+    z-index: 1;
+}
+
+/* Show the dropdown content when hovering over the profile container */
+/* Show the dropdown content when hovering over the profile container */
+.profile-container:hover .dropdown-content {
+    display: contents;
+}
+
+
+/* Style the links in the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of links on hover */
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+/* Title "Edmonton Bylaws" aligned next to the profile icon */
+.page-title {
+    margin-left: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Main Layout */
+.container {
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    margin-top: 80px;
+    height: calc(100vh - 140px);
+    flex-direction: column; /* Improved for mobile-first approach */
+    gap: 20px; /* Added gap between components */
+}
+/* Sidebar Styling */
+.sidebar {
+    position: fixed;
+    left: -250px; /* Hidden by default */
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #ffffff;
+    transition: left 0.3s ease-in-out;
+    padding-top: 20px;
+    border-right: 2px solid #ddd;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+.sidebar ul li:hover {
+    background-color: #ddd;
+}
+
+/* Open Sidebar */
+.sidebar.open {
+    left: 0;
+}
+
+/* Button to Open Sidebar */
+.menu-btn {
+    position: fixed;
+    left: 10px;
+    top: 10px;
+    background: #ccc;
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.close-btn {
+    display: block;
+    background-color: #ccc;
+    color: black;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+.sidebar nav ul li {
+    padding: 12px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.sidebar nav ul li a {
+    color: #333;
+    text-decoration: none;
+}
+
+.sidebar nav ul li:hover {
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+/* Style for the main heading */
+h1 {
+    text-align: center;
+    font-size: 2.5em;
+    color: #2d3a3a;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+/* Style for the paragraph */
+p {
+    text-align: center;
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* Styling for the search container */
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 50px;
+}
+
+/* Style for the input field */
+#searchInput {
+    padding: 10px;
+    width: 300px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #333;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+#searchInput:focus {
+    border-color: #007bff;
+}
+
+/* Style for the search button */
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:focus {
+    outline: none;
+}
+
+/* Style for the overall PDF container */
+.pdf-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(600px, 1fr)); /* Set PDF item width to be 600px */
+    gap: 20px;
+    padding: 40px;
+    max-width: 90%; /* Make the container not too wide */
+    margin: 0 auto; /* Center the container horizontally */
+}
+
+/* Style for each individual PDF object */
+.pdf {
+    width: 100%;
+    height: 400px; /* Adjust the height for a smaller view */
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer; /* Indicate that it is clickable */
+}
+
+/* Hover effect for PDFs */
+.pdf:hover {
+    transform: scale(1.03); /* Slightly zooms in on hover */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal overlay background */
+.modal {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it overlays the content */
+}
+
+/* Modal content (expanded PDF) */
+.modal-content {
+    position: relative;
+    width: 80%;
+    height: 80%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Close button in modal */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.close-btn:hover {
+    background-color: #cc0000;
+}
+
+/* For smooth transition when opening modal */
+.modal-content object {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+/* If the modal is open, display it */
+.modal.open {
+    display: flex;
+}
