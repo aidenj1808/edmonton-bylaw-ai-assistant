@@ -1,0 +1,451 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Light background */
+    color: #333; /* Dark text for readability */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Style for the header */
+header {
+    background-color: #f1f1f1; /* light background for header */
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end; /* align the profile icon to the right */
+}
+
+/* Profile container */
+.profile-container {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+}
+
+/* Profile icon styling */
+.profile-icon {
+    width: 40px; /* size of the icon */
+    height: 40px;
+    border-radius: 50%; /* makes the icon circular */
+    transition: transform 0.3s ease; /* smooth hover effect */
+}
+
+/* Hover effect */
+.profile-icon:hover {
+    transform: scale(1.1); /* zoom in the profile icon on hover */
+    cursor: pointer; /* show pointer cursor */
+}
+/* General styles for header */
+header {
+    background-color: #f1f1f1;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Header container to align items */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Profile container */
+.profile-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-right: 20px; /* space between profile and title */
+}
+
+/* Profile icon styling */
+.profile-icon {
+    width: 50px; /* larger profile icon size */
+    height: 50px;
+    border-radius: 50%;
+    transition: transform 0.3s ease; /* smooth hover effect */
+    cursor: pointer;
+}
+
+/* Hover effect on profile icon */
+.profile-icon:hover {
+    transform: scale(1.2); /* zoom in profile icon */
+}
+
+/* Dropdown button (optional) */
+.dropdown-btn {
+    display: none;
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: -50%;
+    background-color: white;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    min-width: 160px;
+    z-index: 1;
+}
+
+/* Show the dropdown content when hovering over the profile container */
+.profile-container:hover .dropdown-content {
+    display: block;
+}
+
+/* Style the links in the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of links on hover */
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+/* Title "Edmonton Bylaws" aligned next to the profile icon */
+.page-title {
+    margin-left: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Main Layout */
+.container {
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    margin-top: 80px;
+    height: calc(100vh - 140px);
+    flex-direction: column; /* Improved for mobile-first approach */
+    gap: 20px; /* Added gap between components */
+}
+
+/* Sidebar Styling */
+.sidebar {
+    position: fixed;
+    left: -250px; /* Hidden by default */
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #ffffff;
+    transition: left 0.3s ease-in-out;
+    padding-top: 20px;
+    border-right: 2px solid #ddd;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+.sidebar ul li:hover {
+    background-color: #ddd;
+}
+
+/* Open Sidebar */
+.sidebar.open {
+    left: 0;
+}
+
+/* Button to Open Sidebar */
+.menu-btn {
+    position: fixed;
+    left: 10px;
+    top: 10px;
+    background: #ccc;
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.close-btn {
+    display: block;
+    background-color: #ccc;
+    color: black;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.sidebar nav ul {
+    list-style: none;
+}
+
+.sidebar nav ul li {
+    padding: 12px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.sidebar nav ul li a {
+    color: #333;
+    text-decoration: none;
+}
+
+.sidebar nav ul li:hover {
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+/* Chat Area */
+.chat {
+    flex-grow: 1;
+    background: #ffffff;
+    padding: 20px;
+    overflow-y: auto;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Chat Input Box */
+.chat-box {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #f1f1f1;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #ccc;
+    gap: 10px;
+}
+
+.chat-box input {
+    flex-grow: 1;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #bbb;
+    background: #fff;
+    color: #333;
+    font-size: 16px;
+}
+
+.chat-box input:focus {
+    outline: none;
+    border: 1px solid #007bff;
+}
+
+.send-btn {
+    padding: 12px 18px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 16px;
+}
+
+.send-btn:hover {
+    background: #0056b3;
+}
+
+/* Action Buttons */
+.actions {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+}
+
+.actions button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 5px 0;
+    background: #ddd;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 16px;
+}
+
+.actions button:hover {
+    background: #bbb;
+}
+
+/* Back to Chat Button */
+.back-to-chat {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px 15px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.back-to-chat:hover {
+    background: #0056b3;
+}
+
+/* Background Composer Styling */
+.background-composer {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Textarea styling */
+.background-composer textarea {
+    width: 100%;
+    height: 150px;
+    padding: 12px;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.background-composer textarea:focus {
+    border-color: #6c63ff;
+}
+
+/* Button styling */
+.background-composer button {
+    margin-top: 15px;
+    padding: 12px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #6c63ff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.background-composer button:hover {
+    background-color: #5a54e1;
+}
+
+.background-composer button:active {
+    background-color: #4943d4;
+}
+
+ /* Additional necessary CSS styling here */
+ .chat-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 30px;
+    width: 100%;
+    height: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.chat-box {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #f1f1f1;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #ccc;
+    gap: 10px;
+}
+
+.chat-box input {
+    flex-grow: 1;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #bbb;
+    background: #fff;
+    color: #333;
+    font-size: 16px;
+}
+
+.chat-box input:focus {
+    outline: none;
+    border: 1px solid #007bff;
+}
+
+.send-btn {
+    padding: 12px 18px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.send-btn:hover {
+    background: #0056b3;
+}
+
+/* Message styling */
+.message {
+    margin: 10px 0;
+    padding: 10px;
+    max-width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+}
+
+.user-message {
+    background-color: #e1f5fe;
+    align-self: flex-end;
+    margin-left: 20px;
+}
+
+.bot-message {
+    background-color: #f0f0f0;
+    align-self: flex-start;
+    margin-right: 20px;
+}
