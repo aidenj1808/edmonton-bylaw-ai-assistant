@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat History</title>
+    <link rel="stylesheet" href="css/chathistory.css">
+    <style>
+    </style>
+</head>
+<body>
+    <header>
+    <div class="header-container">
+        <div class="profile-container">
+            <img src="images/images.png" alt="Profile Icon" class="profile-icon">
+            <div class="dropdown">
+                <button class="dropdown-btn">▾</button>
+                <div class="dropdown-content">
+                    <a href="#">Edit Profile</a>
+                    <a href="home.html">Home</a>
+                    <a href="#">Logout</a>
+                </div>
+            </div>
+        </div>
+        <h1 class="page-title">Edmonton Bylaws</h1>
+    </div>
+</header>
+<button class="menu-btn" onclick="toggleSidebar()">☰</button>
+<div class="container">
+    <aside class="sidebar">
+        <nav>
+            <ul>
+                <br>
+                <br>
+                <br>
+                <li><strong>Common Bylaws</strong></li>
+                <li><a href="#" onclick="showChat('Parking Regulations in Edmonton')">Parking Regulations in Edmonton</a></li>
+                <li><a href="#" onclick="showChat('Noise Complaints and Bylaws')">Noise Complaints and Bylaws</a></li>
+                <li><a href="#" onclick="showChat('Residential Zoning Rules')">Residential Zoning Rules</a></li>
+                <li><a href="#" onclick="showChat('Business Licensing Requirements')">Business Licensing Requirements</a></li>
+                <li><a href="#" onclick="showChat('Pet Ownership Bylaws')">Pet Ownership Bylaws</a></li>
+                <li><a href="#" onclick="showChat('Snow Removal and Sidewalk Clearing')">Snow Removal and Sidewalk Clearing</a></li>
+                <li><a href="#" onclick="showChat('Property Maintenance Standards')">Property Maintenance Standards</a></li>
+                <li><a href="#" onclick="showChat('Landlord and Tenant Responsibilities')">Landlord and Tenant Responsibilities</a></li>
+                <li><a href="#" onclick="showChat('Fire Pit and Outdoor Burning Rules')">Fire Pit and Outdoor Burning Rules</a></li>
+                <li><a href="#" onclick="showChat('Public Events and Noise Permits')">Public Events and Noise Permits</a></li>
+                <li><a href="#" onclick="showChat('New Chat')">New Chat</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="chat">
+        <h1>Welcome to the Edmonton Bylaw Chatbot</h1>
+        <p>Ask any question regarding Edmonton's bylaws, and we'll assist you.</p>
+
+        <!-- Chat Area -->
+        <div class="chat-area" id="chatArea">
+            <!-- Messages will be displayed here -->
+        </div>
+
+        <!-- Chat Input Box -->
+        <div class="chat-box">
+            <input type="text" id="userMessageInput" placeholder="Type your message..." />
+            <button class="send-btn" onclick="sendMessage()">Send</button>
+        </div>
+    </main>
+    </div>
+
+   <script src="js/chathistory.js"></script>
+</body>
+</html>
