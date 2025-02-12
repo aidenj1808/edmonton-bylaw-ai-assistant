@@ -7,17 +7,30 @@
     background-color: #f8f9fa;
 }
 
+.left{
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+}
+
+.left button{
+    margin-left: 2vw;
+    background-color: lightgray;
+    color: black;
+    font-size: 16px;
+}
+
 h1{
     font-size: 32px;
     text-align: left;
-    margin-left: 3vw;
+    margin-left: 2vw;
     background-color: #f8f9fa;
 }
 
 .profileIcon{
     object-fit: contain;
-    height: 70px;
-    width: 70px;
+    height: 5vw;
+    width: 5vw;
     margin-right: 3vw;
     background-color: #f8f9fa;
 }
@@ -49,7 +62,6 @@ h1{
 }
 
 .dropdown:hover .content{
-    background-color: #f8f9fa;
     display: block;
 }
 

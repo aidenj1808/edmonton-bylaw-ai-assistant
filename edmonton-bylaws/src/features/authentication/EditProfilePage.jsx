@@ -1,3 +1,4 @@
+import '../CSS/EditProfilePage.css'
 import UserInformationForm from "../components/UserInformationForm.jsx";
 import Header from "../components/Header.jsx";
 
@@ -20,6 +21,7 @@ const EditProfilePage = () => {
         <Header/>
 
         <UserInformationForm
+        class = "form"
         title="Edit Your Profile"
         buttonText="Save Changes"
         onSubmit={handleProfileUpdate}
