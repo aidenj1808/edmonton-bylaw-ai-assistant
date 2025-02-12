@@ -9,7 +9,9 @@ const RegistrationPage = () => {
   };
 
   return (
-    <div>
+    <div class ="page" style ={styles.page}>
+      <h1 style = {styles.h1}>Edmonton Bylaws</h1>
+
       <UserInformationForm
         title="Register"
         buttonText="Register"
@@ -24,6 +26,20 @@ const RegistrationPage = () => {
 };
 
 const styles = {
+  page: {
+    display: "flex",
+    marginLeft: "9vw",
+    flexDirection: "column",      
+    justifyContent: "center",   
+    alignItems: "center",  
+  },
+  h1: {
+    marginLeft: "-1vw",
+    marginTop: "5vw",
+    background: "none",
+    color: "#005087",
+    fontSize: "64px",
+  },
   p: {
     marginTop: "-60px",
     marginBottom: "5vw",
