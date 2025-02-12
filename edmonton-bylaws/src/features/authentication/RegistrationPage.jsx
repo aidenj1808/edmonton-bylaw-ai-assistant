@@ -19,7 +19,7 @@ const RegistrationPage = () => {
         // Empty Registration DTO
         initialData={{ firstName: '', lastName: '', email: '', password: '' }}
       />
-      <p style={styles.p}>Already have an account? <a>Log In</a></p>
+      <p style={styles.p}>Already have an account? <a href="#">Log In</a></p>
 
     </div>
   );
