@@ -3,6 +3,7 @@ import '../CSS/EditProfilePage.css'
 import UserInformationForm from "../components/UserInformationForm.jsx";
 import Header from "../components/Header.jsx";
 import Sidebar from '../components/Sidebar.jsx'
+import ChatHistorySidebar from "../components/ChatHistorySidebar.jsx";
 
 const EditProfilePage = () => {
   const userDTO = {
@@ -19,19 +20,35 @@ const EditProfilePage = () => {
   };
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isChatHistorySidebar, setIsChatHistorySidebar] = useState(false);
 
   // Toggle sidebar visibility
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
 
+        // Switch to the chat history sidebar
+        const switchToChatHistorySidebar = () => {
+          setIsChatHistorySidebar(true);  // Switch to new sidebar
+      };
+  
+      // Switch back to the original sidebar
+      const switchToOldSidebar = () => {
+          setIsChatHistorySidebar(false); // Switch back to the original sidebar
+      };
+  
+
   return (
     <div class ="page">
         <Header toggleSidebar={toggleSidebar}/>
         
 
-        <div class='main-content' className={`main-content ${isSidebarOpen ? '' : 'sidebar-closed'}`}> 
-          <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar}/>
+        <div className={`main-content ${isSidebarOpen ? '' : 'sidebar-closed'}`}>
+                {isChatHistorySidebar ? (
+                <ChatHistorySidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} switchToOldSidebar={switchToOldSidebar} />
+                ) : (
+                <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} switchToChatHistorySidebar={switchToChatHistorySidebar} />
+                )}
 
           <div class = "inner">
             <h1>Hello, {userDTO.firstName}</h1>
