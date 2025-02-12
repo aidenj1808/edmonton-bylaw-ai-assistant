@@ -1,0 +1,73 @@
+.head{
+    display: flex; /* Use Flexbox to arrange items */
+    justify-content: space-between; /* Place image on the left and text on the right */
+    align-items: center; /* Center items vertically */
+    width: 100vw;
+    height: 10vh;
+    background-color: #f8f9fa;
+}
+
+.left{
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+}
+
+.left button{
+    margin-left: 2vw;
+    background-color: lightgray;
+    color: black;
+    font-size: 16px;
+}
+
+h1{
+    font-size: 32px;
+    text-align: left;
+    margin-left: 2vw;
+    background-color: #f8f9fa;
+    color: #005087;
+}
+
+.profileIcon{
+    object-fit: contain;
+    height: 5vw;
+    width: 5vw;
+    margin-right: 3vw;
+    background-color: #f8f9fa;
+}
+
+.dropdown button{
+    background: none; /* Remove default button styling */
+    border: none; /* Remove border */
+    cursor: pointer; /* Make the button appear clickable */
+    padding: 0; /* Remove padding around the button */
+    background-color: #f8f9fa;
+}
+
+.dropdown a{
+    display: block;
+    background-color: #f8f9fa;
+    text-decoration: none;
+    padding: 10px 15px;
+    color: black;
+}
+
+.dropdown .content{
+    display: none;
+    background-color: #f8f9fa;
+    position: absolute;
+    min-width: 4vw;
+    text-align: left;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+    margin-left: -15px;
+}
+
+.dropdown:hover .content{
+    display: block;
+}
+
+.dropdown a:hover{
+    background-color: lightgray;
+    cursor: pointer;
+}
+

@@ -1,0 +1,49 @@
+import React from "react";
+import UserInformationForm from "../components/UserInformationForm.jsx";
+
+const RegistrationPage = () => {
+  const handleRegistration = (formData) => {
+    console.log('Registering user:', formData);
+    alert("Registration Complete");
+    // Send `formData` to database as RegistrationDTO
+  };
+
+  return (
+    <div class ="page" style ={styles.page}>
+      <h1 style = {styles.h1}>Edmonton Bylaws</h1>
+
+      <UserInformationForm
+        title="Register"
+        buttonText="Register"
+        onSubmit={handleRegistration}
+        // Empty Registration DTO
+        initialData={{ firstName: '', lastName: '', email: '', password: '' }}
+      />
+      <p style={styles.p}>Already have an account? <a href="#">Log In</a></p>
+
+    </div>
+  );
+};
+
+const styles = {
+  page: {
+    display: "flex",
+    marginLeft: "9vw",
+    flexDirection: "column",      
+    justifyContent: "center",   
+    alignItems: "center",  
+  },
+  h1: {
+    marginLeft: "-1vw",
+    marginTop: "5vw",
+    background: "none",
+    color: "#005087",
+    fontSize: "64px",
+  },
+  p: {
+    marginTop: "-60px",
+    marginBottom: "5vw",
+  },
+};
+
+export default RegistrationPage;
