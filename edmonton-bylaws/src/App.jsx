@@ -4,6 +4,8 @@ import RegistrationPage from './features/authentication/RegistrationPage'
 import EditProfilePage from './features/authentication/EditProfilePage'
 import HomePage from './features/chatbot/HomePage'
 import SearchBylawsPage from './features/SearchBylawsPage'
+import LoginForm from './features/components/LoginForm'
+import LoginPage from './features/authentication/LoginPage'
 
 function App() {
   return (
@@ -11,6 +13,7 @@ function App() {
       <div className = "App">
 
         <RegistrationPage/>
+        <LoginPage/>
         <HomePage/>
         <SearchBylawsPage/>
         <EditProfilePage/>
