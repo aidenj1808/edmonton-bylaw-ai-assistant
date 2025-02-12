@@ -1,3 +1,4 @@
+import React from "react";
 import UserInformationForm from "../components/UserInformationForm.jsx";
 
 const RegistrationPage = () => {
@@ -8,14 +9,25 @@ const RegistrationPage = () => {
   };
 
   return (
-    <UserInformationForm
-      title="Register"
-      buttonText="Register"
-      onSubmit={handleRegistration}
-      // Empty Registration DTO
-      initialData={{ firstName: '', lastName: '', email: '', password: '' }}
-    />
+    <div>
+      <UserInformationForm
+        title="Register"
+        buttonText="Register"
+        onSubmit={handleRegistration}
+        // Empty Registration DTO
+        initialData={{ firstName: '', lastName: '', email: '', password: '' }}
+      />
+      <p style={styles.p}>Already have an account? <a>Log In</a></p>
+
+    </div>
   );
+};
+
+const styles = {
+  p: {
+    marginTop: "-60px",
+    marginBottom: "5vw",
+  },
 };
 
 export default RegistrationPage;

@@ -133,7 +133,7 @@ const UserInformationForm = ({title, buttonText, onSubmit, initialData }) => {
 const styles = {
     container: {
       maxWidth: "400px",
-      margin: "50px auto",
+      margin: "5vw auto",
       padding: "20px",
       border: "2px solid black",
       textAlign: "center",
