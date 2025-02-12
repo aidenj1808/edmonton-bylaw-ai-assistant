@@ -1,4 +1,5 @@
 import UserInformationForm from "../components/UserInformationForm.jsx";
+import Header from "../components/Header.jsx";
 
 const EditProfilePage = () => {
   const userDTO = {
@@ -15,12 +16,16 @@ const EditProfilePage = () => {
   };
 
   return (
-    <UserInformationForm
-      title="Edit Your Profile"
-      buttonText="Save Changes"
-      onSubmit={handleProfileUpdate}
-      initialData={userDTO} // Pre-fill with DTO data
-    />
+    <div>
+        <Header/>
+
+        <UserInformationForm
+        title="Edit Your Profile"
+        buttonText="Save Changes"
+        onSubmit={handleProfileUpdate}
+        initialData={userDTO} // Pre-fill with DTO data
+        />
+    </div>
   );
 };
 
