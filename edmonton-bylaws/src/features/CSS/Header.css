@@ -2,7 +2,6 @@
     display: flex; /* Use Flexbox to arrange items */
     justify-content: space-between; /* Place image on the left and text on the right */
     align-items: center; /* Center items vertically */
-    border: 1px solid black;
     width: 100vw;
     height: 10vh;
     background-color: #f8f9fa;
@@ -28,6 +27,7 @@ h1{
     border: none; /* Remove border */
     cursor: pointer; /* Make the button appear clickable */
     padding: 0; /* Remove padding around the button */
+    background-color: #f8f9fa;
 }
 
 .dropdown a{
@@ -49,6 +49,7 @@ h1{
 }
 
 .dropdown:hover .content{
+    background-color: #f8f9fa;
     display: block;
 }
 
