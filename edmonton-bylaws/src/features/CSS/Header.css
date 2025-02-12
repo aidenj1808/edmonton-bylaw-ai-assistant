@@ -67,5 +67,6 @@ h1{
 
 .dropdown a:hover{
     background-color: lightgray;
+    cursor: pointer;
 }
 
