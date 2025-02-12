@@ -51,7 +51,7 @@ const EditProfilePage = () => {
                 )}
 
           <div class = "inner">
-            <h1>Hello, {userDTO.firstName}</h1>
+            <h1 style = {styles.h1}>Hello, {userDTO.firstName}</h1>
 
             <UserInformationForm
             class = "form"
@@ -64,6 +64,12 @@ const EditProfilePage = () => {
         </div>
     </div>
   );
+};
+
+const styles = {
+  h1: {
+    padding: "30px"
+  }
 };
 
 export default EditProfilePage;

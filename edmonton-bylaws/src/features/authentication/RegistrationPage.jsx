@@ -40,10 +40,10 @@ const styles = {
     color: "#005087",
     fontSize: "64px",
   },
-  p: {
-    marginTop: "-60px",
-    marginBottom: "5vw",
-  },
+  // p: {
+  //   marginTop: "-60px",
+  //   marginBottom: "5vw",
+  // },
 };
 
 export default RegistrationPage;

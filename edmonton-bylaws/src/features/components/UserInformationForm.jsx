@@ -134,10 +134,11 @@ const styles = {
     container: {
       maxWidth: "400px",
       minWidth: "400px",
-      margin: "5vw auto",
+      // margin: "7vw auto",
       padding: "20px",
       border: "2px solid black",
       textAlign: "center",
+      
     },
     form: {
       display: "flex",
