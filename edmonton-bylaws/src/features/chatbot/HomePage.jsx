@@ -3,8 +3,17 @@ import '../CSS/HomePage.css'
 import Header from "../components/Header.jsx";
 import Sidebar from '../components/Sidebar.jsx'
 import ChatHistorySidebar from '../components/ChatHistorySidebar.jsx'
+import {Agent} from './Agent.js'
 
 const HomePage = () => {
+  //Using the agent
+//   let helloPrompt = "Hello";
+//   let snakePrompt = "Are you allowed to have a pet snake?";
+//   const agent = new Agent();
+//   let helloResponse = agent.askQuestion(helloPrompt);
+//   console.log(helloResponse)
+//   let snakeResponse = agent.askQuestion(snakePrompt);
+  console.log(snakeResponse)
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isChatHistorySidebar, setIsChatHistorySidebar] = useState(false);
 

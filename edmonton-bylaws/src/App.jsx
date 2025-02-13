@@ -4,13 +4,13 @@ import RegistrationPage from './features/authentication/RegistrationPage'
 import EditProfilePage from './features/authentication/EditProfilePage'
 import HomePage from './features/chatbot/HomePage'
 import SearchBylawsPage from './features/SearchBylawsPage'
-import LoginForm from './features/components/LoginForm'
 import LoginPage from './features/authentication/LoginPage'
 import ChatInput from './features/components/ChatInput'
 import SearchInput from './features/components/SearchInput'
 
 
 function App() {
+
   return (
     <>
       <div className = "App">
