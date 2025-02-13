@@ -1,14 +1,8 @@
 import React, { useState } from "react";
 import LoginForm from "../components/LoginForm.jsx";
 
-const LoginPage = () => {
-//   const userDTO = {
-//     firstName: "John",
-//     lastName: "doe",
-//     email: "johndoe@example.com",
-//     password: 'password', // Password is not needed for edit
-//   };
 
+const LoginPage = () => {
   const handleLogin = (formData) => {
     console.log('Verifying data with database:', formData);
     alert("Login Complete")
@@ -47,10 +41,6 @@ const styles = {
       color: "#005087",
       fontSize: "64px",
     },
-    // p: {
-    //   marginTop: "-60px",
-    //   marginBottom: "5vw",
-    // },
   };
 
 export default LoginPage;

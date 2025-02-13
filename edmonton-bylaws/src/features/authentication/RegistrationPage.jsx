@@ -2,6 +2,7 @@ import React from "react";
 import UserInformationForm from "../components/UserInformationForm.jsx";
 import { RegistrationDTO } from "../authentication/authentication-dto.js";
 
+
 const RegistrationPage = () => {
   const handleRegistration = (formData) => {
     console.log('Registering user:');
@@ -24,7 +25,6 @@ const RegistrationPage = () => {
         initialData={{ firstName: '', lastName: '', email: '', password: '' }}
       />
       <p style={styles.p}>Already have an account? <a href="#">Log In</a></p>
-
     </div>
   );
 };
@@ -44,10 +44,6 @@ const styles = {
     color: "#005087",
     fontSize: "64px",
   },
-  // p: {
-  //   marginTop: "-60px",
-  //   marginBottom: "5vw",
-  // },
 };
 
 export default RegistrationPage;

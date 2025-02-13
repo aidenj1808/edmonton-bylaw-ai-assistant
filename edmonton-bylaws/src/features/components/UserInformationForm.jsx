@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { RegistrationDTO } from "../authentication/authentication-dto.js";
+
 
 const UserInformationForm = ({title, buttonText, onSubmit, initialData }) => {
     // State variables to store form input values
@@ -100,7 +100,6 @@ const UserInformationForm = ({title, buttonText, onSubmit, initialData }) => {
           {errors.email && <span style={styles.error}>{errors.email}</span>}
         </div>
 
-
         {buttonText === "Register" && (
             <div style={styles.field}>
             <label htmlFor="password" style={styles.label}>
@@ -134,11 +133,9 @@ const styles = {
     container: {
       maxWidth: "400px",
       minWidth: "400px",
-      // margin: "7vw auto",
       padding: "20px",
       border: "2px solid black",
-      textAlign: "center",
-      
+      textAlign: "center",    
     },
     form: {
       display: "flex",

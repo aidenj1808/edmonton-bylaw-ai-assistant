@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { LoginDTO } from "../authentication/authentication-dto.js";
 
+
 const LoginForm = ({onSubmit}) => {
     const [formData, setFormData] = useState(new LoginDTO("", ""));
     const [errors, setErrors] = useState({});
@@ -86,7 +87,6 @@ const styles = {
     container: {
       maxWidth: "400px",
       minWidth: "400px",
-    //   margin: "5vw auto",
       padding: "20px",
       border: "2px solid black",
       textAlign: "center",
