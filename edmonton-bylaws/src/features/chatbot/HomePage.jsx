@@ -13,7 +13,7 @@ const HomePage = () => {
 //   let helloResponse = agent.askQuestion(helloPrompt);
 //   console.log(helloResponse)
 //   let snakeResponse = agent.askQuestion(snakePrompt);
-  console.log(snakeResponse)
+//   console.log(snakeResponse)
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isChatHistorySidebar, setIsChatHistorySidebar] = useState(false);
 

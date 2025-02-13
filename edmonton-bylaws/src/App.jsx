@@ -10,11 +10,9 @@ import SearchInput from './features/components/SearchInput'
 
 
 function App() {
-
   return (
     <>
       <div className = "App">
-
         <RegistrationPage/>
         <LoginPage/>
         <HomePage/>
