@@ -1,0 +1,71 @@
+
+/* Style for the search button */
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+button:focus {
+    outline: none;
+}
+
+/* Style for the overall PDF container */
+.pdf-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(600px, 1fr)); /* Set PDF item width to be 600px */
+    gap: 20px;
+    padding: 40px;
+    max-width: 90%; /* Make the container not too wide */
+    margin: 0 auto; /* Center the container horizontally */
+}
+
+/* Style for each individual PDF object */
+.pdf {
+    /* width: 100%; */
+    height: 400px; /* Adjust the height for a smaller view */
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer; /* Indicate that it is clickable */
+}
+
+/* Hover effect for PDFs */
+.pdf:hover {
+    transform: scale(1.03); /* Slightly zooms in on hover */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling for the search container */
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 50px;
+}
+
+/* Style for the input field */
+#searchInput {
+    padding: 10px;
+    width: 300px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #333;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+#searchInput:focus {
+    border-color: #007bff;
+}

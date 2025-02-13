@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
 import './CSS/SearchBylawsPage.css'
 import Header from "./components/Header.jsx";
 import Sidebar from './components/Sidebar.jsx'
 import ChatHistorySidebar from "./components/ChatHistorySidebar.jsx";
+import data from "../../data/index.json";
 
 const SearchBylawsPage = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -22,6 +23,33 @@ const SearchBylawsPage = () => {
     const switchToOldSidebar = () => {
         setIsChatHistorySidebar(false); // Switch back to the original sidebar
     };
+    function pdfTemplate(filename) {
+      return <object className="pdf" data={filename} width="800" height="500"></object>
+    }
+    const pdfs = [];
+    // loop through data.files.length (276), currently using lower numbers to not bloat system
+    for (let i = 0; i < 2; i++){
+      pdfs.push(pdfTemplate("./data/"+data.files[i]))
+    }
+    function searchPDFs(){
+      // Finds Searchbar and Pdfs and stores them
+      var search = document.getElementById("searchInput");
+      var pdfs = document.getElementsByClassName("pdf");
+      // console.log(window.location.pathname);
+      // for each item in pdfs
+      // for (var i = 0; i < pdfs.length; i++){
+      //     var pdf = pdfs[i];
+      //     // format fileName from pdf's data 
+      //     var fileName = pdf.data.split("/")[pdf.data.split("/").length-1].split("_").join(" ");
+      //     // compares fileName to search value and hides/shows respective pdf
+      //     if (fileName.search(search.value) >= 1 || search.value == ""){
+      //         pdf.style.display = "inline";
+      //     }
+      //     else{
+      //         pdf.style.display = "none";
+      //     }
+      // }
+    }
 
     return (
         <div class ="searchbylawspage">
@@ -35,7 +63,14 @@ const SearchBylawsPage = () => {
                 )}
     
               <div class = "inner">
-               
+                <div class="search-container">
+                      <input type="text" placeholder="Search..." id="searchInput" oninput={searchPDFs()}/>
+                      <button type="button">Search</button>
+                </div>
+                <section class="pdf-container">
+                    {pdfs}
+                </section>
+
               </div>
             </div>
         </div>
