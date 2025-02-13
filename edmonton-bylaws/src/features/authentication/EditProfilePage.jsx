@@ -5,6 +5,7 @@ import Header from "../components/Header.jsx";
 import Sidebar from '../components/Sidebar.jsx'
 import ChatHistorySidebar from "../components/ChatHistorySidebar.jsx";
 
+
 const EditProfilePage = () => {
   const userDTO = {
     firstName: "John",
@@ -37,11 +38,9 @@ const EditProfilePage = () => {
           setIsChatHistorySidebar(false); // Switch back to the original sidebar
       };
   
-
   return (
     <div class ="page">
         <Header toggleSidebar={toggleSidebar}/>
-        
 
         <div className={`main-content ${isSidebarOpen ? '' : 'sidebar-closed'}`}>
                 {isChatHistorySidebar ? (
@@ -51,7 +50,7 @@ const EditProfilePage = () => {
                 )}
 
           <div class = "inner">
-            <h1>Hello, {userDTO.firstName}</h1>
+            <h1 style = {styles.h1}>Hello, {userDTO.firstName}</h1>
 
             <UserInformationForm
             class = "form"
@@ -64,6 +63,12 @@ const EditProfilePage = () => {
         </div>
     </div>
   );
+};
+
+const styles = {
+  h1: {
+    padding: "30px"
+  }
 };
 
 export default EditProfilePage;
