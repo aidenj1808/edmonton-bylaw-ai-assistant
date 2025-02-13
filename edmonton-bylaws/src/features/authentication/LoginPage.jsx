@@ -11,7 +11,8 @@ const LoginPage = () => {
 
   const handleLogin = (formData) => {
     console.log('Verifying data with database:', formData);
-    // Verify `formData` in data base as with LoginDTO
+    alert("Login Complete")
+    // Verify `formData` in data base with LoginDTO
   };  
 
   return (

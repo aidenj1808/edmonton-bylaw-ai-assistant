@@ -1,9 +1,13 @@
 import React from "react";
 import UserInformationForm from "../components/UserInformationForm.jsx";
+import { RegistrationDTO } from "../authentication/authentication-dto.js";
 
 const RegistrationPage = () => {
   const handleRegistration = (formData) => {
-    console.log('Registering user:', formData);
+    console.log('Registering user:');
+    const registrationDTO = new RegistrationDTO(formData.firstName, formData.lastName,
+                                                formData.email, formData.password)
+    console.log(registrationDTO)
     alert("Registration Complete");
     // Send `formData` to database as RegistrationDTO
   };

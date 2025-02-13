@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import { LoginDTO } from "../authentication/authentication-dto.js";
 
 const LoginForm = ({onSubmit}) => {
+    const [formData, setFormData] = useState(new LoginDTO("", ""));
     const [errors, setErrors] = useState({});
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData({...formData, [name]: value});
+    }
 
   // Validate form fields
   const validateForm = () => {
@@ -27,7 +33,7 @@ const LoginForm = ({onSubmit}) => {
 
     if (validateForm()) {
         onSubmit(formData);
-        console.log("Logged in successfully:", formData);
+        console.log("LoginDTO successfully sent to LoginPage:", formData);
     }
   };
 
@@ -43,6 +49,7 @@ const LoginForm = ({onSubmit}) => {
             type="email"
             id="email"
             name="email"
+            onChange={handleChange}
             required
             style={styles.input}
           />
@@ -57,6 +64,7 @@ const LoginForm = ({onSubmit}) => {
             type="password"
             id="password"
             name="password"
+            onChange={handleChange}
             required
             style={styles.input}
         />
