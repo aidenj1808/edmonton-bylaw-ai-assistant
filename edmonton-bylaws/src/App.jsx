@@ -7,6 +7,7 @@ import SearchBylawsPage from './features/SearchBylawsPage'
 import LoginPage from './features/authentication/LoginPage'
 import ChatInput from './features/components/ChatInput'
 import SearchInput from './features/components/SearchInput'
+import ChatHistory from './features/chatbot/ChatHistoryPage'
 
 
 function App() {
@@ -16,9 +17,9 @@ function App() {
         <LoginPage/>
         <RegistrationPage/>
         <HomePage/>
+        <ChatHistory/>
         <SearchBylawsPage/>
         <EditProfilePage/>
-        <SearchInput />
       </div>
     </>
   )

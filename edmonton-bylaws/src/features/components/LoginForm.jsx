@@ -35,6 +35,7 @@ const LoginForm = ({onSubmit}) => {
     if (validateForm()) {
         onSubmit(formData);
         console.log("LoginDTO successfully sent to LoginPage:", formData);
+        localStorage.setItem("loginDTO", JSON.stringify(formData));
     }
   };
 

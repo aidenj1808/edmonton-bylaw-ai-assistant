@@ -7,11 +7,11 @@ import ChatHistorySidebar from "../components/ChatHistorySidebar.jsx";
 
 
 const EditProfilePage = () => {
-  const userDTO = {
+  const userDTO = JSON.parse(localStorage.getItem("registrationDTO")) || {
     firstName: "John",
     lastName: "doe",
     email: "johndoe@example.com",
-    password: 'password', // Password is not needed for edit
+    password: 'password', // Password is not changed in edit
   };
 
   const handleProfileUpdate = (formData) => {
