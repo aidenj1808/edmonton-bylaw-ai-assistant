@@ -10,40 +10,41 @@ const ChatInput = (userEmail) => {
     const [chatHistory, setChatHistory] = useState([]);
     const [messages, setMessages] = useState([]);
     const [sequenceNumber, setSequenceNumber] = useState(1); 
-    const [response, setResponse] = useState("");
 
     const agent = new Agent();
 
-
+    async function setResponse(prompt) {
+        return await agent.askQuestion(prompt)
+    }
     const handleInputChange = (event) => {
         const newValue = event.target.value;
         setInputValue(newValue);
         setButtonVisible(newValue.trim() !== '');
       };
 
-      const handleSubmit = () => {
-        // Create a new ChatDTO with the current sequence number
-        const chatDTO = new ChatDTO(userEmail, inputValue, response, sequenceNumber);
-    
-        // Update chat history
-        setChatHistory((prev) => [...prev, chatDTO]);
-    
+      const handleSubmit = () => {    
         // Increment sequence number for next message
         setSequenceNumber((prev) => prev + 1);
     
-        // GET RESPONSE HERE
-        //let botResponse = agent.askQuestion(inputValue);
-        setResponse("");
+        // Await agent and then set response
+        let response = setResponse(inputValue);
+
+        // Clear input
+        setInputValue("");
+
+        // Create a new ChatDTO with the current sequence number
+        const chatDTO = new ChatDTO(userEmail, inputValue, response, sequenceNumber);
+
+        // Update chat history
+        setChatHistory((prev) => [...prev, chatDTO]);
 
         // for visual chat ** Add response
         const userMessage = { text: inputValue, sender: "user" };
-        const botMessage = { text: "AI Response:", sender: "bot" };
+        const botMessage = { text: response, sender: "bot" };
 
         setMessages((prev) => [...prev, userMessage, botMessage]);
 
         console.log("Form submitted successfully:", chatDTO);
-
-        setInputValue("");
       };
     
 
