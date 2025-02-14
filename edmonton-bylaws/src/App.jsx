@@ -13,12 +13,11 @@ function App() {
   return (
     <>
       <div className = "App">
-        <RegistrationPage/>
         <LoginPage/>
+        <RegistrationPage/>
         <HomePage/>
         <SearchBylawsPage/>
         <EditProfilePage/>
-        <ChatInput />
         <SearchInput />
       </div>
     </>
