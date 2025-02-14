@@ -4,6 +4,7 @@ import Header from "../components/Header.jsx";
 import Sidebar from '../components/Sidebar.jsx'
 import ChatHistorySidebar from '../components/ChatHistorySidebar.jsx'
 import {Agent} from './Agent.js'
+import ChatInput from "../components/ChatInput.jsx";
 
 const HomePage = () => {
   //Using the agent
@@ -16,6 +17,9 @@ const HomePage = () => {
 //   console.log(snakeResponse)
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isChatHistorySidebar, setIsChatHistorySidebar] = useState(false);
+
+    // this would be passed from the login
+    const [userEmail] = useState("user@example.com");
 
     // Toggle sidebar visibility
     const toggleSidebar = () => {
@@ -45,7 +49,13 @@ const HomePage = () => {
 
     
               <div class = "inner">
-               
+                <h1>Welcome to the City of Edmonton Bylaw Chatbot</h1>
+                <p>Ask any question regarding Edmonton's bylaws, and we'll assist you.</p>
+                <div class = "chatDiv">
+                  <ChatInput
+                    userEmail = {userEmail}
+                    />
+                  </div>
               </div>
             </div>
         </div>
