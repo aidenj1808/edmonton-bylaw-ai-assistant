@@ -41,6 +41,7 @@ const UserInformationForm = ({title, buttonText, onSubmit, initialData }) => {
     if (validateForm()) {
         onSubmit(formData);
         console.log("Form submitted successfully:", formData);
+        localStorage.setItem("registrationDTO", JSON.stringify(formData));
     }
   };
 

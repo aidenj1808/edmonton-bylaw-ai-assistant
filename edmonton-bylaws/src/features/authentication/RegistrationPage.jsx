@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState }from "react";
 import UserInformationForm from "../components/UserInformationForm.jsx";
 import { RegistrationDTO } from "../authentication/authentication-dto.js";
 
