@@ -55,7 +55,7 @@ button:focus {
 }
 
 /* Style for the input field */
-#searchInput {
+#searchInputPDF {
     padding: 10px;
     width: 300px;
     border: 2px solid #ddd;
@@ -66,6 +66,6 @@ button:focus {
     transition: border-color 0.3s ease;
 }
 
-#searchInput:focus {
+#searchInputPDF:focus {
     border-color: #007bff;
 }

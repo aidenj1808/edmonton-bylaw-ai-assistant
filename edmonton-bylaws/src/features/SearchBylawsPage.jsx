@@ -33,7 +33,7 @@ const SearchBylawsPage = () => {
     }
     function searchPDFs(){
       // Finds Searchbar and Pdfs and stores them
-      var search = document.getElementById("searchInput");
+      var search = document.getElementById("searchInputPDF");
       var pdfs = document.getElementsByClassName("pdf");
       // for each item in pdfs
       for (var i = 0; i < pdfs.length; i++){
@@ -63,7 +63,7 @@ const SearchBylawsPage = () => {
     
               <div class = "inner">
                 <div class="search-container">
-                      <input type="text" placeholder="Search..." id="searchInput" oninput={searchPDFs()}/>
+                      <input type="text" placeholder="Search..." id="searchInputPDF" oninput={searchPDFs()}/>
                       <button type="button">Search</button>
                 </div>
                 <section class="pdf-container">
