@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../CSS/Sidebar.css"; // Sidebar styles
+import { Link } from 'react-router-dom'
 
 function ChatHistorySidebar({ isOpen , switchToOldSidebar, onConversationSelect}) {
   const [buttons, setButtons] = useState([]);
@@ -78,7 +79,7 @@ function ChatHistorySidebar({ isOpen , switchToOldSidebar, onConversationSelect}
             onClick={() => handleTopicClick(index)}>
               {truncateText(chatDTO.prompt,15)}
           </button>
-        </li>
+      </li>
       ))}
       </ul>
 
