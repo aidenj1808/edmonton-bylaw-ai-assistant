@@ -6,7 +6,7 @@
 }
 
 .main-content.sidebar-closed {
-    transform: translateX(-15vw); 
+    transform: translateX(-10vw); 
     transition: transform 0.3s ease;
 }
 

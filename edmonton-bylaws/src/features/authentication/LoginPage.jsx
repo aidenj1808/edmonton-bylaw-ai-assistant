@@ -35,7 +35,7 @@ const styles = {
       width: "100vw",
     },
     h1: {
-      marginLeft: "auto",
+      margin: "2rem auto",
       paddingBottom: "3rem",
       background: "none",
       color: "#005087",

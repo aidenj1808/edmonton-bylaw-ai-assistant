@@ -28,6 +28,7 @@
     padding: 40px;
     max-width: 80%; /* Make the container not too wide */
     margin: 0 auto; /* Center the container horizontally */
+    justify-content: center;
 }
 
 /* Style for each individual PDF object */
