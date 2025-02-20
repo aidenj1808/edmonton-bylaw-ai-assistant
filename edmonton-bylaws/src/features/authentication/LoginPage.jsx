@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import LoginForm from "../components/LoginForm.jsx";
-
+import { Link } from 'react-router-dom'
 
 const LoginPage = () => {
   const handleLogin = (formData) => {
@@ -19,7 +19,7 @@ const LoginPage = () => {
         class = "form"
         onSubmit={handleLogin}
         />
-        <p style={styles.p}>Don't have an account? <a href="#">Sign Up</a></p>
+        <p style={styles.p}>Don't have an account? <Link to="/register">Sign Up</Link></p>
         </div>
     </div>
   );
@@ -28,15 +28,15 @@ const LoginPage = () => {
 const styles = {
     page: {
       display: "flex",
-      marginLeft: "9vw",
+      margin: "auto",
       flexDirection: "column",      
       justifyContent: "center",   
       alignItems: "center",  
+      width: "100vw",
     },
     h1: {
-      marginLeft: "-1vw",
-      marginTop: "5vw",
-      paddingBottom: "60px",
+      marginLeft: "auto",
+      paddingBottom: "3rem",
       background: "none",
       color: "#005087",
       fontSize: "64px",

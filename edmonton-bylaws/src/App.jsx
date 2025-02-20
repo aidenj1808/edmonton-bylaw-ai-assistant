@@ -8,18 +8,23 @@ import LoginPage from './features/authentication/LoginPage'
 import ChatInput from './features/components/ChatInput'
 import SearchInput from './features/components/SearchInput'
 import ChatHistory from './features/chatbot/ChatHistoryPage'
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 
 
 function App() {
   return (
     <>
       <div className = "App">
-        <LoginPage/>
-        <RegistrationPage/>
-        <HomePage/>
-        <ChatHistory/>
-        <SearchBylawsPage/>
-        <EditProfilePage/>
+        <Router>
+          <Routes>
+            <Route path="/" element={<LoginPage/>}/>
+            <Route path="/register" element={<RegistrationPage/>}/>
+            <Route path="/edit-profile" element={<EditProfilePage/>}/>
+            <Route path="/home" element={<HomePage/>}/>
+            <Route path="/search-bylaws" element={<SearchBylawsPage/>}/>
+            <Route path="/chat-history" element={<ChatHistory/>}/>
+          </Routes>
+        </Router>
       </div>
     </>
   )

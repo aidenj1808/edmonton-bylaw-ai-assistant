@@ -28,8 +28,8 @@ const ChatInput = (userEmail) => {
         setSequenceNumber((prev) => prev + 1);
     
         // Await agent and then set response
-        //let response = setResponse(inputValue);
-        let response = 'AI Response';
+        let response = setResponse(inputValue);
+        //let response = 'AI Response';
 
         // Create a new ChatDTO with the current sequence number
         const chatDTO = new ChatDTO(userEmail, inputValue, response, sequenceNumber);
@@ -102,8 +102,8 @@ const ChatInput = (userEmail) => {
 
 const styles = {
     input: {
-        width: "40vw", // Choose width needed for your screen
-        margin: "10px",
+        width: "40vw",
+        margin: "auto",
         padding: "20px",
         boxSizing: "border-box",
         borderRadius: "20px",
@@ -128,13 +128,15 @@ const styles = {
         display: "flex",
         flexDirection: "column",
         gap: "2vh",
-        paddingLeft: "5vw",
+        paddingLeft: "4rem",
+        paddingRight: "4rem"
       },
       chatContainer: {
         display: "flex",
         flexDirection: "column",
         padding: "10px",
         overflow: "hidden",
+        margin: "auto",
       },
       message: {
         padding: "10px",

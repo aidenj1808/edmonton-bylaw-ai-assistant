@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { LoginDTO } from "../authentication/authentication-dto.js";
+import { useNavigate } from "react-router-dom";
 
 
 const LoginForm = ({onSubmit}) => {
     const [formData, setFormData] = useState(new LoginDTO("", ""));
     const [errors, setErrors] = useState({});
+
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
       const { name, value } = e.target;
@@ -36,6 +39,7 @@ const LoginForm = ({onSubmit}) => {
         onSubmit(formData);
         console.log("LoginDTO successfully sent to LoginPage:", formData);
         localStorage.setItem("loginDTO", JSON.stringify(formData));
+        navigate("/home"); // Navigate to the home page
     }
   };
 
