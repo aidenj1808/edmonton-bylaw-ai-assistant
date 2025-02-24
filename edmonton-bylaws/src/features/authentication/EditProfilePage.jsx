@@ -67,7 +67,7 @@ const EditProfilePage = () => {
 
 const styles = {
   h1: {
-    padding: "30px"
+    margin: "2rem auto"
   }
 };
 

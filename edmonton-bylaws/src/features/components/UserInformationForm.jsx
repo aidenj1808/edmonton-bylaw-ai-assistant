@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 
 const UserInformationForm = ({title, buttonText, onSubmit, initialData }) => {
     // State variables to store form input values
@@ -9,7 +9,9 @@ const UserInformationForm = ({title, buttonText, onSubmit, initialData }) => {
         email: initialData?.email || '',
         password: initialData?.password || '',
     });
+
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
 
     // Handle form input change
     const handleChange = (e) => {
@@ -42,6 +44,9 @@ const UserInformationForm = ({title, buttonText, onSubmit, initialData }) => {
         onSubmit(formData);
         console.log("Form submitted successfully:", formData);
         localStorage.setItem("registrationDTO", JSON.stringify(formData));
+        if (buttonText === "Register"){
+          navigate("/home"); // Navigate to the home page
+        }
     }
   };
 

@@ -3,7 +3,6 @@ import UserInformationForm from "../components/UserInformationForm.jsx";
 import { RegistrationDTO } from "../authentication/authentication-dto.js";
 import { Link } from 'react-router-dom'
 
-
 const RegistrationPage = () => {
   const handleRegistration = (formData) => {
     console.log('Registering user:');

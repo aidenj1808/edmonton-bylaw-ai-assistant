@@ -28,6 +28,14 @@ h1{
     color: #005087;
 }
 
+.link-home{
+    font-size: 32px;
+    background: none;
+    color: #005087;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-weight: bold;
+}
+
 .profileIcon{
     object-fit: contain;
     height: 5vw;

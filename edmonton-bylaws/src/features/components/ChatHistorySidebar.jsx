@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../mocks/axiosMock";
 import "../CSS/Sidebar.css"; // Sidebar styles
+import { Link } from 'react-router-dom'
 
 function ChatHistorySidebar({ isOpen , switchToOldSidebar, setSelectedConversation}) {
   const [buttons, setButtons] = useState([]);
