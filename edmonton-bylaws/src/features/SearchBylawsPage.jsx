@@ -26,10 +26,16 @@ const SearchBylawsPage = () => {
     function pdfTemplate(filename) {
       return <object className="pdf" data={filename} width="800" height="500"></object>
     }
+    function pdfLinkTemplate(filename){
+      var displayName = filename.split("/")[filename.split("/").length-1].split("_").join(" ");
+      displayName = displayName.replace(".pdf", "")
+      return <a className="pdfLink button" width="15rem" display="block" href={filename}>{displayName}</a>
+    }
     const pdfs = [];
     // loop through data.files.length (276), currently using lower numbers in order to not bloat the system
-    for (let i = 0; i < 2; i++){
-      pdfs.push(pdfTemplate("./data/"+data.files[i]))
+    const pdfNum = 50; // data.files.length;
+    for (let i = 0; i < pdfNum; i++){
+      pdfs.push(pdfLinkTemplate("./data/"+data.files[i]))
     }
     function searchPDFs(){
       // Finds Searchbar and Pdfs and stores them
@@ -64,7 +70,7 @@ const SearchBylawsPage = () => {
               <div class = "inner">
                 <div class="search-container">
                       <input type="text" placeholder="Search..." id="searchInputPDF" oninput={searchPDFs()}/>
-                      <button type="button">Search</button>
+                      <button type="button" className="button">Search</button>
                 </div>
                 <section class="pdf-container">
                     {pdfs}

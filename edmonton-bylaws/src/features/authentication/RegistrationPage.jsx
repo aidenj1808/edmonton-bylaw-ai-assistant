@@ -1,6 +1,7 @@
 import React, { useState }from "react";
 import UserInformationForm from "../components/UserInformationForm.jsx";
 import { RegistrationDTO } from "../authentication/authentication-dto.js";
+import { Link } from 'react-router-dom'
 
 
 const RegistrationPage = () => {
@@ -24,7 +25,7 @@ const RegistrationPage = () => {
         // Empty Registration DTO
         initialData={{ firstName: '', lastName: '', email: '', password: '' }}
       />
-      <p style={styles.p}>Already have an account? <a href="#">Log In</a></p>
+      <p style={styles.p}>Already have an account? <Link to="/">Log In</Link></p>
     </div>
   );
 };
@@ -32,14 +33,13 @@ const RegistrationPage = () => {
 const styles = {
   page: {
     display: "flex",
-    marginLeft: "9vw",
+    marginLeft: "auto",
     flexDirection: "column",      
     justifyContent: "center",   
-    alignItems: "center",  
+    alignItems: "center", 
+    width: "100vw", 
   },
   h1: {
-    marginLeft: "-1vw",
-    marginTop: "5vw",
     background: "none",
     color: "#005087",
     fontSize: "64px",

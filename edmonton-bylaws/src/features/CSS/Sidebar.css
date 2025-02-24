@@ -51,7 +51,20 @@
 }
 
 .sidebar > button {
-    flex: 1; /* Make the button stretch to take available space */
+    flex: 1; 
+}
+
+.sidebar .historyButtons .divider {
+    font-weight: bold;
+    background: #f8f9fa;
+    pointer-events: none; 
+    user-select: none; 
+    padding: 15px;
+}
+
+.sidebar .historyButtons{
+    max-height: 75vh;
+    overflow-y: auto;
 }
 
 

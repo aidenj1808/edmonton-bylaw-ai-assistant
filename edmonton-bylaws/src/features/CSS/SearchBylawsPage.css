@@ -1,8 +1,8 @@
 
 /* Style for the search button */
-button {
+.button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #005087;
     color: white;
     border: none;
     border-radius: 5px;
@@ -11,21 +11,24 @@ button {
     transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: #0056b3;
+.button:hover {
+    background-color: #007bff;
+    color: white;
 }
-button:focus {
+.button:focus {
     outline: none;
 }
 
 /* Style for the overall PDF container */
 .pdf-container {
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     grid-template-columns: repeat(auto-fill, minmax(600px, 1fr)); /* Set PDF item width to be 600px */
     gap: 20px;
     padding: 40px;
-    max-width: 90%; /* Make the container not too wide */
+    max-width: 80%; /* Make the container not too wide */
     margin: 0 auto; /* Center the container horizontally */
+    justify-content: center;
 }
 
 /* Style for each individual PDF object */
@@ -44,14 +47,19 @@ button:focus {
     transform: scale(1.03); /* Slightly zooms in on hover */
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
+.pdfLink{
+    width: 15rem;
+}
 
 /* Styling for the search container */
 .search-container {
-    display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin-bottom: 50px;
+    display: flex; 
+    margin: auto; 
+    margin-top: 3rem;
+
 }
 
 /* Style for the input field */
