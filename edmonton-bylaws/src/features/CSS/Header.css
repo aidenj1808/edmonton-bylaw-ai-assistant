@@ -40,7 +40,6 @@ h1{
     object-fit: contain;
     height: 5vw;
     width: 5vw;
-    margin-right: 3vw;
     background-color: #f8f9fa;
 }
 
@@ -49,6 +48,7 @@ h1{
     border: none; /* Remove border */
     cursor: pointer; /* Make the button appear clickable */
     padding: 0; /* Remove padding around the button */
+    margin-right: 3vw;
     background-color: #f8f9fa;
 }
 

@@ -27,3 +27,6 @@
 .sidebar{
     flex-shrink: 0;
 }
+.sidebar-closed .inner{
+    padding-left: 2rem;
+}

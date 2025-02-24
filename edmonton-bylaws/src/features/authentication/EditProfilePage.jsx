@@ -49,7 +49,7 @@ const EditProfilePage = () => {
                 <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} switchToChatHistorySidebar={switchToChatHistorySidebar} />
                 )}
 
-          <div class = "inner">
+          <div class = "inner edit">
             <h1 style = {styles.h1}>Hello, {userDTO.firstName}</h1>
 
             <UserInformationForm
