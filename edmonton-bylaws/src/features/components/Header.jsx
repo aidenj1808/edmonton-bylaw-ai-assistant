@@ -7,7 +7,7 @@ const Header = ({toggleSidebar}) => {
       <div class ="head">
         <div class = "left">
             <button onClick={toggleSidebar}>☰</button>
-            <h1><Link to="/home" class="link-home">Edmonton Bylaws</Link></h1>
+            <h1><Link to="/home" onClick={() => history.push('/home')} class="link-home">Edmonton Bylaws</Link></h1>
         </div>
     
         <div class ="dropdown">

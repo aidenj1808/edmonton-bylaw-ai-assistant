@@ -79,3 +79,10 @@ h1{
     cursor: pointer;
 }
 
+.link-home {
+    background: none;
+    color: #005087;
+    font-size: 32px;
+    font-weight: bold;
+}
+

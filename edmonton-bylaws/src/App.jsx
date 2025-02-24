@@ -10,7 +10,6 @@ import SearchInput from './features/components/SearchInput'
 import ChatHistory from './features/chatbot/ChatHistoryPage'
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 
-
 function App() {
   return (
     <>
