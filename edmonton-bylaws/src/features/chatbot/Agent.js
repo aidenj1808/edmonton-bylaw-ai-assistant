@@ -14,20 +14,37 @@ ollama list ->
 Confirm it runs:
 ollama run BylawModel
 */
-import ollama from "ollama"
 
+import ollama from "ollama";
 
 export class Agent {
+    constructor() {}
 
-    constructor() {
+    async askQuestion(prompt, model = 'BylawModel', stream = false) {
+        console.time("Response Time"); // Start time measurement
 
-    }
+        const message = { role: 'user', content: prompt };
 
-    async askQuestion(prompt) {
-        const response = await ollama.chat({
-            model: 'BylawModel',
-            messages: [{ role: 'user', content: prompt}],
-        })
-        return response.message.content
+        if (stream) {
+            const response = await ollama.chat({ model, messages: [message], stream: true });
+
+            process.stdout.write("\nGenerating response: \n");
+            let fullResponse = '';
+            for await (const part of response) {
+                for (const char of part.message.content) {
+                    process.stdout.write(char);
+                    await new Promise(resolve => setTimeout(resolve, 50)); // Simulate typing effect
+                }
+                fullResponse += part.message.content;
+            }
+
+            console.timeEnd("Response Time"); // End time measurement
+            return fullResponse;
+        } else {
+            const response = await ollama.chat({ model, messages: [message] });
+
+            console.timeEnd("Response Time"); // End time measurement
+            return response.message.content;
+        }
     }
 }
