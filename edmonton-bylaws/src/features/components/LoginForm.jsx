@@ -1,23 +1,66 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LoginDTO } from "../authentication/authentication-dto.js";
 import { useNavigate } from "react-router-dom";
+import axios from "../../mocks/axiosMock";
 
 
 const LoginForm = ({onSubmit}) => {
-    const [formData, setFormData] = useState(new LoginDTO("", ""));
-    const [errors, setErrors] = useState({});
+  const [formData, setFormData] = useState(new LoginDTO("", ""));
+  const [errors, setErrors] = useState({});
+  const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
-
-    const handleChange = (e) => {
-      const { name, value } = e.target;
-      setFormData({...formData, [name]: value});
-    }
+  useEffect(() => {
+    axios
+      .get("/api/userdata")
+      .then((response) => {
+        const userData = response.data;
+        setUsers(userData);
+      })
+  }, []);
+  
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({...formData, [name]: value});
+  }
 
   // Validate form fields
   const validateForm = () => {
     const errors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    let userEmail = users.find(({ email }) => email === formData.email);
+    if (!userEmail) {
+      userEmail = null;
+    } else {
+      userEmail = userEmail.email
+    }
+
+    let userPassword = users.find(({ email, password }) => email === formData.email &&
+      password === formData.password);
+    if (!userPassword) {
+      userPassword = null;
+    } else {
+      userPassword = userPassword.password
+    }
+
+    let hasEmail = false;
+    if (userEmail) {
+      hasEmail = formData.email === userEmail;  
+    }
+
+    let hasPassword = false;
+    if (userPassword) {
+      hasPassword = formData.password === userPassword;
+    }
+
+    if (!hasEmail) {
+      errors.email = "Email is not registered.";
+    }
+
+    if (hasEmail && !hasPassword) {
+      errors.password = "Password is incorrect.";
+    }
 
     if (!formData.email || !emailRegex.test(formData.email)) {
         errors.email = "Please enter a valid email.";  
@@ -26,7 +69,7 @@ const LoginForm = ({onSubmit}) => {
     if (!formData || formData.password.length < 6) {
         errors.password = "Password should be at least 6 characters long.";
     }
-    
+
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
