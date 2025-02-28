@@ -5,10 +5,12 @@
     flex-direction: column;    
     margin: auto;  
     min-height: 90vh;
-    width: 85vw;
+    width: 100vh;
+    overflow: auto;
 }
 
 .chatDiv{
     margin: auto;
-    width: 85vw;
+    width: 100%;
+    overflow: hidden;
 }

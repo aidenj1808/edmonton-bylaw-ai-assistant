@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "../../mocks/axiosMock";
 
 const UserInformationForm = ({title, buttonText, onSubmit, initialData }) => {
     // State variables to store form input values
@@ -11,7 +12,17 @@ const UserInformationForm = ({title, buttonText, onSubmit, initialData }) => {
     });
 
     const [errors, setErrors] = useState({});
+    const [users, setUsers] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+      axios
+        .get("/api/userdata")
+        .then((response) => {
+          const userData = response.data;
+          setUsers(userData);
+        })
+    }, []);
 
     // Handle form input change
     const handleChange = (e) => {
@@ -24,6 +35,19 @@ const UserInformationForm = ({title, buttonText, onSubmit, initialData }) => {
     const errors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    let userEmail = users.find(({ email }) => email === formData.email);
+    if (!userEmail) {
+      userEmail = null;
+    } else {
+      userEmail = userEmail.email
+    }
+
+    let hasEmail = false;
+    if (userEmail) {
+      hasEmail = formData.email === userEmail;  
+    }
+
+    if (hasEmail) errors.email = "Email is already registered.";
     if (!formData.firstName) errors.firstName = "First name is required.";
     if (!formData.lastName) errors.lastName = "Last name is required.";
     if (!emailRegex.test(formData.email))
