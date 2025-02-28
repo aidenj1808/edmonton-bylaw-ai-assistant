@@ -1,7 +1,7 @@
 //npm install axios axios-mock-adapter
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import ChatHistory from "../features/chatbot/ChatHistoryPage";
+
 
 const mock = new MockAdapter(axios, {delayResponse: 500});
 
@@ -43,6 +43,13 @@ const ChatHistoryData = [
     }
 ]
 
-mock.onGet("/api/chathistorydata").reply(200,ChatHistoryData);
+const userData = [
+    {email: "user1@example.com", password: "password1"},
+    {email: "user2@example.com", password: "password2"},
+    {email: "user3@example.com", password: "password3"},
+]
+
+mock.onGet("/api/chathistorydata").reply(200, ChatHistoryData);
+mock.onGet("/api/userdata").reply(200, userData);
 
 export default axios;
