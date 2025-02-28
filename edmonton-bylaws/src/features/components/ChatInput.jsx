@@ -157,6 +157,7 @@ const ChatInput = ({userEmail, conversation}) => {
 
 const styles = {
     h1: {
+        paddingTop: "15px",
         alignText: "Center",
         margin: "auto",
         display: "flex",
@@ -189,15 +190,9 @@ const styles = {
         gap: "2vh",
         paddingLeft: "4rem",
         paddingRight: "4rem",
-        maxHeight: "80vh",
+        maxHeight: "75vh",
+        maxWidth: "75vw",
       },
-    chatContainer: {
-        display: "flex",
-        flexDirection: "column",
-        padding: "10px",
-        overflow: "hidden",
-        margin: "auto",
-    },
     message: {
         padding: "10px",
         borderRadius: "15px",
