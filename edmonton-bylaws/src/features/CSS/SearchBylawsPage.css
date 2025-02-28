@@ -1,5 +1,9 @@
 
 /* Style for the search button */
+
+* {
+    overflow-x: hidden;
+}
 .button {
     padding: 10px 20px;
     background-color: #005087;
