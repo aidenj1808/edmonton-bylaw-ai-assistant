@@ -14,20 +14,15 @@ ollama list ->
 Confirm it runs:
 ollama run BylawModel
 */
-import ollama from "ollama"
 
+import ollama from "ollama";
 
 export class Agent {
+    constructor() {}
 
-    constructor() {
-
-    }
-
-    async askQuestion(prompt) {
-        const response = await ollama.chat({
-            model: 'BylawModel',
-            messages: [{ role: 'user', content: prompt}],
-        })
-        return response.message.content
+    async answerPrompt(prompt, model = 'BylawModel') {
+        const message = { role: 'user', content: prompt };
+        const response = await ollama.chat({ model, messages: [message] });
+        return response.message.content;
     }
 }
