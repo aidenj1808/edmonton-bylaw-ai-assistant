@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "../../mocks/axiosMock";
 import "../CSS/Sidebar.css"; // Sidebar styles
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate} from 'react-router-dom';
+
 
 function ChatHistorySidebar({ isOpen, switchToOldSidebar, setSelectedConversation }) {
   const [buttons, setButtons] = useState([]);
   const [dataStored, setDataStored] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [location, setLocation] = useState(useLocation());
+  const navigate = useNavigate();
 
   const saveToLocalStorage = (newItem) => {
     const existingData = JSON.parse(localStorage.getItem("chatDTOs")) || [];
@@ -20,16 +23,17 @@ function ChatHistorySidebar({ isOpen, switchToOldSidebar, setSelectedConversatio
     setDataStored([]);  // Clear chat data from state
     setButtons([]);      // Clear buttons from state
   };
-
+  
   useEffect(() => {
     axios
       .get("/api/chathistorydata")
       .then((response) => {
         const fetchedData = response.data;
-        const existingData = JSON.parse(localStorage.getItem("chatDTOs")) || [];
+        let existingData = JSON.parse(localStorage.getItem("chatDTOs")) || [];
+        existingData = existingData.filter(item => item !== null);
         const combinedData = existingData.concat(fetchedData);
         const groupedData = groupByDateAndSequence(combinedData);
-        setDataStored(groupedData);
+        setDataStored(groupedData); 
         setButtons(groupedData);
         setLoading(false);
       })
@@ -74,6 +78,11 @@ function ChatHistorySidebar({ isOpen, switchToOldSidebar, setSelectedConversatio
   };
 
   const handleTopicClick = (index) => {
+    console.log(location.pathname);
+    if (location.pathname != "/home"){
+      const selectedGroup = flattenGroupAtIndex(dataStored, index);
+      navigate("/home", { state: {selected: selectedGroup} });
+    }
     const selectedGroup = flattenGroupAtIndex(dataStored, index);
     setSelectedConversation(selectedGroup);
   };
@@ -140,5 +149,4 @@ const styles = {
     display: "block",
   },
 };
-
 export default ChatHistorySidebar;
