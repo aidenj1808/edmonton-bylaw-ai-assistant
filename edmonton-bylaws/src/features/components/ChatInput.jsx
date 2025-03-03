@@ -16,7 +16,7 @@ const ChatInput = ({userEmail, conversation}) => {
     const chatRef = useRef(null); // Create a reference to chats for scroll
 
     async function setResponse(prompt) {
-        return await agent.askQuestion(prompt)
+        return await agent.answerPrompt(prompt)
     }
 
     const resetComponent = () => {
