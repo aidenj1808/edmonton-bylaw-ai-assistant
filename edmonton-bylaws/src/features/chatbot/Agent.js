@@ -26,25 +26,23 @@ export class Agent {
         const message = { role: 'user', content: prompt };
 
         if (stream) {
-            const response = await ollama.chat({ model, messages: [message], stream: true });
+            const responseStream = await ollama.chat({ model, messages: [message], stream: true });
 
-            process.stdout.write("\nGenerating response: \n");
             let fullResponse = '';
-            for await (const part of response) {
-                for (const char of part.message.content) {
-                    process.stdout.write(char);
-                    await new Promise(resolve => setTimeout(resolve, 50)); // Simulate typing effect
-                }
+            process.stdout.write("\nGenerating response: \n");
+
+            for await (const part of responseStream) {
                 fullResponse += part.message.content;
+                process.stdout.write(part.message.content); // Print chunked response directly
             }
 
             console.timeEnd("Response Time"); // End time measurement
             return fullResponse;
         } else {
-            const response = await ollama.chat({ model, messages: [message] });
+            const { message: { content } } = await ollama.chat({ model, messages: [message] });
 
             console.timeEnd("Response Time"); // End time measurement
-            return response.message.content;
+            return content;
         }
     }
 }
