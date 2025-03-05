@@ -28,7 +28,12 @@ h1{
     color: #005087;
 }
 
-.link-home{
+.head .left .link-home{
+    font-size: 32px;
+    text-align: left;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #005087;
     font-size: 32px;
     background: none;
     color: #005087;
@@ -83,10 +88,4 @@ h1{
     cursor: pointer;
 }
 
-.link-home {
-    background: none;
-    color: #005087;
-    font-size: 32px;
-    font-weight: bold;
-}
 

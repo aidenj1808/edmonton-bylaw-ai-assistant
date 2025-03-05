@@ -5,10 +5,9 @@ import EditProfilePage from './features/authentication/EditProfilePage'
 import HomePage from './features/chatbot/HomePage'
 import SearchBylawsPage from './features/SearchBylawsPage'
 import LoginPage from './features/authentication/LoginPage'
-import ChatInput from './features/components/ChatInput'
-import SearchInput from './features/components/SearchInput'
 import ChatHistory from './features/chatbot/ChatHistoryPage'
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+
 
 function App() {
   return (

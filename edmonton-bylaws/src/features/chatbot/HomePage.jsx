@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from 'react-router-dom';
 import '../CSS/HomePage.css'
 import Header from "../components/Header.jsx";
 import Sidebar from '../components/Sidebar.jsx'
@@ -9,6 +10,14 @@ const HomePage = ({buttons}) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isChatHistorySidebar, setIsChatHistorySidebar] = useState(false);
     const [selectedConversation, setSelectedConversation] = useState([]);
+    const location = useLocation();
+
+    // Extract the passed state (buttons or dataStored)
+    useEffect(() => {
+      if (location.state?.selected) {
+        setSelectedConversation(location.state.selected);
+      }
+    }, [location.state?.selected]);
 
     // this would be passed from the login
     const [userEmail] = useState("user@example.com");

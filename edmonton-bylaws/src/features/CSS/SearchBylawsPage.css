@@ -76,3 +76,22 @@
 #searchInputPDF:focus {
     border-color: #007bff;
 }
+
+.pdf-container{
+    overflow-y:auto;
+    max-height: 65vh;
+}
+
+/* Hide scrollbar background */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}

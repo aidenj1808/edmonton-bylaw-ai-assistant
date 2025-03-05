@@ -1,13 +1,15 @@
 import "../CSS/Header.css"
 import profileIcon from '../../assets/profileIcon.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Header = ({toggleSidebar}) => {
+  const navigate = useNavigate();
+
     return (
       <div class ="head">
         <div class = "left">
             <button onClick={toggleSidebar}>☰</button>
-            <h1><Link to="/home" onClick={() => history.push('/home')} class="link-home">Edmonton Bylaws</Link></h1>
+            <h1><button onClick={() => navigate("/home", { state: {selected: []} })} class="link-home">Edmonton Bylaws</button></h1>
         </div>
     
         <div class ="dropdown">
