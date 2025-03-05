@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const MONGO_URI = 'mongodb://localhost:27017/crud/users'; // Connect to 'crud' database
+const MONGO_URI = 'mongodb://localhost:27017/crud'; // Connect to 'crud' database
 
 const connectDB = async () => {
     try {

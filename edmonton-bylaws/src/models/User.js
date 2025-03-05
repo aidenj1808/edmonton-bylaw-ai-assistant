@@ -1,14 +1,10 @@
 import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema(
-    {
-        name: { type: String, required: true },
-        email: { type: String, required: true, unique: true },
-        password: { type: String, required: true },
-    },
-    { timestamps: true } // Automatically adds `createdAt` and `updatedAt` fields
-);
+const userSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    password: String,
+}, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
-
-export default User; // Export the model for use in other parts of the app
+export default User;

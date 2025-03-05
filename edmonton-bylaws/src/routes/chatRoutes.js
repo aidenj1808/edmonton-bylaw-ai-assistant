@@ -1,40 +1,15 @@
 import express from 'express';
-import Chat from '../models/Chat.js';
+import Chat from '../models/Chat.js'; // Assuming you have a Chat model
 
 const router = express.Router();
 
-// Send a message (Save to MongoDB)
-router.post('/', async (req, res) => {
-    console.log('New chat message request:', req.body);
-
-    const { sender, message } = req.body;
-    if (!sender || !message) {
-        console.warn('Invalid message payload:', req.body);
-        return res.status(400).send({ error: 'Sender and message are required' });
-    }
-
-    try {
-        const newMessage = new Chat({ sender, message });
-        await newMessage.save();
-        console.log('Message saved:', newMessage);
-        res.status(201).send(newMessage);
-    } catch (err) {
-        console.error('Error saving message:', err.message);
-        res.status(500).send({ error: err.message });
-    }
-});
-
-// Get all messages from MongoDB
+// Fetch all chats
 router.get('/', async (req, res) => {
-    console.log('Fetching all chat messages...');
-    
     try {
-        const messages = await Chat.find();
-        console.log('Messages retrieved:', messages.length);
-        res.send(messages);
+        const chats = await Chat.find();
+        res.json(chats);
     } catch (err) {
-        console.error('Error fetching messages:', err.message);
-        res.status(500).send({ error: err.message });
+        res.status(500).json({ message: 'Failed to fetch chats', error: err.message });
     }
 });
 
