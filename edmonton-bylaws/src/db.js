@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const MONGO_URI = 'mongodb://localhost:27017/crud'; // Connect to 'crud' database
+const MONGO_URI = 'mongodb://localhost:27017/ChatApp';
 
 const connectDB = async () => {
     try {
@@ -8,7 +8,7 @@ const connectDB = async () => {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
-        console.log('✅ MongoDB connected successfully to the "crud" database');
+        console.log('✅ MongoDB connected successfully to the "ChatApp" database');
     } catch (err) {
         console.error('❌ MongoDB connection failed:', err.message);
         process.exit(1);
@@ -16,5 +16,4 @@ const connectDB = async () => {
 };
 
 connectDB();
-
-export default mongoose; // Export the mongoose instance for use elsewhere
+export default mongoose;

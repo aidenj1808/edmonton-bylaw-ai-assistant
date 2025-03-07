@@ -20,9 +20,8 @@ import ollama from "ollama";
 export class Agent {
     constructor() {}
 
-    async answerPrompt(prompt, model = 'BylawModel') {
+    async answerPrompt(prompt, model = 'BylawModel', stream = false) {
         const message = { role: 'user', content: prompt };
-<<<<<<< HEAD
 
         if (stream) {
             const responseStream = await ollama.chat({ model, messages: [message], stream: true });
@@ -43,9 +42,8 @@ export class Agent {
             console.timeEnd("Response Time"); // End time measurement
             return content;
         }
-=======
-        const response = await ollama.chat({ model, messages: [message] });
-        return response.message.content;
->>>>>>> 23d0f95a1bbdaf807de1c723ead5bc3805de708b
+        // const response = await ollama.chat({ model, messages: [message] });
+        // return response.message.content;
+
     }
 }
