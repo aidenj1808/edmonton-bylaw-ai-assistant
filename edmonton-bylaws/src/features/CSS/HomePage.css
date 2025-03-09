@@ -14,3 +14,7 @@
     width: 100%;
     overflow: hidden;
 }
+.disclaimer{
+    font-size: 0.8rem;
+    color: red;
+}

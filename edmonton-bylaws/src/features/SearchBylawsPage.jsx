@@ -115,6 +115,7 @@ const SearchBylawsPage = () => {
                 )}
     
               <div className = "inner">
+                <h1 className = "searchHeader">Search Bylaw PDFs</h1>
                 <div className="search-container">
                       <input type="text" placeholder="Search..." id="searchInputPDF" onChange={searchPDFs}/>
                       <button type="button" className="button">Search</button>

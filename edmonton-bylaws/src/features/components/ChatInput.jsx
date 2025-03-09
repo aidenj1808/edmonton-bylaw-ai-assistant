@@ -137,7 +137,7 @@ const ChatInput = ({userEmail, conversation}) => {
         <div class = "chatDiv" style={styles.chatDiv} key={reset}>
 
         <div style={styles.messagesContainer}>
-            <h1 style={styles.h1}>Welcome to the City of Edmonton Bylaw Chatbot</h1>
+            <h1 style={styles.h1}>Welcome to the City of Edmonton Bylaw AI Assistant</h1>
             <p>Ask any question regarding Edmonton's bylaws, and we'll assist you.</p>
             {messages.map((msg, index) => (
                 <div
@@ -171,6 +171,7 @@ const ChatInput = ({userEmail, conversation}) => {
                     <FaArrowUp style = {styles.buttonIconStyle}/>
                 </button>)}
             </div>
+            <span className="disclaimer">*Disclaimer: AI is experimental, messages may be inaccurate and provided advice are not legally verified</span>
         </div>
     );
 };
