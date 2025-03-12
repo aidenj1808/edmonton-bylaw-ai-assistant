@@ -215,7 +215,7 @@ const styles = {
         gap: "2vh",
         paddingLeft: "4rem",
         paddingRight: "4rem",
-        maxHeight: "75vh",
+        maxHeight: "70vh",
         maxWidth: "75vw",
     },
     message: {
