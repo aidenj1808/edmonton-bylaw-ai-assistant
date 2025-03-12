@@ -40,6 +40,9 @@ h1{
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     font-weight: bold;
 }
+.link-home:hover{
+    border: none;
+}
 
 .profileIcon{
     object-fit: contain;
