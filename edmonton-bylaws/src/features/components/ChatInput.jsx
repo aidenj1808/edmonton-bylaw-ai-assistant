@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { FaArrowUp } from "react-icons/fa"; //https://react-icons.github.io/react-icons/search/#q=up%20arrow
 import {ChatDTO} from "../chatbot/chatbot-dto" 
 import {Agent} from "../chatbot/Agent.js"
-import { BsFillFileEarmarkMusicFill } from "react-icons/bs";
 
 
 const ChatInput = ({userEmail, conversation}) => {
@@ -11,12 +10,14 @@ const ChatInput = ({userEmail, conversation}) => {
     const [sequenceNumber, setSequenceNumber] = useState(1); 
     const [messages, setMessages] = useState([]);
     const [reset, setReset] = useState(0);
+    const [lastChatDTO, setLastChatDTO] = useState(null);
+    const [response, setResponse] = useState('');
 
     const agent = new Agent();
     const chatRef = useRef(null); // Create a reference to chats for scroll
 
-    async function setResponse(prompt) {
-        return await agent.answerPrompt(prompt)
+    async function handleResponse(prompt) {
+        setResponse(await agent.answerPrompt(prompt));
     }
 
     const resetComponent = () => {
@@ -35,35 +36,22 @@ const ChatInput = ({userEmail, conversation}) => {
     
         try{
             // Await agent and then set response
-            let response = setResponse(inputValue);
+            let response = handleResponse(inputValue);
 
             // Create a new ChatDTO with the current sequence number
-            const chatDTO = new ChatDTO(userEmail, inputValue, response, sequenceNumber);
+            const chatDTO = new ChatDTO(userEmail, inputValue, '', sequenceNumber);
+
+            // Store DTO to update response later
+            setLastChatDTO(chatDTO);
 
             // Increment sequence number for next message
             setSequenceNumber((prev) => prev + 1);
 
-
-            chatDTO.response.then((result) => {
-                response = result;
-                chatDTO.response = result;
-              });
-
             // for visual chat
             const userMessage = { text: inputValue, sender: "user" };
-            const botMessage =  { text: response, sender: "bot" };
+            const botMessage =  { text: '', sender: "bot" };
 
-            setMessages((prev) => [...prev, userMessage, botMessage]);
-
-            // Update chat history
-           // setChatHistory((prev) => [...prev, chatDTO]);
-
-            //const updatedChatHistory = [...chatHistory, chatDTO];
-
-            saveToLocalStorage(chatDTO);
-            console.log("Saved:", chatDTO);
-            //localStorage.setItem("chatDTOs", JSON.stringify(updatedChatHistory));
-            //console.log("Chat History", updatedChatHistory);
+            setMessages((prev) => [...prev, userMessage, botMessage]);           
 
             // Clear input
             setInputValue("");
@@ -72,8 +60,28 @@ const ChatInput = ({userEmail, conversation}) => {
             const botMessage = { text: "Failed to reach server. Please try again", sender: "bot" };
         }
     };
-    
+
     useEffect(() => {
+        // Once response is complete update the DTO
+        if (lastChatDTO != null){
+            lastChatDTO.response = response;
+        }
+        // Update the last bot message with the actual response
+
+        setMessages((prev) =>
+            prev.map((msg, index) =>
+                index === prev.length - 1 ? { ...msg, text: response } : msg
+            )
+        );
+
+        // Save to local Storage
+        saveToLocalStorage(lastChatDTO);
+        console.log("Saved:", lastChatDTO);
+        }, [response])
+
+    useEffect(() => {
+        console.log(messages);
+
         if (chatRef.current) {
         chatRef.current.scrollIntoView({behaviour: "smooth", transition: "transform 0.3s ease"}); // Auto-scroll to bottom
         }
@@ -83,15 +91,12 @@ const ChatInput = ({userEmail, conversation}) => {
         // Retrieve existing data or initialize an empty array
         const existingData = JSON.parse(localStorage.getItem("chatDTOs")) || [];
     
-        newItem.response.then((result) => { 
-            newItem.response = result;
+        // Append new data
+        existingData.push(newItem);
             
-            // Append new data
-            existingData.push(newItem);
-            
-            // Save updated array back to local storage
-            localStorage.setItem("chatDTOs", JSON.stringify(existingData));
-        });
+        // Save updated array back to local storage
+        localStorage.setItem("chatDTOs", JSON.stringify(existingData));
+        
     };
 
     const loadHistory = (conversation) => {
@@ -111,11 +116,28 @@ const ChatInput = ({userEmail, conversation}) => {
         loadHistory(conversation);
     }, [conversation]);
 
+    const LoadingDots = () => (
+        <>
+          <span style={{ ...styles.dot, animationDelay: "0s" }}></span>
+          <span style={{ ...styles.dot, animationDelay: "0.2s" }}></span>
+          <span style={{ ...styles.dot, animationDelay: "0.4s" }}></span>
+          <style>
+            {`
+              @keyframes blink {
+                0% { opacity: 0.2; }
+                20% { opacity: 1; }
+                100% { opacity: 0.2; }
+              }
+            `}
+          </style>
+        </>
+      );      
+
     return (
         <div class = "chatDiv" style={styles.chatDiv} key={reset}>
 
         <div style={styles.messagesContainer}>
-            <h1 style={styles.h1}>Welcome to the City of Edmonton Bylaw Chatbot</h1>
+            <h1 style={styles.h1}>Welcome to the City of Edmonton Bylaw AI Assistant</h1>
             <p>Ask any question regarding Edmonton's bylaws, and we'll assist you.</p>
             {messages.map((msg, index) => (
                 <div
@@ -127,7 +149,7 @@ const ChatInput = ({userEmail, conversation}) => {
                     color: msg.sender === "user" ? "#fff" : "#000",
                     }}
                     >
-                    {msg.text}
+                    {msg.text ? msg.text : <div style={styles.loadingDots}><LoadingDots /></div>}
                     <div ref={chatRef} />
                 </div>
             ))}
@@ -149,6 +171,7 @@ const ChatInput = ({userEmail, conversation}) => {
                     <FaArrowUp style = {styles.buttonIconStyle}/>
                 </button>)}
             </div>
+            <span className="disclaimer">*Disclaimer: AI is experimental, messages may be inaccurate and provided advice are not legally verified</span>
         </div>
     );
 };
@@ -192,7 +215,7 @@ const styles = {
         paddingRight: "4rem",
         maxHeight: "75vh",
         maxWidth: "75vw",
-      },
+    },
     message: {
         padding: "10px",
         borderRadius: "15px",
@@ -200,6 +223,18 @@ const styles = {
         animation: "fadeIn 0.3s ease-in forwards",
         maxWidth: "65%",
         alignText: "left",
+    },
+    dot: {
+        width: "6px",
+        height: "6px",
+        backgroundColor: "#888",
+        borderRadius: "50%",
+        animation: "blink 1.4s infinite",
+    },
+    loadingDots: {
+        background: "none",
+        display: "inline-flex",
+        gap: "3px",
     },
 };
 
