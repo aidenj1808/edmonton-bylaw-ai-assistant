@@ -10,3 +10,7 @@
 button:hover, button:focus {
   outline: none;
 }
+
+ol, li, strong, p, ul{
+  background: none;
+}

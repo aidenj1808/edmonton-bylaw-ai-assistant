@@ -3,7 +3,6 @@ import axios from "../../mocks/axiosMock";
 import "../CSS/Sidebar.css"; // Sidebar styles
 import { Link, useLocation, useNavigate} from 'react-router-dom';
 
-
 function ChatHistorySidebar({ isOpen, switchToOldSidebar, setSelectedConversation }) {
   const [buttons, setButtons] = useState([]);
   const [dataStored, setDataStored] = useState([]);

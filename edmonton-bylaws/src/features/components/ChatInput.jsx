@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { FaArrowUp } from "react-icons/fa"; //https://react-icons.github.io/react-icons/search/#q=up%20arrow
 import {ChatDTO} from "../chatbot/chatbot-dto" 
 import {Agent} from "../chatbot/Agent.js"
+import {createRoot} from 'react-dom/client'
+import Markdown from 'https://esm.sh/react-markdown@10'
 
 
 const ChatInput = ({userEmail, conversation}) => {
@@ -149,7 +151,7 @@ const ChatInput = ({userEmail, conversation}) => {
                     color: msg.sender === "user" ? "#fff" : "#000",
                     }}
                     >
-                    {msg.text ? msg.text : <div style={styles.loadingDots}><LoadingDots /></div>}
+                    {msg.text ? (msg.sender === "bot" ? <Markdown>{msg.text}</Markdown> : msg.text): <div style={styles.loadingDots}><LoadingDots /></div>}
                     <div ref={chatRef} />
                 </div>
             ))}
@@ -222,7 +224,7 @@ const styles = {
         wordBreak: "break-word",
         animation: "fadeIn 0.3s ease-in forwards",
         maxWidth: "65%",
-        alignText: "left",
+        textAlign: "left",
     },
     dot: {
         width: "6px",
