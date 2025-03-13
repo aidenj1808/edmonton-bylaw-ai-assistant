@@ -2,30 +2,18 @@ import React, { useState }from "react";
 import UserInformationForm from "../components/UserInformationForm.jsx";
 import { RegistrationDTO } from "../authentication/authentication-dto.js";
 import { Link } from 'react-router-dom'
-import axios from "axios";
 
-const RegistrationPage = () => {
-  const createUser = async (userDTO) => {
-    try {
-      const response = await fetch("http://localhost:5002/dbUsers/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userDTO), // Send as JSON string
-      });
-  
-      const data = await response.json();
-      console.log(data); // Log the response from the server
-    } catch (error) {
-      console.error("Error creating user:", error);
-    }
-  };
 
+const RegistrationPage = () => {  
   const handleRegistration = (formData) => {
     const registrationDTO = new RegistrationDTO(formData.firstName, formData.lastName,
                                                 formData.email, formData.password);
-    createUser(registrationDTO);
+    const success = createUser(registrationDTO);
+    if (success != 0){
+      
+    }else{
+      console.error("A user already exists with that email")
+    }
   };
 
   return (

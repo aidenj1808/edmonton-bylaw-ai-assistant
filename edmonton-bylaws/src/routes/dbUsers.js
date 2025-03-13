@@ -1,15 +1,15 @@
 import express from "express";
 
-import {createDBUser, getDBUsers, getDBUserById, updateDBUser, deleteDBUser} from "../controllers/dbUsersController.js"
+import {createDBUser, getDBUsers, getDBUserByEmail, updateDBUser, deleteDBUser} from "../controllers/dbUsersController.js"
 
 console.log("Route file loaded..."); // Add this log to check if the file is loaded
 
 const router = express.Router();
 
 router.get("/", getDBUsers);
-router.get("/:id", getDBUserById);
+router.get("/:email", getDBUserByEmail);
 router.post("/", createDBUser);
-router.put("/:id", updateDBUser);
+router.put("/:email", updateDBUser);
 router.delete("/:id", deleteDBUser);
 
 export default router;

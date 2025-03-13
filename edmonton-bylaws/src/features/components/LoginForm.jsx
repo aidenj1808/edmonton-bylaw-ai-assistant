@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { LoginDTO } from "../authentication/authentication-dto.js";
-import { useNavigate } from "react-router-dom";
 import axios from "../../mocks/axiosMock";
+import { useNavigate } from "react-router-dom";
 
 
 const LoginForm = ({onSubmit}) => {
@@ -10,26 +10,63 @@ const LoginForm = ({onSubmit}) => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  /*useEffect(() => {
     axios
       .get("/api/userdata")
       .then((response) => {
         const userData = response.data;
         setUsers(userData);
       })
-  }, []);
+  }, []);*/
   
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({...formData, [name]: value});
   }
 
+  const searchUser = async (userData) => {
+    try{
+      const url = "http://localhost:5002/dbUsers/" + encodeURIComponent(userData.email);
+      const response = await fetch(url, {
+        method: 'GET', // Specify the method
+        headers: {
+          'Content-Type': 'application/json', // Ensure content type is JSON
+        },
+      });
+  
+      // Email not found
+      if (!response.ok) {
+        return {email:false, password:false};
+      }
+  
+      // User found check password
+      const data = await response.json();
+      if (data.password === userData.password){
+        console.log('User found. Email correct.');
+        onSubmit(data);
+        navigate("/home", {state: data}); // Navigate to the home page
+        return {email: true, password: true};
+      }
+      else{
+        // Password was incorrect
+        console.log('User found. Email incorrect.');
+        return {email:true, password:false};
+      }
+      
+    } catch (error) {
+      console.error('Error finding user:', error.message);
+      return {email:false, password:false};
+    }
+  };
+
   // Validate form fields
-  const validateForm = () => {
+  const validateForm = async () => {
+    //searchUser(formData);
+
     const errors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    let userEmail = users.find(({ email }) => email === formData.email);
+    /*let userEmail = users.find(({ email }) => email === formData.email);
     if (!userEmail) {
       userEmail = null;
     } else {
@@ -42,17 +79,12 @@ const LoginForm = ({onSubmit}) => {
       userPassword = null;
     } else {
       userPassword = userPassword.password
-    }
+    }*/
 
-    let hasEmail = false;
-    if (userEmail) {
-      hasEmail = formData.email === userEmail;  
-    }
+    const varification = await searchUser(formData);
 
-    let hasPassword = false;
-    if (userPassword) {
-      hasPassword = formData.password === userPassword;
-    }
+    const hasEmail = varification.email;
+    const hasPassword = varification.password;
 
     if (!hasEmail) {
       errors.email = "Email is not registered.";
@@ -79,12 +111,9 @@ const LoginForm = ({onSubmit}) => {
     e.preventDefault();
 
     if (validateForm()) {
-        onSubmit(formData);
-        console.log("LoginDTO successfully sent to LoginPage:", formData);
-        localStorage.setItem("loginDTO", JSON.stringify(formData));
-        navigate("/home"); // Navigate to the home page
+        searchUser(formData);
     }
-  };
+  };  
 
   return (
     <div className="registration-container" style={styles.container}>

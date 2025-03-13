@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import LoginForm from "../components/LoginForm.jsx";
 import { Link } from 'react-router-dom';
+import { useUser } from "../../userProvider.jsx";
 
 
 const LoginPage = () => {
+  const { setUser } = useUser();
+
   const handleLogin = (formData) => {
     console.log('Verifying data with database:', formData);
-    alert("Login Complete")
-    // Verify `formData` in data base with LoginDTO
+    setUser(formData);
   };  
 
   return (

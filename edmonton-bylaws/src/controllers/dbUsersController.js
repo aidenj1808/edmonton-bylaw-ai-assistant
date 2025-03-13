@@ -12,9 +12,12 @@ export const getDBUsers = async (req, res) => {
 };
 
 // Get User by ID
-export const getDBUserById = async (req, res) => {
+export const getDBUserByEmail = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const email = req.params.email.trim(); // Extract email from URL parameters
+    console.log("Searching for user with email:", {email:email}); 
+
+    const user = await User.findOne({email: email});
     if (!user) return res.status(404).json({ message: "User not found" });
     res.json(user);
   } catch (error) {
@@ -38,13 +41,23 @@ export const createDBUser = async (req, res) => {
 // Update User by ID
 export const updateDBUser = async (req, res) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+    const updatedUser = await User.findOneAndUpdate({email: req.params.email}, req.body, {
       new: true,
+      runValidators: true,
     });
-    if (!updatedUser)
+    // Check if update was successful
+    if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
-    res.json({ message: "User Updated", user: updatedUser });
+    }
+
+    // Return the updated user
+    res.status(200).json(updatedUser);
   } catch (error) {
+    // Handle duplicate key error (e.g., trying to set email to a value already taken)
+    if (error.code === 11000) { // 11000 is the duplicate key error code
+      return res.status(400).json({ message: "Email already in use" });
+    }
+    // Other errors
     res.status(500).json({ message: error.message });
   }
 };
