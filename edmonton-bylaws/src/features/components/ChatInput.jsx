@@ -4,7 +4,7 @@ import {ChatDTO} from "../chatbot/chatbot-dto"
 import {Agent} from "../chatbot/Agent.js"
 import {createRoot} from 'react-dom/client'
 import Markdown from 'https://esm.sh/react-markdown@10'
-
+import { useLocation } from 'react-router-dom';
 
 const ChatInput = ({userEmail, conversation}) => {
     const [inputValue, setInputValue] = useState('');
@@ -14,6 +14,7 @@ const ChatInput = ({userEmail, conversation}) => {
     const [reset, setReset] = useState(0);
     const [lastChatDTO, setLastChatDTO] = useState(null);
     const [response, setResponse] = useState('');
+    const location = useLocation();
 
     const agent = new Agent();
     const chatRef = useRef(null); // Create a reference to chats for scroll
@@ -46,9 +47,6 @@ const ChatInput = ({userEmail, conversation}) => {
             // Store DTO to update response later
             setLastChatDTO(chatDTO);
 
-            // Increment sequence number for next message
-            setSequenceNumber((prev) => prev + 1);
-
             // for visual chat
             const userMessage = { text: inputValue, sender: "user" };
             const botMessage =  { text: '', sender: "bot" };
@@ -63,13 +61,31 @@ const ChatInput = ({userEmail, conversation}) => {
         }
     };
 
+    const storeChat = async (chat) => {
+        try{
+            const response = await fetch("http://localhost:5002/chats", {
+                method: 'POST', // Specify the method
+                headers: {
+                'Content-Type': 'application/json', // Ensure content type is JSON
+                },
+                body: JSON.stringify(chat),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error storing chat');
+              }
+        } catch(error){
+
+        }
+    }
+
     useEffect(() => {
         // Once response is complete update the DTO
         if (lastChatDTO != null){
             lastChatDTO.response = response;
+            storeChat(lastChatDTO);
         }
         // Update the last bot message with the actual response
-
         setMessages((prev) =>
             prev.map((msg, index) =>
                 index === prev.length - 1 ? { ...msg, text: response } : msg
@@ -117,6 +133,10 @@ const ChatInput = ({userEmail, conversation}) => {
         setMessages([]);
         loadHistory(conversation);
     }, [conversation]);
+
+    useEffect(() => {
+        setSequenceNumber(1); // Reset counter when the component mounts
+      }, [location.key]);
 
     const LoadingDots = () => (
         <>

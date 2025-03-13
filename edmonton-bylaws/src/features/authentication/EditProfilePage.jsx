@@ -4,7 +4,7 @@ import UserInformationForm from "../components/UserInformationForm.jsx";
 import Header from "../components/Header.jsx";
 import Sidebar from '../components/Sidebar.jsx'
 import ChatHistorySidebar from "../components/ChatHistorySidebar.jsx";
-import { useUser } from "../../userProvider.jsx";
+import { useUser } from "../../UserProvider.jsx";
 
 const EditProfilePage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import LoginForm from "../components/LoginForm.jsx";
 import { Link } from 'react-router-dom';
-import { useUser } from "../../userProvider.jsx";
+import { useUser } from "../../UserProvider.jsx";
 
 
 const LoginPage = () => {

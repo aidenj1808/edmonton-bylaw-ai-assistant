@@ -3,8 +3,8 @@ import cors from "cors";
 import dotenv from 'dotenv';
 import  connectDB from "./src/config/db.js";
 // Import route files
-import userRoutes from "./src/routes/users.js";
 import dbUsersRoute from "./src/routes/dbUsers.js";
+import chatsRoute from "./src/routes/chats.js"
 
 dotenv.config();
 
@@ -18,8 +18,9 @@ app.use(cors()); // Enable CORS for all routes
 connectDB();
 
 // Use the routes with appropriate prefixes
-app.use("/users", userRoutes);
+//app.use("/users", userRoutes);
 app.use("/dbUsers", dbUsersRoute);
+app.use("/chats", chatsRoute);
 
 
 // Start the server

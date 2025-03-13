@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useUser } from "../../userProvider.jsx";
+import { useUser } from "../../UserProvider.jsx";
 import { useNavigate } from "react-router-dom";
 
 const UserInformationForm = ({title, buttonText, onSubmit, initialData}) => {
@@ -65,7 +65,6 @@ const UserInformationForm = ({title, buttonText, onSubmit, initialData}) => {
   const updateUser = async (userData) => {
     try{
       const url = "http://localhost:5002/dbUsers/" + encodeURIComponent(userData.email);
-      console.log("UPDATING: " + JSON.stringify(userData));
       const response = await fetch(url, {
         method: 'PUT', // Specify the method
         headers: {
@@ -80,7 +79,6 @@ const UserInformationForm = ({title, buttonText, onSubmit, initialData}) => {
       }
   
       const data = await response.json();
-      console.log('User updated:', data); // Handle the success
       setUserData(formData);
       setFormData(formData);
       onSubmit(formData);

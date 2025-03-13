@@ -5,7 +5,7 @@ import Header from "../components/Header.jsx";
 import Sidebar from '../components/Sidebar.jsx'
 import ChatHistorySidebar from '../components/ChatHistorySidebar.jsx'
 import ChatInput from "../components/ChatInput.jsx";
-import { useUser } from "../../userProvider.jsx";
+import { useUser } from "../../UserProvider.jsx";
 
 const HomePage = ({buttons}) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -14,12 +14,6 @@ const HomePage = ({buttons}) => {
     const location = useLocation();
 
     const { user, setUser } = useUser();
-
-    useEffect(() => {
-      if (user) {
-        console.log("User is:", user);
-      }
-    }, [user]);
   
     const userData = location.state; 
 
