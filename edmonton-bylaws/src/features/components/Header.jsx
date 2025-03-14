@@ -2,9 +2,13 @@ import "../CSS/Header.css"
 import profileIcon from '../../assets/profileIcon.png'
 import { Link, useNavigate } from 'react-router-dom'
 
-const Header = ({toggleSidebar}) => {
+const Header = ({toggleSidebar, userData}) => {
   const navigate = useNavigate();
 
+  const handleEditProfile = () => {
+    navigate('/edit-profile', { state: userData });
+  };
+  
     return (
       <div class ="head">
         <div class = "left">
@@ -15,8 +19,8 @@ const Header = ({toggleSidebar}) => {
         <div class ="dropdown">
             <button> <img src={profileIcon} alt="Profile" class="profileIcon"/> </button>
             <div class = "content">
-                <Link to="/edit-profile">Edit Profile</Link>
-                <Link to="/">Log Out</Link>
+              <Link to={{ pathname: '/edit-profile', state: userData }}>Edit Profile</Link>
+              <Link to="/">Log Out</Link>
             </div>
         </div>
       </div>

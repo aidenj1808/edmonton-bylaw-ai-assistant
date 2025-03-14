@@ -5,12 +5,17 @@ import Header from "../components/Header.jsx";
 import Sidebar from '../components/Sidebar.jsx'
 import ChatHistorySidebar from '../components/ChatHistorySidebar.jsx'
 import ChatInput from "../components/ChatInput.jsx";
+import { useUser } from "../../UserProvider.jsx";
 
 const HomePage = ({buttons}) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isChatHistorySidebar, setIsChatHistorySidebar] = useState(false);
     const [selectedConversation, setSelectedConversation] = useState([]);
     const location = useLocation();
+
+    const { user, setUser } = useUser();
+  
+    const userData = location.state; 
 
     // Extract the passed state (buttons or dataStored)
     useEffect(() => {
@@ -20,7 +25,7 @@ const HomePage = ({buttons}) => {
     }, [location.state?.selected]);
 
     // this would be passed from the login
-    const [userEmail] = useState("user@example.com");
+    const [userEmail] = useState(user.email);
 
     // Toggle sidebar visibility
     const toggleSidebar = () => {
@@ -39,7 +44,7 @@ const HomePage = ({buttons}) => {
 
     return (
         <div class ="homepage">
-            <Header toggleSidebar={toggleSidebar}/>
+            <Header toggleSidebar={toggleSidebar} userData={userData}/>
             
             <div className={`main-content ${isSidebarOpen ? '' : 'sidebar-closed'}`}>
                 {isChatHistorySidebar ? (

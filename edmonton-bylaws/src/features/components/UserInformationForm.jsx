@@ -1,33 +1,22 @@
 import React, { useEffect, useState } from "react";
+import { useUser } from "../../UserProvider.jsx";
 import { useNavigate } from "react-router-dom";
-import axios from "../../mocks/axiosMock";
 
-const UserInformationForm = ({title, buttonText, onSubmit, initialData }) => {
+const UserInformationForm = ({title, buttonText, onSubmit, initialData}) => {
     // State variables to store form input values
-    const [formData, setFormData] = useState({
-        firstName: initialData?.firstName || '',
-        lastName: initialData?.lastName || '',
-        email: initialData?.email || '',
-        password: initialData?.password || '',
-    });
-
+    const [formData, setFormData] = useState(initialData);
+    const { setUser } = useUser();
+    const [userData, setUserData] = useState(formData);
     const [errors, setErrors] = useState({});
-    const [users, setUsers] = useState([]);
     const navigate = useNavigate();
-
-    useEffect(() => {
-      axios
-        .get("/api/userdata")
-        .then((response) => {
-          const userData = response.data;
-          setUsers(userData);
-        })
-    }, []);
 
     // Handle form input change
     const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+      const { name, value } = e.target;
+      setFormData((prevData) => {
+        const updatedData = { ...prevData, [name]: value };
+        return updatedData;
+      });
   };
 
   // Validate form fields
@@ -35,7 +24,7 @@ const UserInformationForm = ({title, buttonText, onSubmit, initialData }) => {
     const errors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    let userEmail = users.find(({ email }) => email === formData.email);
+    let userEmail = formData.email;
     if (!userEmail) {
       userEmail = null;
     } else {
@@ -43,9 +32,6 @@ const UserInformationForm = ({title, buttonText, onSubmit, initialData }) => {
     }
 
     let hasEmail = false;
-    if (userEmail) {
-      hasEmail = formData.email === userEmail;  
-    }
 
     if (hasEmail) errors.email = "Email is already registered.";
     if (!formData.firstName) errors.firstName = "First name is required.";
@@ -65,13 +51,69 @@ const UserInformationForm = ({title, buttonText, onSubmit, initialData }) => {
     e.preventDefault();
 
     if (validateForm()) {
-        onSubmit(formData);
-        console.log("Form submitted successfully:", formData);
-        localStorage.setItem("registrationDTO", JSON.stringify(formData));
-        if (buttonText === "Register"){
-          navigate("/home"); // Navigate to the home page
+      if (buttonText === "Save Changes"){
+        if(formData != userData){
+          updateUser(userData);
         }
+      } 
+      else{
+        createUser(formData);
+      }
     }
+  };
+
+  const updateUser = async (userData) => {
+    try{
+      const url = "http://localhost:5002/dbUsers/" + encodeURIComponent(userData.email);
+      const response = await fetch(url, {
+        method: 'PUT', // Specify the method
+        headers: {
+          'Content-Type': 'application/json', // Ensure content type is JSON
+        },
+        body: JSON.stringify(formData),
+      });
+      const errors = {};
+
+      if (!response.ok) {
+        throw new Error('Error updating user');
+      }
+  
+      const data = await response.json();
+      setUserData(formData);
+      setFormData(formData);
+      onSubmit(formData);
+
+    } catch (error) {
+      errors.email = "User already exists with that email";
+      setErrors(errors);
+      console.error('Error updating. Email already exists:'); // Handle errors
+    }
+  };
+
+  const createUser = async (userDTO) => {
+    try {
+      const response = await fetch("http://localhost:5002/dbUsers/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userDTO), // Send as JSON string
+      });
+  
+      // Check if the response is not OK (e.g., 400, 500)
+    const errors = {};
+    if (!response.ok) {
+      errors.email = "User already exists with that email."
+      setErrors(errors);
+      //alert(errors); 
+    }
+    else{
+      setUser(formData);
+      navigate("/home", {state: userDTO}); // Navigate to the home page
+    }
+  } catch (error) {
+    console.error("Error creating user:", error.message);
+  }
   };
 
   return (
