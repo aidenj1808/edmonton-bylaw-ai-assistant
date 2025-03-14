@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaArrowUp } from "react-icons/fa"; //https://react-icons.github.io/react-icons/search/#q=up%20arrow
-import {ChatDTO} from "../chatbot/chatbot-dto" 
+import {ChatDTO, ConversationDTO} from "../chatbot/chatbot-dto" 
 import {Agent} from "../chatbot/Agent.js"
 import {createRoot} from 'react-dom/client'
 import Markdown from 'https://esm.sh/react-markdown@10'
@@ -9,15 +9,21 @@ import { useLocation } from 'react-router-dom';
 const ChatInput = ({userEmail, conversation}) => {
     const [inputValue, setInputValue] = useState('');
     const [buttonVisible, setButtonVisible] = useState(false);
+    // stored values for data objects
     const [sequenceNumber, setSequenceNumber] = useState(1); 
-    const [messages, setMessages] = useState([]);
-    const [reset, setReset] = useState(0);
+    const [newConversation, setNewConversation] = useState(true);
+    const [conversationId, setConversationID] = useState('');
     const [lastChatDTO, setLastChatDTO] = useState(null);
     const [response, setResponse] = useState('');
+    // stored values to manage front end
+    const [messages, setMessages] = useState([]);
+    const [reset, setReset] = useState(0);
     const location = useLocation();
+    const chatRef = useRef(null); // Create a reference to chats for scroll
+    // tracks mount (api calls arnt made on mount)
+    const hasMounted = useRef(false);
 
     const agent = new Agent();
-    const chatRef = useRef(null); // Create a reference to chats for scroll
 
     async function handleResponse(prompt) {
         setResponse(await agent.answerPrompt(prompt));
@@ -39,10 +45,10 @@ const ChatInput = ({userEmail, conversation}) => {
     
         try{
             // Await agent and then set response
-            let response = handleResponse(inputValue);
+            handleResponse(inputValue);
 
             // Create a new ChatDTO with the current sequence number
-            const chatDTO = new ChatDTO(userEmail, inputValue, '', sequenceNumber);
+            const chatDTO = new ChatDTO(inputValue, '', sequenceNumber);
 
             // Store DTO to update response later
             setLastChatDTO(chatDTO);
@@ -61,29 +67,98 @@ const ChatInput = ({userEmail, conversation}) => {
         }
     };
 
-    const storeChat = async (chat) => {
+    const createConversation = async (conversation) => {
         try{
             const response = await fetch("http://localhost:5002/chats", {
                 method: 'POST', // Specify the method
                 headers: {
                 'Content-Type': 'application/json', // Ensure content type is JSON
                 },
-                body: JSON.stringify(chat),
+                body: JSON.stringify(conversation),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error creating conversation');
+              }
+
+            const data = await response.json();
+            //if (data.conversation._id != null){
+                setConversationID(data.conversation._id);
+                setNewConversation(false);
+                return data.conversation._id;
+            //}
+        } catch(error){
+
+        }
+    }
+
+    const storeChat = async (chat) => {
+        let chatWithConvoRef = chat;
+        if (chat.conversationRef == '' || chat.conversationRef == null){
+            chatWithConvoRef = {...chat, conversationRef: conversationId};
+        }
+        try{
+            const response = await fetch("http://localhost:5002/chats/chat/", {
+                method: 'POST', // Specify the method
+                headers: {
+                'Content-Type': 'application/json', // Ensure content type is JSON
+                },
+                body: JSON.stringify(chatWithConvoRef),
             });
 
             if (!response.ok) {
                 throw new Error('Error storing chat');
+            }
+            const data = await response.json();
+            return data.chat.prompt;
+        } catch(error){
+
+        }
+    }
+
+    const updateConversation = async (updateValues) => {
+        console.log("updating: " + JSON.stringify(updateValues));
+        try{
+            const response = await fetch("http://localhost:5002/chats/conversationReference/", {
+                method: 'PUT', // Specify the method
+                headers: {
+                'Content-Type': 'application/json', // Ensure content type is JSON
+                },
+                body: JSON.stringify(updateValues),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error updating conversation data');
               }
         } catch(error){
 
         }
     }
 
-    useEffect(() => {
-        // Once response is complete update the DTO
-        if (lastChatDTO != null){
+    useEffect(() => { // Response has been recieved, now we can store data
+        const runAsyncFunctions = async (conversation) => { // Enforces createConversation completing before storeChat
+            const id = await createConversation(conversation);
+            lastChatDTO.conversationRef = id;
+            setConversationID(id);
+            const prompt = await storeChat(lastChatDTO);
+            //console.log("update summary to : " + prompt);
+            await updateConversation({summary: prompt, conversationRef: id});
+        };
+
+        if (!hasMounted.current) { // skip if the change is just the value being mounted
+            hasMounted.current = true;
+            return; 
+        }
+
+        if (lastChatDTO != null && newConversation == false){
             lastChatDTO.response = response;
             storeChat(lastChatDTO);
+        }
+        // First chat in the sequence 
+        else if (lastChatDTO != null && newConversation == true){
+            lastChatDTO.response = response;
+            const conversation = new ConversationDTO(userEmail);
+            runAsyncFunctions(conversation);
         }
         // Update the last bot message with the actual response
         setMessages((prev) =>
@@ -134,7 +209,20 @@ const ChatInput = ({userEmail, conversation}) => {
         loadHistory(conversation);
     }, [conversation]);
 
-    useEffect(() => {
+    useEffect(() => { // Reset Visuals When new chat history is selected
+        if (!hasMounted.current) { // skip if the change is just the value being mounted
+            hasMounted.current = true;
+            return; 
+        }
+        if(lastChatDTO!= null){
+            lastChatDTO.conversationRef = conversationId;
+        }
+    }, [conversationId]);
+
+
+    useEffect(() => { // New conversation is started 
+        console.log("This is now a new conversation");
+        setNewConversation(true); // Rest conversation identifier
         setSequenceNumber(1); // Reset counter when the component mounts
       }, [location.key]);
 
