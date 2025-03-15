@@ -117,7 +117,6 @@ const ChatInput = ({userEmail, conversation}) => {
     }
 
     const updateConversation = async (updateValues) => {
-        console.log("updating: " + JSON.stringify(updateValues));
         try{
             const response = await fetch("http://localhost:5002/chats/conversationReference/", {
                 method: 'PUT', // Specify the method
@@ -141,7 +140,6 @@ const ChatInput = ({userEmail, conversation}) => {
             lastChatDTO.conversationRef = id;
             setConversationID(id);
             const prompt = await storeChat(lastChatDTO);
-            //console.log("update summary to : " + prompt);
             await updateConversation({summary: prompt, conversationRef: id});
         };
 

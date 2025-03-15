@@ -1,6 +1,6 @@
 import Chat from "../models/Chat.js"
 import Conversation from "../models/Conversation.js";
-
+import mongoose from 'mongoose';
 
 export const createConversation = async (req, res) => {
     try{
@@ -50,10 +50,27 @@ export const updateConversation = async (req, res) => {
       }
 }
 
+export const getConversations = async (req, res) => {
+    try {
+        const email = req.params.email.trim(); // Extract email from URL parameters
+
+        const conversations = await Conversation.find({userEmail: email});
+        if (!conversations) return res.status(404).json({ message: "User has no conversation" });
+        res.json(conversations);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 export const getChatHistory = async (req, res) => {
-    try{
+    try {
+        const id = new mongoose.Types.ObjectId(req.params.id); // Convert to ObjectId
+        console.log("querying with id: " + id);
 
-    }catch (error) {
-
+        const chats = await Chat.find({conversationRef: id});
+        if (!chats) return res.status(404).json({ message: "Conversation has no chats" });
+        res.json(chats);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 }

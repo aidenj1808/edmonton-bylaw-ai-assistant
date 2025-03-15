@@ -9,13 +9,10 @@ import { useUser } from "../../UserProvider.jsx";
 
 const HomePage = ({buttons}) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const [isChatHistorySidebar, setIsChatHistorySidebar] = useState(false);
     const [selectedConversation, setSelectedConversation] = useState([]);
     const location = useLocation();
-
+    const [isChatHistorySidebar, setIsChatHistorySidebar] = useState(location.state.sidebar || false);
     const { user, setUser } = useUser();
-  
-    const userData = location.state; 
 
     // Extract the passed state (buttons or dataStored)
     useEffect(() => {
@@ -44,7 +41,7 @@ const HomePage = ({buttons}) => {
 
     return (
         <div class ="homepage">
-            <Header toggleSidebar={toggleSidebar} userData={userData}/>
+            <Header toggleSidebar={toggleSidebar}/>
             
             <div className={`main-content ${isSidebarOpen ? '' : 'sidebar-closed'}`}>
                 {isChatHistorySidebar ? (
