@@ -8,21 +8,28 @@ import ChatInput from "../components/ChatInput.jsx";
 import { useUser } from "../../UserProvider.jsx";
 
 const HomePage = ({buttons}) => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const [isChatHistorySidebar, setIsChatHistorySidebar] = useState(false);
-    const [selectedConversation, setSelectedConversation] = useState([]);
     const location = useLocation();
-
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [selectedConversation, setSelectedConversation] = useState([]);
+    const [selectedConversationData, setSelectedConversationData] = useState(location.state.data || {});
+    const [isChatHistorySidebar, setIsChatHistorySidebar] = useState(location.state.sidebar || false);
     const { user, setUser } = useUser();
-  
-    const userData = location.state; 
 
     // Extract the passed state (buttons or dataStored)
     useEffect(() => {
       if (location.state?.selected) {
         setSelectedConversation(location.state.selected);
+        console.log("Selected Conversation: " +selectedConversation)
+      }
+      if (location.state?.data){
+        setSelectedConversationData(location.state.data);
+        console.log("Conversation Data: "+ JSON.stringify(selectedConversationData));
       }
     }, [location.state?.selected]);
+
+    useEffect(()=>{
+      console.log("HOME Conversation Data: " + JSON.stringify(selectedConversationData));
+    },[selectedConversationData])
 
     // this would be passed from the login
     const [userEmail] = useState(user.email);
@@ -44,7 +51,7 @@ const HomePage = ({buttons}) => {
 
     return (
         <div class ="homepage">
-            <Header toggleSidebar={toggleSidebar} userData={userData}/>
+            <Header toggleSidebar={toggleSidebar}/>
             
             <div className={`main-content ${isSidebarOpen ? '' : 'sidebar-closed'}`}>
                 {isChatHistorySidebar ? (
@@ -54,6 +61,7 @@ const HomePage = ({buttons}) => {
                   switchToOldSidebar={switchToOldSidebar}
                   buttons={buttons} 
                   setSelectedConversation={setSelectedConversation}
+                  setSelectedConversationData={setSelectedConversationData}
                   />
                 ) : (
                 <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} switchToChatHistorySidebar={switchToChatHistorySidebar} />
@@ -65,6 +73,7 @@ const HomePage = ({buttons}) => {
                   <ChatInput
                     userEmail = {userEmail}
                     conversation = {selectedConversation}
+                    passedConversationData = {selectedConversationData}
                   />
                   </div>
               </div>

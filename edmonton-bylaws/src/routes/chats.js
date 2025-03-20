@@ -1,9 +1,14 @@
 import express from "express";
 
-import { getChatHistory, storeChat } from "../controllers/chatsController.js"; 
+import {storeChat, createConversation, updateConversation, getConversations, getChatHistory, deleteChatHistory} from "../controllers/chatsController.js"; 
 
 const router = express.Router();
 
-router.post("/", storeChat);
+router.post("/", createConversation);
+router.post("/chat/", storeChat);
+router.put("/:conversationReference", updateConversation);
+router.get("/conversations/:email", getConversations);
+router.get("/:id", getChatHistory);
+router.delete("/:email",deleteChatHistory);
 
 export default router;

@@ -52,7 +52,7 @@ const EditProfilePage = () => {
                 )}
 
           <div class = "inner edit">
-            <h1 style = {styles.h1}>Hello, {userDTO.firstName}</h1>
+            <h1 style = {styles.h1}>Hello,  {userDTO.firstName}</h1>
 
             <UserInformationForm
             class = "form"
