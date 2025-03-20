@@ -6,13 +6,13 @@ import {createRoot} from 'react-dom/client'
 import Markdown from 'https://esm.sh/react-markdown@10'
 import { useLocation } from 'react-router-dom';
 
-const ChatInput = ({userEmail, conversation}) => {
+const ChatInput = ({userEmail, conversation, passedConversationData}) => {
     const [inputValue, setInputValue] = useState('');
     const [buttonVisible, setButtonVisible] = useState(false);
     // stored values for data objects
     const [sequenceNumber, setSequenceNumber] = useState(1); 
     const [newConversation, setNewConversation] = useState(true);
-    const [conversationId, setConversationID] = useState('');
+    const [conversationData, setConversationData] = useState(passedConversationData || {});
     const [lastChatDTO, setLastChatDTO] = useState(null);
     const [response, setResponse] = useState('');
     // stored values to manage front end
@@ -29,6 +29,13 @@ const ChatInput = ({userEmail, conversation}) => {
         setResponse(await agent.answerPrompt(prompt));
     }
 
+    useEffect(() => {
+        setConversationData(passedConversationData || {}); // Update when prop changes
+        if(passedConversationData.sequenceNumber != null){
+            setSequenceNumber(passedConversationData.sequenceNumber);
+        }
+      }, [passedConversationData]); 
+
     const resetComponent = () => {
         setReset(prev => prev + 1); // Reset state
     };
@@ -40,6 +47,9 @@ const ChatInput = ({userEmail, conversation}) => {
     };
 
     const handleSubmit = () => {    
+        console.log(conversationData);
+        console.log("New Conversation: " + newConversation);
+
         // Increment sequence number for next message
         setSequenceNumber((prev) => prev + 1);
     
@@ -83,9 +93,9 @@ const ChatInput = ({userEmail, conversation}) => {
 
             const data = await response.json();
             //if (data.conversation._id != null){
-                setConversationID(data.conversation._id);
-                setNewConversation(false);
-                return data.conversation._id;
+            conversationData.id = data.conversation._id;
+            setNewConversation(false);
+            return data.conversation._id;
             //}
         } catch(error){
 
@@ -93,10 +103,12 @@ const ChatInput = ({userEmail, conversation}) => {
     }
 
     const storeChat = async (chat) => {
+        console.log(chat);
         let chatWithConvoRef = chat;
         if (chat.conversationRef == '' || chat.conversationRef == null){
-            chatWithConvoRef = {...chat, conversationRef: conversationId};
+            chatWithConvoRef = {...chat, conversationRef: conversationData.conversationID};
         }
+        console.log(chatWithConvoRef);
         try{
             const response = await fetch("http://localhost:5002/chats/chat/", {
                 method: 'POST', // Specify the method
@@ -138,7 +150,10 @@ const ChatInput = ({userEmail, conversation}) => {
         const runAsyncFunctions = async (conversation) => { // Enforces createConversation completing before storeChat
             const id = await createConversation(conversation);
             lastChatDTO.conversationRef = id;
-            setConversationID(id);
+            conversationData.id = id;
+            //setConversationID(id);
+            console.log(lastChatDTO);
+            console.log(id);
             const prompt = await storeChat(lastChatDTO);
             await updateConversation({summary: prompt, conversationRef: id});
         };
@@ -147,7 +162,6 @@ const ChatInput = ({userEmail, conversation}) => {
             hasMounted.current = true;
             return; 
         }
-
         if (lastChatDTO != null && newConversation == false){
             lastChatDTO.response = response;
             storeChat(lastChatDTO);
@@ -156,6 +170,7 @@ const ChatInput = ({userEmail, conversation}) => {
         else if (lastChatDTO != null && newConversation == true){
             lastChatDTO.response = response;
             const conversation = new ConversationDTO(userEmail);
+            console.log(conversation);
             runAsyncFunctions(conversation);
         }
         // Update the last bot message with the actual response
@@ -166,13 +181,12 @@ const ChatInput = ({userEmail, conversation}) => {
         );
 
         // Save to local Storage
-        saveToLocalStorage(lastChatDTO);
-        console.log("Saved:", lastChatDTO);
+        //saveToLocalStorage(lastChatDTO);
+        //console.log("Saved:", lastChatDTO);
         }, [response])
 
     useEffect(() => {
-        console.log(messages);
-
+        //console.log(messages);
         if (chatRef.current) {
         chatRef.current.scrollIntoView({behaviour: "smooth", transition: "transform 0.3s ease"}); // Auto-scroll to bottom
         }
@@ -208,18 +222,23 @@ const ChatInput = ({userEmail, conversation}) => {
     }, [conversation]);
 
     useEffect(() => { // Reset Visuals When new chat history is selected
+        console.log("Conversation Data Changed");
+        console.log(conversationData);
         if (!hasMounted.current) { // skip if the change is just the value being mounted
             hasMounted.current = true;
             return; 
         }
-        if(lastChatDTO!= null){
-            lastChatDTO.conversationRef = conversationId;
+        if(Object.keys(conversationData).length !== 0){
+            setNewConversation(false);
         }
-    }, [conversationId]);
+        if(lastChatDTO!= null){
+            lastChatDTO.conversationRef = conversationData.id;
+        }
+    }, [conversationData]);
 
 
     useEffect(() => { // New conversation is started 
-        console.log("This is now a new conversation");
+        setConversationData({});
         setNewConversation(true); // Rest conversation identifier
         setSequenceNumber(1); // Reset counter when the component mounts
       }, [location.key]);

@@ -4,7 +4,7 @@ import "../CSS/Sidebar.css"; // Sidebar styles
 import { Link, useLocation, useNavigate} from 'react-router-dom';
 import { useUser } from "../../UserProvider.jsx";
 
-function ChatHistorySidebar({ isOpen, switchToOldSidebar, setSelectedConversation }) {
+function ChatHistorySidebar({ isOpen, switchToOldSidebar, setSelectedConversation, setSelectedConversationData }) {
   const [buttons, setButtons] = useState([]);
   const [location, setLocation] = useState(useLocation());
   const[needsUpdate, setNeedsUpdate] = useState(true);
@@ -16,13 +16,13 @@ function ChatHistorySidebar({ isOpen, switchToOldSidebar, setSelectedConversatio
   const [conversations, setConversations] = useState(() => {
     // Try to get data from localStorage on initial load
     const savedConversations = localStorage.getItem("savedConversations");
-    return savedConversations ? JSON.parse(savedConversations) : null;
+    return savedConversations ? JSON.parse(savedConversations) : [];
   });
 
   const clearChat = () => {
     localStorage.removeItem("chatDTOs");
-    //setDataStored([]);  // Clear chat data from state
-    setButtons([]);      // Clear buttons from state
+    deleteChatHistory();
+    setNeedsUpdate(true);
   };
 
 
@@ -30,9 +30,8 @@ function ChatHistorySidebar({ isOpen, switchToOldSidebar, setSelectedConversatio
     const fetchData = async () => {
       try {
         if (!conversations || needsUpdate == true) { 
-          await getConversations();
-          //setConversations(conversations.sort((a, b) => new Date(b.date) - new Date(a.date)));
-          setNeedsUpdate(false);
+          await getConversations(); // this updates conversations
+          setNeedsUpdate(prev => prev ? false : prev);  // Only update if true
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -41,25 +40,6 @@ function ChatHistorySidebar({ isOpen, switchToOldSidebar, setSelectedConversatio
 
     fetchData();
   }, [needsUpdate]);
-  
-  /*useEffect(() => {
-    axios
-      .get("/api/chathistorydata")
-      .then((response) => {
-        const fetchedData = response.data;
-        let existingData = JSON.parse(localStorage.getItem("chatDTOs")) || [];
-        existingData = existingData.filter(item => item !== null);
-        const combinedData = existingData.concat(fetchedData);
-        const groupedData = groupByDateAndSequence(combinedData);
-        setDataStored(groupedData); 
-        setButtons(groupedData);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.toString());
-        setLoading(false);
-      });
-  }, []);*/
 
   const getConversations = async () => {
     try{
@@ -76,8 +56,9 @@ function ChatHistorySidebar({ isOpen, switchToOldSidebar, setSelectedConversatio
       }
 
       const data = await response.json();
-      setConversations(data.sort((a, b) => new Date(b.date) - new Date(a.date)));
-      localStorage.setItem("savedConversations", JSON.stringify(data)); // Store in localStorage
+      const sortedData = data.sort((a, b) => new Date(b.date) - new Date(a.date))
+      setConversations(sortedData);
+      localStorage.setItem("savedConversations", JSON.stringify(sortedData)); // Store in localStorage
     } catch(error){
       console.log(error);
     }
@@ -98,6 +79,27 @@ const getChats = async (id) => {
 
     const data = await response.json();
     return data;
+  } catch(error){
+    console.log(error);
+  }
+}
+
+const deleteChatHistory = async () => {
+  console.log(user.email)
+  try{
+    const url = "http://localhost:5002/chats/" + encodeURIComponent(user.email);
+    const response = await fetch(url, {
+        method: 'DELETE', // Specify the method
+        headers: {
+        'Content-Type': 'application/json', // Ensure content type is JSON
+        },
+    });
+
+    if (!response.ok) {
+      throw new Error('Error finding conversations');
+    }
+
+    localStorage.removeItem(savedConversations); // remove from local storagge
   } catch(error){
     console.log(error);
   }
@@ -141,14 +143,21 @@ const getChats = async (id) => {
   const handleTopicClick = async (index) => {
     console.log(location.pathname);
     const chats = await getChats(conversations[index]._id);
-    if (location.pathname != "/home"){
-      //const selectedGroup = await flattenGroupAtIndex(dataStored, index);
+
+    const chatData = {
+      conversationID: conversations[index]._id,
+      sequenceNumber: chats[chats.length -1].sequenceNumber + 1,
+    }
+    console.log(chatData);
+    if (location.pathname != "/home"){ // Not on the home screen
       // get chats and send to home
-      navigate("/home", { state: {selected: chats} });
+      console.log("Sending Conversatin ID " + conversations[index]._id + "to the home screen");
+      navigate("/home", { state: {selected: chats, data: chatData} });
       return;
     }
-    //const selectedGroup = flattenGroupAtIndex(dataStored, index);
+    // Already on the home screen
     setSelectedConversation(chats);
+    setSelectedConversationData(chatData);
   };
 
   const currentDate = new Date();
