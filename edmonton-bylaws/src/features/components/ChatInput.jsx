@@ -6,7 +6,7 @@ import {createRoot} from 'react-dom/client'
 import Markdown from 'https://esm.sh/react-markdown@10'
 import { useLocation } from 'react-router-dom';
 
-const ChatInput = ({userEmail, conversation, passedConversationData}) => {
+const ChatInput = ({userEmail, conversation, passedConversationData, userID}) => {
     const [inputValue, setInputValue] = useState('');
     const [buttonVisible, setButtonVisible] = useState(false);
     // stored values for data objects
@@ -78,6 +78,7 @@ const ChatInput = ({userEmail, conversation, passedConversationData}) => {
     };
 
     const createConversation = async (conversation) => {
+        console.log("Creating conversation: " + JSON.stringify(conversation));
         try{
             const response = await fetch("http://localhost:5002/chats", {
                 method: 'POST', // Specify the method
@@ -152,7 +153,7 @@ const ChatInput = ({userEmail, conversation, passedConversationData}) => {
             lastChatDTO.conversationRef = id;
             conversationData.id = id;
             //setConversationID(id);
-            console.log(lastChatDTO);
+            console.log("HERE: " + JSON.stringify(lastChatDTO));
             console.log(id);
             const prompt = await storeChat(lastChatDTO);
             await updateConversation({summary: prompt, conversationRef: id});
@@ -169,7 +170,7 @@ const ChatInput = ({userEmail, conversation, passedConversationData}) => {
         // First chat in the sequence 
         else if (lastChatDTO != null && newConversation == true){
             lastChatDTO.response = response;
-            const conversation = new ConversationDTO(userEmail);
+            const conversation = new ConversationDTO(userID);
             console.log(conversation);
             runAsyncFunctions(conversation);
         }

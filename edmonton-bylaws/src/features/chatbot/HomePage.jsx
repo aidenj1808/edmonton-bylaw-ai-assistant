@@ -33,6 +33,7 @@ const HomePage = ({buttons}) => {
 
     // this would be passed from the login
     const [userEmail] = useState(user.email);
+    const [userID] = useState(user._id);
 
     // Toggle sidebar visibility
     const toggleSidebar = () => {
@@ -48,6 +49,10 @@ const HomePage = ({buttons}) => {
     const switchToOldSidebar = () => {
         setIsChatHistorySidebar(false); 
     };
+
+    useEffect(() => {
+      console.log("User ID: " + userID);
+    },[userID])
 
     return (
         <div class ="homepage">
@@ -72,6 +77,7 @@ const HomePage = ({buttons}) => {
                 <div class = "chatDiv">
                   <ChatInput
                     userEmail = {userEmail}
+                    userID = {userID}
                     conversation = {selectedConversation}
                     passedConversationData = {selectedConversationData}
                   />
