@@ -243,7 +243,19 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
         setNewConversation(true); // Rest conversation identifier
         setSequenceNumber(1); // Reset counter when the component mounts
       }, [location.key]);
-
+    useEffect(() => {
+        const listener = event => {
+            if (event.code === "Enter" || event.code === "NumpadEnter"){
+                console.log("Enter key was pressed.")
+                event.preventDefault();
+                handleSubmit();
+            }
+        };
+        document.addEventListener("keydown", listener);
+        return () => {
+            document.removeEventListener("keydown",listener);
+        }
+    }, []);
     const LoadingDots = () => (
         <>
           <span style={{ ...styles.dot, animationDelay: "0s" }}></span>
@@ -262,7 +274,7 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
       );      
 
     return (
-        <div class = "chatDiv" style={styles.chatDiv} key={reset}>
+        <div className = "chatDiv" style={styles.chatDiv} key={reset}>
 
         <div style={styles.messagesContainer}>
             <h1 style={styles.h1}>Welcome to the City of Edmonton Bylaw AI Assistant</h1>
@@ -283,7 +295,7 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
             ))}
         </div>
 
-            <div class ="inputDiv" styles={styles.div}>
+            <div className ="inputDiv" styles={styles.div}>
                 <input 
                     id = "chatInput"
                     value = {inputValue}
@@ -326,12 +338,14 @@ const styles = {
         top: "20px",
         background: "none",
         fontSize: "1vw",
+        marginLeft: "-6rem",
     },
     buttonIconStyle: {
         fill: "white",
-        fontSize: "50px",
+        fontSize: "45px",
         backgroundColor: "#005087",
-        borderRadius: "14%"
+        borderRadius: "14%",
+        opacity: "0.6",
     },
     messagesContainer: {
         flex: 1,

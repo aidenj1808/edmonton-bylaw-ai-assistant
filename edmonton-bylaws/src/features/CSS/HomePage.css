@@ -18,3 +18,6 @@
     font-size: 0.8rem;
     color: red;
 }
+#chatButton:hover{
+    border: none;
+}
