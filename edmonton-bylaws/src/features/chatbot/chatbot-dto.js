@@ -19,8 +19,8 @@ export class ChatDTO {
 }*/
 
 export class ConversationDTO{
-  constructor(userEmail) {
-    this.userEmail = userEmail;
+  constructor(userID) {
+    this.userID = userID;
     const jsDate = new Date();
     this.date = jsDate.toISOString();
     this.summary = " ";

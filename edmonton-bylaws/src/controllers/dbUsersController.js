@@ -63,20 +63,6 @@ export const updateDBUser = async (req, res) => {
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
     }
-    else{
-      if(oldEmail !== newEmail){ // Only update conversation if email was changed
-      // Step 2. Update all conversations to match updated email
-      const conversations = await Conversation.find({userEmail: oldEmail}).session(session);
-
-      if (!conversations) return res.status(404).json({ message: "User has no conversation" });
-
-      // Update all conversation objects
-      for(const conversation of conversations){
-        conversation.userEmail = newEmail;
-        await conversation.save({session})
-      }
-      }
-    }
     // end session
     await session.commitTransaction();
     session.endSession();

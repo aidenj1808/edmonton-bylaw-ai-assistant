@@ -99,9 +99,9 @@ export const getConversations = async (req, res) => {
     session.startTransaction();
     
     try {
-        const email = req.params.email.trim(); // Extract email from URL parameters
+        const id = req.params.email.trim(); // Extract email from URL parameters
 
-        const conversations = await Conversation.find({userEmail: email}).session(session);
+        const conversations = await Conversation.find({userID: id}).session(session);
         if (!conversations) return res.status(404).json({ message: "User has no conversation" });
 
         // commit transaction and end session 

@@ -43,7 +43,7 @@ function ChatHistorySidebar({ isOpen, switchToOldSidebar, setSelectedConversatio
 
   const getConversations = async () => {
     try{
-      const url = "http://localhost:5002/chats/conversations/" + encodeURIComponent(user.email);
+      const url = "http://localhost:5002/chats/conversations/" + encodeURIComponent(user._id);
       const response = await fetch(url, {
           method: 'GET', // Specify the method
           headers: {
