@@ -243,12 +243,14 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
         setNewConversation(true); // Rest conversation identifier
         setSequenceNumber(1); // Reset counter when the component mounts
       }, [location.key]);
+    // Enter keydown event listener
     useEffect(() => {
         const listener = event => {
             if (event.code === "Enter" || event.code === "NumpadEnter"){
                 console.log("Enter key was pressed.")
                 event.preventDefault();
-                handleSubmit();
+                document.getElementById("chatButton").click()
+                // handleSubmit();
             }
         };
         document.addEventListener("keydown", listener);
@@ -256,6 +258,7 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
             document.removeEventListener("keydown",listener);
         }
     }, []);
+
     const LoadingDots = () => (
         <>
           <span style={{ ...styles.dot, animationDelay: "0s" }}></span>
@@ -302,14 +305,13 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
                     onChange={handleInputChange} 
                     style = {styles.input} placeholder = "Ask Edmonton Bylaws anything...">
                 </input>
-                {buttonVisible && (
                 <button 
                     id = "chatButton" 
                     type = "submit" 
                     style = {styles.button}
                     onClick={handleSubmit}>
-                    <FaArrowUp style = {styles.buttonIconStyle}/>
-                </button>)}
+                    <FaArrowUp style = {buttonVisible ? (styles.buttonIconStyleVisible): (styles.buttonIconStyle)}/>
+                </button>
             </div>
             <span className="disclaimer">*Disclaimer: AI is experimental, messages may be inaccurate and provided advice are not legally verified</span>
         </div>
@@ -341,6 +343,13 @@ const styles = {
         marginLeft: "-6rem",
     },
     buttonIconStyle: {
+        fill: "white",
+        fontSize: "45px",
+        backgroundColor: "#005087",
+        borderRadius: "14%",
+        opacity: "0.2",
+    },
+    buttonIconStyleVisible: {
         fill: "white",
         fontSize: "45px",
         backgroundColor: "#005087",
