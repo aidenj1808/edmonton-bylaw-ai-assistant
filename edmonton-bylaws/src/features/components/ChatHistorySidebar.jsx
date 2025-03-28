@@ -85,9 +85,8 @@ const getChats = async (id) => {
 }
 
 const deleteChatHistory = async () => {
-  console.log(user.email)
   try{
-    const url = "http://localhost:5002/chats/" + encodeURIComponent(user.email);
+    const url = "http://localhost:5002/chats/" + encodeURIComponent(user._id);
     const response = await fetch(url, {
         method: 'DELETE', // Specify the method
         headers: {
@@ -99,6 +98,7 @@ const deleteChatHistory = async () => {
       throw new Error('Error finding conversations');
     }
 
+    console.log("done");
     localStorage.removeItem(savedConversations); // remove from local storagge
   } catch(error){
     console.log(error);

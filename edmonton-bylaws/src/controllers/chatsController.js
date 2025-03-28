@@ -143,22 +143,23 @@ export const deleteChatHistory = async (req,res) => {
 
   try{
     // Step 1. Get all conversations
-    const email = req.params.email.trim(); // Extract email from URL parameters
+    const id = req.params.id.trim(); 
 
-    const conversations = await Conversation.find({userEmail: email}).session(session);
+    const conversations = await Conversation.find({userID: id}).session(session);
     if (!conversations) return res.status(404).json({ message: "User has no conversations to delete" });
     let conversationIDs = []
-    for(const conversation of conversations){
-        conversationIDs.push(conversation._id);
+    if (conversations != {}){
+        for(const conversation of conversations){
+            conversationIDs.push(conversation._id);
+        }
+        const deletedConversations = await Conversation.deleteMany({userID: id}).session(session);
+        if (!deletedConversations) return res.status(404).json({ message: "User has no conversations to delete" });
+
+
+        // Step 2. Delete all chats with references to any of the conversations 
+        const chats = await Chat.deleteMany({conversationRef: {$in: conversationIDs}}).session(session);
+        if (!chats) return res.status(404).json({ message: "User has no chats to delte" });
     }
-    const deletedConversations = await Conversation.deleteMany({userEmail: email}).session(session);
-    if (!deletedConversations) return res.status(404).json({ message: "User has no conversations to delete" });
-
-
-    // Step 2. Delete all chats with references to any of the conversations 
-    const chats = await Chat.deleteMany({conversationRef: {$in: conversationIDs}}).session(session);
-    if (!chats) return res.status(404).json({ message: "User has no chats to delte" });
-
     // commit transaction and end session 
     await session.commitTransaction();
     session.endSession();

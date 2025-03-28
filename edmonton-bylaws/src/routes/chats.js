@@ -9,6 +9,6 @@ router.post("/chat/", storeChat);
 router.put("/:conversationReference", updateConversation);
 router.get("/conversations/:email", getConversations);
 router.get("/:id", getChatHistory);
-router.delete("/:email",deleteChatHistory);
+router.delete("/:id",deleteChatHistory);
 
 export default router;
