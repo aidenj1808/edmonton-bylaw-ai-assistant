@@ -71,6 +71,8 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
 
             // Clear input
             setInputValue("");
+
+            setButtonVisible(false);
         }
         catch(error){
             const botMessage = { text: "Failed to reach server. Please try again", sender: "bot" };
@@ -337,10 +339,11 @@ const styles = {
     },
     button: {
         position: "relative",
-        top: "20px",
+        top: "18.5px",
         background: "none",
         fontSize: "1vw",
         marginLeft: "-6rem",
+        pointerEvents: null,
     },
     buttonIconStyle: {
         fill: "white",
@@ -354,7 +357,7 @@ const styles = {
         fontSize: "45px",
         backgroundColor: "#005087",
         borderRadius: "14%",
-        opacity: "0.6",
+        opacity: "1.0",
     },
     messagesContainer: {
         flex: 1,
