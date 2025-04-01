@@ -58,13 +58,12 @@
     display: flex; 
     margin: auto; 
     margin-top: 3rem;
-
 }
 
 /* Style for the input field */
 #searchInputPDF {
     padding: 10px;
-    width: 300px;
+    width: 500px;
     border: 2px solid #ddd;
     border-radius: 5px;
     font-size: 1em;
@@ -98,5 +97,10 @@
 .searchHeader{
     text-align: center;
     font-size: 2.5rem;
+    margin-bottom: -1rem;
+}
+
+p{
+    margin-top: 2rem;
     margin-bottom: -1rem;
 }
