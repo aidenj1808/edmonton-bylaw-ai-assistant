@@ -7,10 +7,10 @@ import Markdown from 'https://esm.sh/react-markdown@10'
 import { useLocation } from 'react-router-dom';
 import ollama from "ollama";
 import {useDispatch} from 'react-redux'
-import {createConversation}  from "../../redux/chatHistoryReduer.js";
+import {createConversation, updateConversation}  from "../../redux/chatHistoryReduer.js";
 
 
-const ChatInput = ({userEmail, conversation, passedConversationData, userID}) => {
+const ChatInput = ({ conversation, passedConversationData, userID}) => {
     const [inputValue, setInputValue] = useState('');
     const [buttonVisible, setButtonVisible] = useState(false);
     // stored values for data objects
@@ -19,6 +19,7 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
     const [conversationData, setConversationData] = useState(passedConversationData || {});
     const [lastChatDTO, setLastChatDTO] = useState(null);
     const [response, setResponse] = useState('');
+    const [responseFinished, setResponseFinished] = useState(false);
     // stored values to manage front end
     const [messages, setMessages] = useState([]);
     const [reset, setReset] = useState(0);
@@ -38,8 +39,10 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
         let accumulatedResponse = "";
         for await(const part of response) {
             accumulatedResponse += part.message.content;
+            console.log("updating response");
             setResponse(accumulatedResponse);
         }
+        setResponseFinished(true);
     }
 
     useEffect(() => {
@@ -92,33 +95,6 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
         }
     };
 
-    /*THIS NEEDS TO BE REDUX 
-    const createConversation = async (conversation) => {
-        console.log("Creating conversation: " + JSON.stringify(conversation));
-        try{
-            const response = await fetch("http://localhost:5002/chats", {
-                method: 'POST', // Specify the method
-                headers: {
-                'Content-Type': 'application/json', // Ensure content type is JSON
-                },
-                body: JSON.stringify(conversation),
-            });
-
-            if (!response.ok) {
-                throw new Error('Error creating conversation');
-              }
-
-            const data = await response.json();
-            //if (data.conversation._id != null){
-            conversationData.id = data.conversation._id;
-            setNewConversation(false);
-            return data.conversation._id;
-            //}
-        } catch(error){
-
-        }
-    }*/
-
     const storeChat = async (chat) => {
         console.log(chat);
         let chatWithConvoRef = chat;
@@ -144,64 +120,51 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
 
         }
     }
-
-    const updateConversation = async (updateValues) => {
-        try{
-            const response = await fetch("http://localhost:5002/chats/conversationReference/", {
-                method: 'PUT', // Specify the method
-                headers: {
-                'Content-Type': 'application/json', // Ensure content type is JSON
-                },
-                body: JSON.stringify(updateValues),
-            });
-
-            if (!response.ok) {
-                throw new Error('Error updating conversation data');
-              }
-        } catch(error){
-        }
-    }
-
-    // Response has been recieved, now we can store data
     useEffect(() => {
-        const runAsyncFunctions = async (conversation) => { // Enforces createConversation completing before storeChat
-            //const id = await createConversation(conversation);
-            conversation.summary = lastChatDTO.prompt;
-            const newConvo = await dispatch(createConversation(conversation));
-            const id = newConvo.payload.conversation._id;
-            setNewConversation(false);
-            lastChatDTO.conversationRef = id;
-            conversationData.id = id;
-            //setConversationID(id);
-            console.log("HERE: " + JSON.stringify(lastChatDTO));
-            console.log(id);
-            const prompt = await storeChat(lastChatDTO);
-            await updateConversation({summary: prompt, conversationRef: id});
-        };
-
-        if (!hasMounted.current) { // skip if the change is just the value being mounted
-            hasMounted.current = true;
-            return; 
-        }
-        if (lastChatDTO != null && newConversation == false){
-            lastChatDTO.response = response;
-            lastChatDTO.conversationRef = conversationData.id;
-            storeChat(lastChatDTO);
-        }
-        // First chat in the sequence 
-        else if (lastChatDTO != null && newConversation == true){
-            lastChatDTO.response = response;
-            const conversation = new ConversationDTO(userID);
-            console.log(conversation);
-            runAsyncFunctions(conversation);
-        }
         // Update the last bot message with the actual response
         setMessages((prev) =>
             prev.map((msg, index) =>
                 index === prev.length - 1 ? { ...msg, text: response } : msg
             )
         );
-    }, [response])
+    },[response])
+
+    // Response has been recieved, now we can store data
+    useEffect(() => {
+        if (responseFinished == true){
+            const runAsyncFunctions = async (conversation) => { // Enforces createConversation completing before storeChat
+                conversation.summary = lastChatDTO.prompt;
+                const newConvo = await dispatch(createConversation(conversation));
+                const id = newConvo.payload.conversation._id;
+                setNewConversation(false);
+                lastChatDTO.conversationRef = id;
+                conversationData.id = id;
+                //setConversationID(id);
+                console.log("HERE: " + JSON.stringify(lastChatDTO));
+                console.log(id);
+                const prompt = await storeChat(lastChatDTO);
+                await dispatch(updateConversation({summary: prompt, conversationRef: id}));
+            };
+            
+            if (!hasMounted.current) { // skip if the change is just the value being mounted
+                hasMounted.current = true;
+                return; 
+            }
+            if (lastChatDTO != null && newConversation == false){
+                lastChatDTO.response = response;
+                lastChatDTO.conversationRef = conversationData.id;
+                storeChat(lastChatDTO);
+            }
+            // First chat in the sequence 
+            else if (lastChatDTO != null && newConversation == true){
+                lastChatDTO.response = response;
+                const conversation = new ConversationDTO(userID);
+                console.log(conversation);
+                runAsyncFunctions(conversation);
+            }
+            setResponseFinished(false);
+        }
+    }, [responseFinished])
 
     
     // Auto-scroll to bottom of conversation when a chat history conversation is opened

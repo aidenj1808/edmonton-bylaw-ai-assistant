@@ -5,10 +5,6 @@ import { act } from 'react';
 export const fetchConversations = createAsyncThunk(
   'chatHistory/fetchConversations',
   async (userId,{rejectWithValue}) => {
-    /* //const userId = localStorage.getItem("userId"); // Ensure userId is in localStorage
-    if (!userId) {
-      throw new Error('User ID not found');
-    } */
     try{
         const response = await fetch(`http://localhost:5002/chats/conversations/${encodeURIComponent(userId)}`);
         if (!response.ok) throw new Error('Failed to fetch conversations');
@@ -22,69 +18,81 @@ export const fetchConversations = createAsyncThunk(
 
 // Delete user conversations 
 export const deleteConversations = createAsyncThunk(
-    'chatHistory/deleteConversations',
-    async (userId, {rejectWithValue}) => { 
-        try{
-            console.log("DELETING");
-            const response = await fetch('http://localhost:5002/chats/' + encodeURIComponent(userId),{
-                method: "DELETE",
-            });
-            if (!response.ok) throw new Error('Failed to delete conversations');
-            console.log("SUCCESS");
-            return userId;
-        }
-        catch (error) {
-            return rejectWithValue(error.message);
-        }
+  'chatHistory/deleteConversations',
+  async (userId, {rejectWithValue}) => { 
+    try{
+      const response = await fetch('http://localhost:5002/chats/' + encodeURIComponent(userId),{
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error('Failed to delete conversations');
+        return userId;
     }
+    catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
 )
 
 export const createConversation = createAsyncThunk(
-    'chatHistory/createConversation',
-    async (conversation, {rejectWithValue}) => {
-        try{
-            const response = await fetch("http://localhost:5002/chats", {
-                method: 'POST', // Specify the method
-                headers: {
-                'Content-Type': 'application/json', // Ensure content type is JSON
-                },
-                body: JSON.stringify(conversation),
-            });
+  'chatHistory/createConversation',
+  async (conversation, {rejectWithValue}) => {
+    try{
+      const response = await fetch("http://localhost:5002/chats", {
+        method: 'POST', // Specify the method
+        headers: {
+          'Content-Type': 'application/json', // Ensure content type is JSON
+        },
+        body: JSON.stringify(conversation),
+      });
 
-            if (!response.ok) {
-                throw new Error('Error creating conversation');
-              }
-
-            const data = await response.json();
-            return data;
-        }
-        catch(error){
-            return rejectWithValue(error.message);
-        }
+      if (!response.ok) {
+        throw new Error('Error creating conversation');
+      }
+      const data = await response.json();
+      return data;
     }
+    catch(error){
+      return rejectWithValue(error.message);
+    }
+  }
+)
+
+export const updateConversation = createAsyncThunk(
+  'chatHistory/updateConversation',
+  async(newConversation, {rejectWithValue}) => {
+    try{
+      const response = await fetch("http://localhost:5002/chats/conversationReference/", {
+          method: 'PUT', // Specify the method
+          headers: {
+          'Content-Type': 'application/json', // Ensure content type is JSON
+          },
+          body: JSON.stringify(newConversation),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error updating conversation data');
+      }
+      // Returns updated conversation
+      const conversation = await response.json();
+      console.log("updated conversation:");
+      console.log(conversation);
+      return conversation;
+      } catch(error){
+        return rejectWithValue(error.message);
+      }
+  }
 )
 
 
 const chatHistorySlice = createSlice({
   name: 'chatHistory',
   initialState: {
-    isSidebarOpen: true,
-    isChatHistorySidebar: false,
-    selectedConversation: null,
+    selectedConversation: {},
     conversations: [],
     status: 'idle',
     error: null,
   },
   reducers: {
-    toggleSidebar: (state) => {
-      state.isSidebarOpen = !state.isSidebarOpen;
-    },
-    switchToChatHistorySidebar: (state) => {
-      state.isChatHistorySidebar = true;
-    },
-    switchToOldSidebar: (state) => {
-      state.isChatHistorySidebar = false;
-    },
     setSelectedConversation: (state, action) => {
       state.selectedConversation = action.payload;
     },
@@ -127,10 +135,24 @@ const chatHistorySlice = createSlice({
       })
       .addCase(createConversation.rejected, (state,action) => {
         state.status = 'failed';
-        console.log(action.error.message);
+        state.error = action.error.message;
+      })
+      // Update Conversation
+      .addCase(updateConversation.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateConversation.fulfilled, (state, action) => {
+        state.status = 'succeded';
+        console.log("PAYLOAD");
+        console.log(action.payload);
+        //const { id, updatedData } = action.payload;
+        //state.conversations = state.conversations.map(conversation => {conversation.id === id ? { ...conversation, ...updatedData } : conversation});
+        //state.conversations.sort((a, b) => new Date(b.date) - new Date(a.date));
+      })
+      .addCase(updateConversation.rejected, (state,action) => {
+        state.status = 'failed';
         state.error = action.error.message;
       });
-
   },
 });
 
