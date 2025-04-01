@@ -4,49 +4,53 @@ import Header from "../components/Header.jsx";
 import Sidebar from '../components/Sidebar.jsx';
 import ChatHistorySidebar from '../components/ChatHistorySidebar.jsx';
 import ChatInput from '../components/ChatInput.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleSidebar, switchToChatHistorySidebar, switchToOldSidebar, setSelectedConversation } from '../../redux/chatHistoryReduer.js';
 
 const ChatHistory = () => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const [isChatHistorySidebar, setIsChatHistorySidebar] = useState(false);
-    const [selectedConversation, setSelectedConversation] = useState(null);
+    const { isSidebarOpen, isChatHistorySidebar, selectedConversation } = useSelector(state => state.chatHistory);
+
+    //const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    //const [isChatHistorySidebar, setIsChatHistorySidebar] = useState(false);
+    //const [selectedConversation, setSelectedConversation] = useState(null);
 
     // Toggle sidebar visibility
-    const toggleSidebar = () => {
+   /*  const toggleSidebar = () => {
         setIsSidebarOpen((prev) => !prev);
-    };
+    }; */
 
     // Switch to the chat history sidebar
-    const switchToChatHistorySidebar = () => {
+    /* const switchToChatHistorySidebar = () => {
         setIsChatHistorySidebar(true);
-    };
+    }; */
 
     // Switch back to the original sidebar
-    const switchToOldSidebar = () => {
+    /* const switchToOldSidebar = () => {
         setIsChatHistorySidebar(false);
-    };
+    }; */
 
-    const handleConversationSelection = (conversation) => {
+    /* const handleConversationSelection = (conversation) => {
         setSelectedConversation(conversation);
         console.log("HISTORY PAGE. " + selectedConversation);
-    };
+    }; */
         
     return (
         <div className="chathistory">
-            <Header toggleSidebar={toggleSidebar} />
+            <Header toggleSidebar={() => dispatch(toggleSidebar())} />
 
             <div className={`main-content ${isSidebarOpen ? '' : 'sidebar-closed'}`}>
                 {isChatHistorySidebar ? (
                     <ChatHistorySidebar
                         isOpen={isSidebarOpen}
                         toggleSidebar={toggleSidebar}
-                        switchToOldSidebar={switchToOldSidebar}
-                        onConversationSelect={handleConversationSelection}
+                        switchToOldSidebar={() => dispatch(switchToOldSidebar())}
+                        onConversationSelect={(conv) => dispatch(setSelectedConversation)}
                     />
                 ) : (
                     <Sidebar
                         isOpen={isSidebarOpen}
-                        toggleSidebar={toggleSidebar}
-                        switchToChatHistorySidebar={switchToChatHistorySidebar}
+                        toggleSidebar={() => dispatch(toggleSidebar)}
+                        switchToChatHistorySidebar={() => dispatch(switchToChatHistorySidebar)}
                     />
                 )}
 

@@ -5,6 +5,9 @@ import {Agent} from "../chatbot/Agent.js"
 import {createRoot} from 'react-dom/client'
 import Markdown from 'https://esm.sh/react-markdown@10'
 import { useLocation } from 'react-router-dom';
+import {useDispatch} from 'react-redux'
+import {createConversation}  from "../../redux/chatHistoryReduer.js";
+
 
 const ChatInput = ({userEmail, conversation, passedConversationData, userID}) => {
     const [inputValue, setInputValue] = useState('');
@@ -24,6 +27,7 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
     const hasMounted = useRef(false);
 
     const agent = new Agent();
+    const dispatch = useDispatch();
 
     async function handleResponse(prompt) {
         setResponse(await agent.answerPrompt(prompt));
@@ -79,6 +83,7 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
         }
     };
 
+    /*THIS NEEDS TO BE REDUX 
     const createConversation = async (conversation) => {
         console.log("Creating conversation: " + JSON.stringify(conversation));
         try{
@@ -103,7 +108,7 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
         } catch(error){
 
         }
-    }
+    }*/
 
     const storeChat = async (chat) => {
         console.log(chat);
@@ -151,7 +156,13 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
 
     useEffect(() => { // Response has been recieved, now we can store data
         const runAsyncFunctions = async (conversation) => { // Enforces createConversation completing before storeChat
-            const id = await createConversation(conversation);
+            //const id = await createConversation(conversation);
+            console.log(conversation);
+            const newConvo = await dispatch(createConversation(conversation));
+            console.log('NEW CONVO:');
+            console.log(newConvo);
+            const id = newConvo.payload.conversation._id;
+            setNewConversation(false);
             lastChatDTO.conversationRef = id;
             conversationData.id = id;
             //setConversationID(id);
@@ -183,29 +194,14 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
             )
         );
 
-        // Save to local Storage
-        //saveToLocalStorage(lastChatDTO);
-        //console.log("Saved:", lastChatDTO);
         }, [response])
 
     useEffect(() => {
-        //console.log(messages);
         if (chatRef.current) {
         chatRef.current.scrollIntoView({behaviour: "smooth", transition: "transform 0.3s ease"}); // Auto-scroll to bottom
         }
     }, [messages]); 
 
-    async function saveToLocalStorage(newItem) {
-        // Retrieve existing data or initialize an empty array
-        const existingData = JSON.parse(localStorage.getItem("chatDTOs")) || [];
-    
-        // Append new data
-        existingData.push(newItem);
-            
-        // Save updated array back to local storage
-        localStorage.setItem("chatDTOs", JSON.stringify(existingData));
-        
-    };
 
     const loadHistory = (conversation) => {
         if (conversation != []){
