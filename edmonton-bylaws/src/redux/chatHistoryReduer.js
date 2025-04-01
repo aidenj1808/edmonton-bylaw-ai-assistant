@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { act } from 'react';
 
 // Fetch conversations for a user
 export const fetchConversations = createAsyncThunk(
@@ -55,20 +56,6 @@ export const createConversation = createAsyncThunk(
               }
 
             const data = await response.json();
-
-            // Conversation created successfully, update summary
-            response = await fetch("http://localhost:5002/chats/conversationReference/", {
-                method: 'PUT', // Specify the method
-                headers: {
-                'Content-Type': 'application/json', // Ensure content type is JSON
-                },
-                body: JSON.stringify(updateValues),
-            });
-
-            if (!response.ok) {
-                throw new Error('Error updating conversation data');
-            }
-            //setNewConversation(false);
             return data;
         }
         catch(error){
@@ -138,8 +125,9 @@ const chatHistorySlice = createSlice({
         state.conversations.push(action.payload.conversation);
         state.conversations.sort((a, b) => new Date(b.date) - new Date(a.date));
       })
-      .addCase(createConversation.rejected, (state) => {
+      .addCase(createConversation.rejected, (state,action) => {
         state.status = 'failed';
+        console.log(action.error.message);
         state.error = action.error.message;
       });
 
