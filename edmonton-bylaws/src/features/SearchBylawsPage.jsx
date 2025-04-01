@@ -116,7 +116,7 @@ const SearchBylawsPage = () => {
     
               <div className = "inner">
                 <h1 className = "searchHeader">Search Bylaw Documents</h1>
-                  <p>Explore Edmonton's bylaws with ease. Search by keywords or topics and find what you need in seconds!</p>
+                  <p className="summary-text">Explore Edmonton's bylaws with ease. Search by keywords or topics and find what you need in seconds!</p>
                 <div className="search-container">
                       <input type="text" placeholder="Search Bylaws..." id="searchInputPDF" onChange={searchPDFs}/>
                       {/*<button type="button" className="button">Search</button>*/}
