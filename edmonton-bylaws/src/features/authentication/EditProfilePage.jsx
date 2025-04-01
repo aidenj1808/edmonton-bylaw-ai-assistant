@@ -5,10 +5,12 @@ import Header from "../components/Header.jsx";
 import Sidebar from '../components/Sidebar.jsx'
 import ChatHistorySidebar from "../components/ChatHistorySidebar.jsx";
 import { useUser } from "../../UserProvider.jsx";
+import { useDispatch, useSelector } from 'react-redux'
+import { toggleSidebar, switchToChatHistorySidebar, switchToOldSidebar } from '../../redux/sidebarReducer.js';
 
 const EditProfilePage = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isChatHistorySidebar, setIsChatHistorySidebar] = useState(false);
+  const dispatch = useDispatch();
+  const {isSidebarOpen, isChatHistorySidebar} = useSelector((state) => state.sidebar);
   const { user, setUser } = useUser();
   const [userDTO, setUserData] = useState(user);
 
@@ -24,31 +26,16 @@ const EditProfilePage = () => {
     setUserData(user);
     alert("Profile Updated!");
   };
-
-  // Toggle sidebar visibility
-  const toggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev);
-  };
-
-    // Switch to the chat history sidebar
-    const switchToChatHistorySidebar = () => {
-      setIsChatHistorySidebar(true);  // Switch to new sidebar
-  };
-
-  // Switch back to the original sidebar
-  const switchToOldSidebar = () => {
-      setIsChatHistorySidebar(false); // Switch back to the original sidebar
-  };
   
   return (
     <div class ="page">
-        <Header toggleSidebar={toggleSidebar}/>
+        <Header toggleSidebar={() => dispatch(toggleSidebar())}/>
 
         <div className={`main-content ${isSidebarOpen ? '' : 'sidebar-closed'}`}>
                 {isChatHistorySidebar ? (
-                <ChatHistorySidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} switchToOldSidebar={switchToOldSidebar} />
+                <ChatHistorySidebar isOpen={isSidebarOpen} toggleSidebar={() => dispatch(toggleSidebar())} switchToOldSidebar={() => dispatch(switchToOldSidebar())} />
                 ) : (
-                <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} switchToChatHistorySidebar={switchToChatHistorySidebar} />
+                <Sidebar isOpen={isSidebarOpen} toggleSidebar={() => dispatch(toggleSidebar())} switchToChatHistorySidebar={() => dispatch(switchToChatHistorySidebar())} />
                 )}
 
           <div class = "inner edit">

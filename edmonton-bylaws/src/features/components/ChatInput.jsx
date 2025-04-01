@@ -6,10 +6,10 @@ import {createRoot} from 'react-dom/client'
 import Markdown from 'https://esm.sh/react-markdown@10'
 import { useLocation } from 'react-router-dom';
 import {useDispatch} from 'react-redux'
-import {createConversation}  from "../../redux/chatHistoryReduer.js";
+import {createConversation, updateConversation}  from "../../redux/chatHistoryReduer.js";
 
 
-const ChatInput = ({userEmail, conversation, passedConversationData, userID}) => {
+const ChatInput = ({ conversation, passedConversationData, userID}) => {
     const [inputValue, setInputValue] = useState('');
     const [buttonVisible, setButtonVisible] = useState(false);
     // stored values for data objects
@@ -83,33 +83,6 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
         }
     };
 
-    /*THIS NEEDS TO BE REDUX 
-    const createConversation = async (conversation) => {
-        console.log("Creating conversation: " + JSON.stringify(conversation));
-        try{
-            const response = await fetch("http://localhost:5002/chats", {
-                method: 'POST', // Specify the method
-                headers: {
-                'Content-Type': 'application/json', // Ensure content type is JSON
-                },
-                body: JSON.stringify(conversation),
-            });
-
-            if (!response.ok) {
-                throw new Error('Error creating conversation');
-              }
-
-            const data = await response.json();
-            //if (data.conversation._id != null){
-            conversationData.id = data.conversation._id;
-            setNewConversation(false);
-            return data.conversation._id;
-            //}
-        } catch(error){
-
-        }
-    }*/
-
     const storeChat = async (chat) => {
         console.log(chat);
         let chatWithConvoRef = chat;
@@ -136,27 +109,9 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
         }
     }
 
-    const updateConversation = async (updateValues) => {
-        try{
-            const response = await fetch("http://localhost:5002/chats/conversationReference/", {
-                method: 'PUT', // Specify the method
-                headers: {
-                'Content-Type': 'application/json', // Ensure content type is JSON
-                },
-                body: JSON.stringify(updateValues),
-            });
-
-            if (!response.ok) {
-                throw new Error('Error updating conversation data');
-              }
-        } catch(error){
-        }
-    }
-
     // Response has been recieved, now we can store data
     useEffect(() => {
         const runAsyncFunctions = async (conversation) => { // Enforces createConversation completing before storeChat
-            //const id = await createConversation(conversation);
             conversation.summary = lastChatDTO.prompt;
             const newConvo = await dispatch(createConversation(conversation));
             const id = newConvo.payload.conversation._id;
@@ -167,7 +122,7 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
             console.log("HERE: " + JSON.stringify(lastChatDTO));
             console.log(id);
             const prompt = await storeChat(lastChatDTO);
-            await updateConversation({summary: prompt, conversationRef: id});
+            await dispatch(updateConversation({summary: prompt, conversationRef: id}));
         };
 
         if (!hasMounted.current) { // skip if the change is just the value being mounted
