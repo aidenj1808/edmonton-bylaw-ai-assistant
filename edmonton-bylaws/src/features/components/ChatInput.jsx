@@ -5,6 +5,7 @@ import {Agent} from "../chatbot/Agent.js"
 import {createRoot} from 'react-dom/client'
 import Markdown from 'https://esm.sh/react-markdown@10'
 import { useLocation } from 'react-router-dom';
+import ollama from "ollama";
 import {useDispatch} from 'react-redux'
 import {createConversation, updateConversation}  from "../../redux/chatHistoryReduer.js";
 
@@ -26,11 +27,19 @@ const ChatInput = ({ conversation, passedConversationData, userID}) => {
     // tracks mount (api calls arnt made on mount)
     const hasMounted = useRef(false);
 
-    const agent = new Agent();
+    // const agent = new Agent(); // Unused for streaming response
     const dispatch = useDispatch();
 
     async function handleResponse(prompt) {
-        setResponse(await agent.answerPrompt(prompt));
+        // streaming took out the use of the Agent class
+        // Can look into having the Agent class working
+        const message = { role: 'user', content: prompt };
+        const response = await ollama.chat({ model: 'BylawModel', messages: [message], stream: true });
+        let accumulatedResponse = "";
+        for await(const part of response) {
+            accumulatedResponse += part.message.content;
+            setResponse(accumulatedResponse);
+        }
     }
 
     useEffect(() => {
