@@ -115,15 +115,15 @@ const SearchBylawsPage = () => {
                 )}
     
               <div className = "inner">
-                <h1 className = "searchHeader">Search Bylaw PDFs</h1>
+                <h1 className = "searchHeader">Search Bylaw Documents</h1>
+                  <p className="summary-text">Explore Edmonton's bylaws with ease. Search by keywords or topics and find what you need in seconds!</p>
                 <div className="search-container">
-                      <input type="text" placeholder="Search..." id="searchInputPDF" onChange={searchPDFs}/>
-                      <button type="button" className="button">Search</button>
+                      <input type="text" placeholder="Search Bylaws..." id="searchInputPDF" onChange={searchPDFs}/>
+                      {/*<button type="button" className="button">Search</button>*/}
                 </div>
                 <section className="pdf-container">
                     {pdfs}
                 </section>
-
               </div>
             </div>
         </div>
