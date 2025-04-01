@@ -150,17 +150,15 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
                 throw new Error('Error updating conversation data');
               }
         } catch(error){
-
         }
     }
 
-    useEffect(() => { // Response has been recieved, now we can store data
+    // Response has been recieved, now we can store data
+    useEffect(() => {
         const runAsyncFunctions = async (conversation) => { // Enforces createConversation completing before storeChat
             //const id = await createConversation(conversation);
-            console.log(conversation);
+            conversation.summary = lastChatDTO.prompt;
             const newConvo = await dispatch(createConversation(conversation));
-            console.log('NEW CONVO:');
-            console.log(newConvo);
             const id = newConvo.payload.conversation._id;
             setNewConversation(false);
             lastChatDTO.conversationRef = id;
@@ -178,6 +176,7 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
         }
         if (lastChatDTO != null && newConversation == false){
             lastChatDTO.response = response;
+            lastChatDTO.conversationRef = conversationData.id;
             storeChat(lastChatDTO);
         }
         // First chat in the sequence 
@@ -193,16 +192,18 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
                 index === prev.length - 1 ? { ...msg, text: response } : msg
             )
         );
+    }, [response])
 
-        }, [response])
-
+    
+    // Auto-scroll to bottom of conversation when a chat history conversation is opened
     useEffect(() => {
         if (chatRef.current) {
-        chatRef.current.scrollIntoView({behaviour: "smooth", transition: "transform 0.3s ease"}); // Auto-scroll to bottom
+        chatRef.current.scrollIntoView({behaviour: "smooth", transition: "transform 0.3s ease"}); 
         }
     }, [messages]); 
 
 
+    // Load Chats from selected conversation into message boxes
     const loadHistory = (conversation) => {
         if (conversation != []){
             conversation.forEach(element => {
@@ -214,13 +215,15 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
         }
     };
 
-    useEffect(() => { // Reset Visuals When new chat history is selected
+    // Reset Visuals When new chat history is selected
+    useEffect(() => { 
         resetComponent(reset + 1);
         setMessages([]);
         loadHistory(conversation);
     }, [conversation]);
 
-    useEffect(() => { // Reset Visuals When new chat history is selected
+     // Reset Visuals When new chat history is selected
+    useEffect(() => {
         console.log("Conversation Data Changed");
         console.log(conversationData);
         if (!hasMounted.current) { // skip if the change is just the value being mounted
@@ -235,12 +238,12 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
         }
     }, [conversationData]);
 
-
     useEffect(() => { // New conversation is started 
         setConversationData({});
         setNewConversation(true); // Rest conversation identifier
         setSequenceNumber(1); // Reset counter when the component mounts
       }, [location.key]);
+
     // Enter keydown event listener
     useEffect(() => {
         const listener = event => {
@@ -330,7 +333,7 @@ const styles = {
         margin: "10px",
         padding: "20px",
         boxSizing: "border-box",
-        borderRadius: "20px",
+        borderRadius: "10px",
         border: "2px solid black",
     },
     button: {
@@ -338,7 +341,7 @@ const styles = {
         top: "18.5px",
         background: "none",
         fontSize: "1vw",
-        marginLeft: "-6rem",
+        marginLeft: "-5rem",
         pointerEvents: null,
     },
     buttonIconStyle: {

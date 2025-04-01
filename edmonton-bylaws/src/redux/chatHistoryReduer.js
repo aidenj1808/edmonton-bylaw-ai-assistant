@@ -55,7 +55,20 @@ export const createConversation = createAsyncThunk(
               }
 
             const data = await response.json();
-                        //setNewConversation(false);
+
+            // Conversation created successfully, update summary
+            response = await fetch("http://localhost:5002/chats/conversationReference/", {
+                method: 'PUT', // Specify the method
+                headers: {
+                'Content-Type': 'application/json', // Ensure content type is JSON
+                },
+                body: JSON.stringify(updateValues),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error updating conversation data');
+            }
+            //setNewConversation(false);
             return data;
         }
         catch(error){

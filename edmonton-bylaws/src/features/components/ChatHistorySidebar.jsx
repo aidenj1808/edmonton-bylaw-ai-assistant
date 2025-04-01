@@ -189,7 +189,7 @@ const deleteChatHistory = async () => {
     <div className={`sidebar ${isOpen ? "open" : ""}`}>
       <ul>
         <li><button onClick={switchToOldSidebar}>← Back</button></li>
-        <li><button onClick={clearChat} className="clear-chat-button">Clear Chat</button></li>
+        <li><button onClick={clearChat} className="clear-chat-button">Clear Chats</button></li>
         <div className="historyButtons">
           {conversations.map((conversation, index, arr) => {
             const daysAgo = getDaysAgo(conversation.date);
