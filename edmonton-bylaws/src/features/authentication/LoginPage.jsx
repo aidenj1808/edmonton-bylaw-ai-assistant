@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import LoginForm from "../components/LoginForm.jsx";
 import { Link } from 'react-router-dom';
-import { useUser } from "../../UserProvider.jsx";
+import { useDispatch } from 'react-redux'
+import { updateUser } from "../../redux/authReducer.js";
 
 
 const LoginPage = () => {
-  const { setUser } = useUser();
+  const dispatch = useDispatch();
 
   const handleLogin = (formData) => {
     console.log('Verifying data with database:', formData);
-    setUser(formData);
+    dispatch(updateUser(formData));
   };  
 
   return (

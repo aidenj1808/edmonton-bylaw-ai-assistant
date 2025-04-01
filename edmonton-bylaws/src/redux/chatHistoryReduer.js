@@ -143,11 +143,7 @@ const chatHistorySlice = createSlice({
       })
       .addCase(updateConversation.fulfilled, (state, action) => {
         state.status = 'succeded';
-        console.log("PAYLOAD");
         console.log(action.payload);
-        //const { id, updatedData } = action.payload;
-        //state.conversations = state.conversations.map(conversation => {conversation.id === id ? { ...conversation, ...updatedData } : conversation});
-        //state.conversations.sort((a, b) => new Date(b.date) - new Date(a.date));
       })
       .addCase(updateConversation.rejected, (state,action) => {
         state.status = 'failed';

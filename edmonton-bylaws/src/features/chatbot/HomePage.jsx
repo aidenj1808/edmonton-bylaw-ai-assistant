@@ -5,10 +5,8 @@ import Header from "../components/Header.jsx";
 import Sidebar from '../components/Sidebar.jsx'
 import ChatHistorySidebar from '../components/ChatHistorySidebar.jsx'
 import ChatInput from "../components/ChatInput.jsx";
-import { useUser } from "../../UserProvider.jsx";
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleSidebar, switchToChatHistorySidebar, switchToOldSidebar } from '../../redux/sidebarReducer.js';
-
 
 const HomePage = () => {
     const location = useLocation();
@@ -16,8 +14,7 @@ const HomePage = () => {
     const {isSidebarOpen, isChatHistorySidebar} = useSelector((state) => state.sidebar);
     const [selectedConversation, setSelectedConversation] = useState([]);
     const [selectedConversationData, setSelectedConversationData] = useState(location.state.data || {});
-    const { user, setUser } = useUser();
-
+    const user = useSelector((state) => state.user);
 
     // Extract the passed state (buttons or dataStored)
     useEffect(() => {
@@ -30,12 +27,6 @@ const HomePage = () => {
         console.log("Conversation Data: "+ JSON.stringify(selectedConversationData));
       }
     }, [location.state?.selected]);
-
-    useEffect(()=>{
-      console.log("HOME Conversation Data: " + JSON.stringify(selectedConversationData));
-    },[selectedConversationData])
-
-    const [userID] = useState(user._id);
 
     return (
         <div class ="homepage">
@@ -58,7 +49,7 @@ const HomePage = () => {
               <div class = "inner">
                 <div class = "chatDiv">
                   <ChatInput
-                    userID = {userID}
+                    userID = {user._id}
                     conversation = {selectedConversation}
                     passedConversationData = {selectedConversationData}
                   />

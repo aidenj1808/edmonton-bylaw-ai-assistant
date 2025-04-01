@@ -4,14 +4,15 @@ import UserInformationForm from "../components/UserInformationForm.jsx";
 import Header from "../components/Header.jsx";
 import Sidebar from '../components/Sidebar.jsx'
 import ChatHistorySidebar from "../components/ChatHistorySidebar.jsx";
-import { useUser } from "../../UserProvider.jsx";
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleSidebar, switchToChatHistorySidebar, switchToOldSidebar } from '../../redux/sidebarReducer.js';
+import { updateUser } from "../../redux/authReducer.js";
 
 const EditProfilePage = () => {
   const dispatch = useDispatch();
   const {isSidebarOpen, isChatHistorySidebar} = useSelector((state) => state.sidebar);
-  const { user, setUser } = useUser();
+
+  const user = useSelector((state) => state.user);
   const [userDTO, setUserData] = useState(user);
 
   useEffect(() => {
@@ -22,7 +23,8 @@ const EditProfilePage = () => {
   }, [user]);
 
   const handleProfileUpdate = (formData) => {
-    setUser(formData);
+    //setUser(formData);
+    dispatch(updateUser(formData));
     setUserData(user);
     alert("Profile Updated!");
   };

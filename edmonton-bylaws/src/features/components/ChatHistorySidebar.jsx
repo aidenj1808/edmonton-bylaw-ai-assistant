@@ -2,14 +2,13 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "../../mocks/axiosMock";
 import "../CSS/Sidebar.css"; // Sidebar styles
 import { Link, useLocation, useNavigate} from 'react-router-dom';
-import { useUser } from "../../UserProvider.jsx";
 import {useDispatch, useSelector} from 'react-redux'
 import { deleteConversations, fetchConversations } from "../../redux/chatHistoryReduer.js";
 
 function ChatHistorySidebar({ isOpen, switchToOldSidebar, setSelectedConversation, setSelectedConversationData }) {
-  const { user, setUser } = useUser();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user)
   const {conversations, loading, error} = useSelector(state => state.chatHistory);
 
   useEffect(() => {
@@ -17,7 +16,7 @@ function ChatHistorySidebar({ isOpen, switchToOldSidebar, setSelectedConversatio
     if (user && user._id) {
         dispatch(fetchConversations(user._id));
     } else {
-      setError("User not found in localStorage");
+      //setError("User not found in localStorage");
     }
   }, [dispatch]);
 
@@ -44,8 +43,9 @@ function ChatHistorySidebar({ isOpen, switchToOldSidebar, setSelectedConversatio
 
   const clearChat = () => {
     dispatch(deleteConversations(user._id));
-    navigate("/home", {state: {selected: []}});
-
+    if(location.pathname == "/home"){
+      navigate("/home", {state: {selected: []}});
+    } 
   };
 
 

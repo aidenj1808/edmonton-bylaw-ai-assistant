@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useUser } from "../../UserProvider.jsx";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux'
+import { updateUser } from "../../redux/authReducer.js";
 
 const UserInformationForm = ({title, buttonText, onSubmit, initialData}) => {
+    const dispatch = useDispatch();
     // State variables to store form input values
     const [formData, setFormData] = useState(initialData);
-    const { setUser } = useUser();
     const [userData, setUserData] = useState(formData);
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
@@ -53,7 +54,7 @@ const UserInformationForm = ({title, buttonText, onSubmit, initialData}) => {
     if (validateForm()) {
       if (buttonText === "Save Changes"){
         if(formData != userData){
-          updateUser(userData);
+          updateUserDB(userData);
         }
       } 
       else{
@@ -62,7 +63,7 @@ const UserInformationForm = ({title, buttonText, onSubmit, initialData}) => {
     }
   };
 
-  const updateUser = async (userData) => {
+  const updateUserDB = async (userData) => {
     try{
       const url = "http://localhost:5002/dbUsers/" + encodeURIComponent(userData.email);
       const response = await fetch(url, {
@@ -108,7 +109,9 @@ const UserInformationForm = ({title, buttonText, onSubmit, initialData}) => {
       //alert(errors); 
     }
     else{
-      setUser(formData);
+      const data = await response.json()
+      dispatch(updateUser(data.user));
+      console.log(userDTO);
       navigate("/home", {state: userDTO}); // Navigate to the home page
     }
   } catch (error) {

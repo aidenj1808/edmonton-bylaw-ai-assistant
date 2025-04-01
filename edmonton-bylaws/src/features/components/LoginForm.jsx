@@ -5,19 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 
 const LoginForm = ({onSubmit}) => {
-  const [formData, setFormData] = useState(new LoginDTO("", ""));
-  const [errors, setErrors] = useState({});
-  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
-  /*useEffect(() => {
-    axios
-      .get("/api/userdata")
-      .then((response) => {
-        const userData = response.data;
-        setUsers(userData);
-      })
-  }, []);*/
+  const [formData, setFormData] = useState(new LoginDTO("", ""));
+  const [errors, setErrors] = useState({});
+
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,6 +36,7 @@ const LoginForm = ({onSubmit}) => {
       if (data.password === userData.password){
         console.log('User found. Email correct.');
         onSubmit(data);
+        //set user HERE *****
         navigate("/home", {state: data}); // Navigate to the home page
         return {email: true, password: true};
       }
@@ -61,25 +54,8 @@ const LoginForm = ({onSubmit}) => {
 
   // Validate form fields
   const validateForm = async () => {
-    //searchUser(formData);
-
     const errors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    /*let userEmail = users.find(({ email }) => email === formData.email);
-    if (!userEmail) {
-      userEmail = null;
-    } else {
-      userEmail = userEmail.email
-    }
-
-    let userPassword = users.find(({ email, password }) => email === formData.email &&
-      password === formData.password);
-    if (!userPassword) {
-      userPassword = null;
-    } else {
-      userPassword = userPassword.password
-    }*/
 
     const varification = await searchUser(formData);
 
