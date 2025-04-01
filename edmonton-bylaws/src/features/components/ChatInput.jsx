@@ -5,6 +5,9 @@ import {Agent} from "../chatbot/Agent.js"
 import {createRoot} from 'react-dom/client'
 import Markdown from 'https://esm.sh/react-markdown@10'
 import { useLocation } from 'react-router-dom';
+import {useDispatch} from 'react-redux'
+import {createConversation}  from "../../redux/chatHistoryReduer.js";
+
 
 const ChatInput = ({userEmail, conversation, passedConversationData, userID}) => {
     const [inputValue, setInputValue] = useState('');
@@ -24,6 +27,7 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
     const hasMounted = useRef(false);
 
     const agent = new Agent();
+    const dispatch = useDispatch();
 
     async function handleResponse(prompt) {
         setResponse(await agent.answerPrompt(prompt));
@@ -79,6 +83,7 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
         }
     };
 
+    /*THIS NEEDS TO BE REDUX 
     const createConversation = async (conversation) => {
         console.log("Creating conversation: " + JSON.stringify(conversation));
         try{
@@ -103,7 +108,7 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
         } catch(error){
 
         }
-    }
+    }*/
 
     const storeChat = async (chat) => {
         console.log(chat);
@@ -145,13 +150,17 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
                 throw new Error('Error updating conversation data');
               }
         } catch(error){
-
         }
     }
 
-    useEffect(() => { // Response has been recieved, now we can store data
+    // Response has been recieved, now we can store data
+    useEffect(() => {
         const runAsyncFunctions = async (conversation) => { // Enforces createConversation completing before storeChat
-            const id = await createConversation(conversation);
+            //const id = await createConversation(conversation);
+            conversation.summary = lastChatDTO.prompt;
+            const newConvo = await dispatch(createConversation(conversation));
+            const id = newConvo.payload.conversation._id;
+            setNewConversation(false);
             lastChatDTO.conversationRef = id;
             conversationData.id = id;
             //setConversationID(id);
@@ -167,6 +176,7 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
         }
         if (lastChatDTO != null && newConversation == false){
             lastChatDTO.response = response;
+            lastChatDTO.conversationRef = conversationData.id;
             storeChat(lastChatDTO);
         }
         // First chat in the sequence 
@@ -182,31 +192,18 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
                 index === prev.length - 1 ? { ...msg, text: response } : msg
             )
         );
+    }, [response])
 
-        // Save to local Storage
-        //saveToLocalStorage(lastChatDTO);
-        //console.log("Saved:", lastChatDTO);
-        }, [response])
-
+    
+    // Auto-scroll to bottom of conversation when a chat history conversation is opened
     useEffect(() => {
-        //console.log(messages);
         if (chatRef.current) {
-        chatRef.current.scrollIntoView({behaviour: "smooth", transition: "transform 0.3s ease"}); // Auto-scroll to bottom
+        chatRef.current.scrollIntoView({behaviour: "smooth", transition: "transform 0.3s ease"}); 
         }
     }, [messages]); 
 
-    async function saveToLocalStorage(newItem) {
-        // Retrieve existing data or initialize an empty array
-        const existingData = JSON.parse(localStorage.getItem("chatDTOs")) || [];
-    
-        // Append new data
-        existingData.push(newItem);
-            
-        // Save updated array back to local storage
-        localStorage.setItem("chatDTOs", JSON.stringify(existingData));
-        
-    };
 
+    // Load Chats from selected conversation into message boxes
     const loadHistory = (conversation) => {
         if (conversation != []){
             conversation.forEach(element => {
@@ -218,13 +215,15 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
         }
     };
 
-    useEffect(() => { // Reset Visuals When new chat history is selected
+    // Reset Visuals When new chat history is selected
+    useEffect(() => { 
         resetComponent(reset + 1);
         setMessages([]);
         loadHistory(conversation);
     }, [conversation]);
 
-    useEffect(() => { // Reset Visuals When new chat history is selected
+     // Reset Visuals When new chat history is selected
+    useEffect(() => {
         console.log("Conversation Data Changed");
         console.log(conversationData);
         if (!hasMounted.current) { // skip if the change is just the value being mounted
@@ -239,12 +238,12 @@ const ChatInput = ({userEmail, conversation, passedConversationData, userID}) =>
         }
     }, [conversationData]);
 
-
     useEffect(() => { // New conversation is started 
         setConversationData({});
         setNewConversation(true); // Rest conversation identifier
         setSequenceNumber(1); // Reset counter when the component mounts
       }, [location.key]);
+
     // Enter keydown event listener
     useEffect(() => {
         const listener = event => {
@@ -334,7 +333,7 @@ const styles = {
         margin: "10px",
         padding: "20px",
         boxSizing: "border-box",
-        borderRadius: "20px",
+        borderRadius: "10px",
         border: "2px solid black",
     },
     button: {
@@ -342,7 +341,7 @@ const styles = {
         top: "18.5px",
         background: "none",
         fontSize: "1vw",
-        marginLeft: "-6rem",
+        marginLeft: "-5rem",
         pointerEvents: null,
     },
     buttonIconStyle: {

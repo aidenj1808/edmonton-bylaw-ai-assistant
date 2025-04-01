@@ -163,6 +163,7 @@ export const deleteChatHistory = async (req,res) => {
     // commit transaction and end session 
     await session.commitTransaction();
     session.endSession();
+    return res.status(200).json({message: "All Chats Deleted"});
   }catch(error){
     await session.abortTransaction();
     session.endSession();
