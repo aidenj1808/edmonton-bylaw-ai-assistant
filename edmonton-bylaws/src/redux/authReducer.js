@@ -1,28 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const savedUser = JSON.parse(localStorage.getItem('user')) || {
+  _id: "",
+  firstName: "",
+  lastName: "",
+  email: ""
+};
+
 const userSlice = createSlice({
     name: 'user',
-    initialState: {
-      _id: "",
-      firstName: "",
-      lastName: "",
-      email: ""
-    },
+    initialState: savedUser,
     reducers: {
         updateUser: (state,action) => {
-            return {
-                ...state,
-                _id: action.payload._id,
-                firstName: action.payload.firstName,
-                lastName: action.payload.lastName,
-                email: action.payload.email,
-              };
-            /* console.log("HERE");
-            console.log(action.payload._id);
-            state._id = action.payload._id;
-            state.firstName = action.payload.firstName;
-            state.lastName = action.payload.lastName;
-            state.email = action.payload.email; */
+          const updatedUser = {
+            _id: action.payload._id,
+            firstName: action.payload.firstName,
+            lastName: action.payload.lastName,
+            email: action.payload.email,
+          };
+    
+          // Save updated user to localStorage
+          localStorage.setItem('user', JSON.stringify(updatedUser));
+
+          return updatedUser;
         },
     }
 });

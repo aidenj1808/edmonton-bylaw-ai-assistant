@@ -7,6 +7,7 @@ import ChatHistorySidebar from "../components/ChatHistorySidebar.jsx";
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleSidebar, switchToChatHistorySidebar, switchToOldSidebar } from '../../redux/sidebarReducer.js';
 import { updateUser } from "../../redux/authReducer.js";
+import Swal from "sweetalert2"
 
 const EditProfilePage = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,14 @@ const EditProfilePage = () => {
     //setUser(formData);
     dispatch(updateUser(formData));
     setUserData(user);
-    alert("Profile Updated!");
+    Swal.fire({
+      title: "User Updated",
+      text: "Your user infromation has been updated!",
+      confirmButtonText: "Continue",
+      confirmButtonColor: "#005087",
+      
+    });
+    //alert("Profile Updated!");
   };
   
   return (
