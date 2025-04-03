@@ -29,7 +29,7 @@ const EditProfilePage = () => {
     setUserData(user);
     Swal.fire({
       title: "User Updated",
-      text: "Your user infromation has been updated!",
+      text: "Your user information has been updated!",
       confirmButtonText: "Continue",
       confirmButtonColor: "#005087",
       
