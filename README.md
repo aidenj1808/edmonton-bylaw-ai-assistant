@@ -1,4 +1,4 @@
-# cmpt315-project
+# edmonton-bylaw-ai-assistant
 Before running the project, you will need the custom bylaws model running.<br><br>
 Install Ollama for your operating system: [Download Ollama](https://ollama.com/download)<br>
 For operating systems that are not Linux, make sure the Ollama application is running in the background<br><br>
