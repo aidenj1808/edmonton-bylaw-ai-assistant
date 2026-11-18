@@ -3,7 +3,7 @@ import { FaArrowUp } from "react-icons/fa"; //https://react-icons.github.io/reac
 import {ChatDTO, ConversationDTO} from "../chatbot/chatbot-dto" 
 import {Agent} from "../chatbot/Agent.js"
 import {createRoot} from 'react-dom/client'
-import Markdown from 'https://esm.sh/react-markdown@10'
+import Markdown from 'react-markdown'
 import { useLocation } from 'react-router-dom';
 import ollama from "ollama";
 import {useDispatch} from 'react-redux'
